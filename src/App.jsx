@@ -4,24 +4,22 @@ import Layout from "./Layout/Layout.jsx";
 import Home from "./Pages/Home.jsx";
 import Carte from "./Pages/Carte.jsx";
 import Preferiti from "./Pages/Preferiti.jsx";
-
-import './Styles/App.css'
+import "./Styles/App.css";
 
 function App() {
-
-
   return (
     <>
-      <BrowserRouter>
+      <Router>
         <Routes>
-          <Route path="/" element={<Layout />}></Route>
-          <Route index element={<Home />}></Route>
-          <Route path="Tutte le carte" element={<Carte />}></Route>
-          <Route path="Le mie preferite" element={<Preferiti />}></Route>
+          <Route path="/" element={<Layout />}>
+            <Route index element={<Home />} />
+            <Route path="tutte-le-carte" element={<Carte />} />
+            <Route path="le-mie-preferite" element={<Preferiti />} />
+          </Route>
         </Routes>
-      </BrowserRouter>
+      </Router>
     </>
-  )
+  );
 }
 
-export default App
+export default App;

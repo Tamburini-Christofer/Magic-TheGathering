@@ -1,7 +1,8 @@
-const Preferiti = () => (
+const Preferiti = () => {
+  return (  
   <>
-
+  
   </>
-);
-
+  )
+};
 export default Preferiti;

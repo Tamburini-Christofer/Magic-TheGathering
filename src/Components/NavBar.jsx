@@ -1,32 +1,30 @@
 //! Importazione delle librerie necessarie da React Router
-import { NavLink, useNavigate } from 'react-router-dom';
+import { NavLink } from "react-router-dom";
 
+//todo Definizione delle pagine di navigazione con le rispettive rotte e etichette
 const linkPages = [
-  { route: '/HomePage', label: 'Home Page' },
-  { route: '/Tuttelecarte', label: 'Tutte le carte' },
-  { route: '/Lemiepreferite', label: 'Le mie preferite' },
-  { route: '/Login', label: '/Login' },
+  { route: "/", label: "Home" },
+  { route: "/tutte-le-carte", label: "Tutte le carte" },
+  { route: "/le-mie-preferite", label: "Le mie preferite" },
 ];
 
 //todo Creazione del componente NavBar con logo e menu di navigazione
-const NavBar = () => (
-  <>
-   <div className="navBar">
-     <img src="/magic-logo.png" alt="Logo" />
-     <nav>
-        <ul>
-            {linkPages.map((link, i) => (
+const NavBar = () => {
+  return (
+    <>
+      <div>
+        <nav>
+          <div className="navBar">
+                <img className="logo" src="/magic-logo.webp" alt="Magic logo" />
+            <ul> {linkPages.map((link, i) => (
               <li key={i}>
-                <NavLink 
-                to={link.route}
-                >{link.label}
-                </NavLink>
+                <NavLink to={link.route}>{link.label}</NavLink>
               </li>
-            ))} 
-        </ul>
-     </nav>
-   </div>
-  </>
-);
-
+            ))}</ul>
+          </div>
+        </nav>
+      </div>
+    </>
+  );
+};
 export default NavBar;
