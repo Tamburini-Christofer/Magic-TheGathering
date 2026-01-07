@@ -173,9 +173,9 @@ a{
     background-repeat: no-repeat;
     background-size: cover;
     background-position-x: 90%;
-    opacity: 0.5;
-    border: 3px solid rgb(0, 128, 240);
-    width: 20%;
+    opacity: 0.8;
+    border: 3px  solid rgb(0, 128, 240);
+    width: 340px;
     height: 100vh;
     float: left;
 }
@@ -190,6 +190,217 @@ a{
     height: 100vh;
     float: left;
 }       
+
+/*todo Filtri Carte */
+.searchBar{
+    width: 339px;
+    padding: 10px 20px;
+    border-top: 2px solid rgba(255,212,138,0.9);
+    border-bottom: 2px solid rgba(255,212,138,0.9);
+    background: linear-gradient(180deg, rgba(18,12,8,0.85), rgba(30,20,14,0.6));
+    color: #fff;
+    font-size: 16px;
+    transition: box-shadow 220ms ease, transform 220ms ease;
+    box-shadow: inset 0 2px 12px rgba(0,0,0,0.6), 0 8px 30px rgba(0,0,0,0.6);
+    text-shadow: 0 1px 0 rgba(0,0,0,0.6);
+    margin: 40px 0 0 0;
+}
+
+.searchIcon{
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    filter: drop-shadow(0 4px 8px rgba(0,0,0,0.6));
+    opacity: 0.95;
+    pointer-events: none;
+}
+
+.searchIcon svg{
+    position: static;
+    width: 20px;
+    height: 20px;
+    display: block;
+}
+
+.searchBar::placeholder{
+    color: rgba(255, 212, 138, 0.9);
+    opacity: 1;
+}
+
+.filterContainer{
+    padding: 60px 00px 0 00px;
+    height: 88vh;
+    display: flex;
+    flex-direction: column; 
+    justify-content: space-between;
+    align-items: center;
+    gap: 30px;
+}
+
+.inputCont{
+    display: flex;  
+    flex-direction: column;
+    gap: 20px;
+}
+
+.customSelectBtn{
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 30px;
+    background: linear-gradient(180deg, rgba(22,16,12,0.95), rgba(40,30,22,0.75));
+    width: 340px;
+    padding: 10px 20px;
+    border-top: 2px solid rgba(255,212,138,0.9);
+    border-bottom: 2px solid rgba(255,212,138,0.9);
+    color: rgba(255, 212, 138, 0.95);
+    cursor: pointer;
+    box-shadow: inset 0 2px 10px rgba(0,0,0,0.6), 0 10px 30px rgba(0,0,0,0.6);
+    
+}
+
+.customSelectBtn:focus{
+    transform: translateY(2px);
+    box-shadow: inset 0 1px 6px rgba(0,0,0,0.6), 0 6px 20px rgba(0,0,0,0.6);
+}
+
+.customOptions{
+    position: absolute;
+    z-index: 1200;
+    background: linear-gradient(180deg, rgba(45, 45, 45, 0.99), rgba(0, 0, 0, 0.928));
+    border-top: 2px solid rgba(255,212,138,0.9);
+    border-bottom: 2px solid rgba(255,212,138,0.9);
+    box-shadow: inset 0 2px 10px rgba(0,0,0,0.6), 0 10px 30px rgba(0, 0, 0, 0.829);
+    transition: background 140ms ease, color 140ms ease;
+    padding: 20px;
+    width: 340px;
+}
+
+.Option{
+    padding: 8px 12px;
+    font-size: 14px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background 140ms ease, color 140ms ease;
+    margin: 16.5px 0;
+}
+
+.Option:hover{
+    color: #ffd48a;
+}
+
+.manaSymbols{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    justify-content: center;
+    background: linear-gradient(180deg, rgba(22,16,12,0.95), rgba(40,30,22,0.75));
+    border-top: 2px solid rgba(255,212,138,0.9);
+    border-bottom: 2px solid rgba(255,212,138,0.9);
+    color: rgba(255, 212, 138, 0.95);
+    box-shadow: inset 0 2px 10px rgba(0,0,0,0.6), 0 10px 30px rgba(0,0,0,0.6);
+    padding: 40px 0;
+}
+
+.raritySymbols{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+    justify-content: center;
+    margin-bottom: 30px;
+    padding: 20px;
+    background: linear-gradient(180deg, rgba(22,16,12,0.95), rgba(40,30,22,0.75));
+    border-top: 2px solid rgba(255,212,138,0.9);
+    border-bottom: 2px solid rgba(255,212,138,0.9);
+    color: rgba(255, 212, 138, 0.95);
+    box-shadow: inset 0 2px 10px rgba(0,0,0,0.6), 0 10px 30px rgba(0,0,0,0.6);
+}
+
+.raritySymbols h2{
+    color: #ffd48a;
+    font-size: 16px;
+    width: 100%;
+    text-align: center;
+}
+
+.raritySymbols img{
+    max-width: 35px;
+    cursor: pointer;
+    transition: border 0.2s;
+}
+
+.raritySymbols img:hover{
+    transition: border 0.2s;
+   border-radius: 50%;
+   border: 4px solid #FFD48A;
+}
+
+.raritySymbols img:nth-child(2):hover{
+    transition: border 0.2s;
+   border-radius: 50%;
+   border: 4px solid #fbfbfb;
+}
+.raritySymbols img:nth-child(3):hover{
+    transition: border 0.2s;
+   border-radius: 50%;
+   border: 4px solid #647890;
+}
+.raritySymbols img:nth-child(4):hover{
+    transition: border 0.2s;
+   border-radius: 50%;
+   border: 4px solid #ffd900;
+}
+.raritySymbols img:nth-child(5):hover{
+    transition: border 0.2s;
+   border-radius: 50%;
+   border: 4px solid #fc8700;
+}
+.manaSymbols img{
+    max-width: 35px;
+    cursor: pointer;
+    transition: border 0.2s;
+}
+
+.manaSymbols img:nth-child(1):hover{
+   transition: border 0.2s;
+   border-radius: 50%;
+   border: 4px solid #4A90E2;
+   
+}
+.manaSymbols img:nth-child(2):hover{
+    transition: border 0.2s;
+   border-radius: 50%;
+   border: 4px solid #CACA9A;
+}   
+.manaSymbols img:nth-child(3):hover{
+    transition: border 0.2s;
+    border-radius: 50%;
+    border: 4px solid #C64444;
+}
+.manaSymbols img:nth-child(4):hover{
+    transition: border 0.2s;
+    border-radius: 50%;
+    border: 4px solid #999696;
+}
+.manaSymbols img:nth-child(5):hover{
+    transition: border 0.2s;
+    border-radius: 50%;
+    border: 4px solid #78A58A;
+}
+.manaSymbols img:nth-child(6):hover{
+    transition: border 0.2s;
+    border-radius: 50%;
+    border: 4px solid #999696;
+}
+.manaSymbols img:active{
+    border-radius: 50%;
+    border: 4px solid #FFD48A;
+}
 /*todo Contenitore Footer */
 .contenitoreFooter{ 
 position: fixed;
@@ -243,4 +454,54 @@ position: fixed;
 
 .iconSocial li a i:hover{
     color: #ffd48a;
+}
+
+/* Numeric input with inline badge */
+.numericInputWrap{
+    position: relative;
+    display: inline-block;
+    margin-left: 14px;
+}
+    .numericInput{
+        position: absolute;
+       transform: translate(116px, 0px);
+    top: 0%;
+    width: 62px;
+    height: 62px;
+        padding: 0;
+        border-radius: 50%;
+        background: radial-gradient(circle at 30% 30%, rgba(255,230,150,0.12), rgba(20,12,8,0.9));
+        color: #ffd48a;
+        font-size: 18px;
+        font-weight: 700;
+        text-align: center;
+        line-height: 72px;
+        box-shadow: 0 12px 30px rgba(0,0,0,0.6), inset 0 2px 8px rgba(255,255,255,0.02);
+
+    }
+    .numericInput::-webkit-outer-spin-button,
+    .numericInput::-webkit-inner-spin-button{
+        -webkit-appearance: none;
+        margin: 0;
+    }
+    .numericInput.manaCost{
+        background-image: radial-gradient(circle at 35% 30%, rgba(255,220,120,0.18), transparent 0%), linear-gradient(180deg, rgba(18,12,8,0.95), rgba(11, 11, 11, 0.877));
+        color: #fff8e6;
+        border: 2px solid rgba(255, 212, 138, 0.9);
+    }
+
+.costoSymbols{
+    position: relative;
+     width: 340px;
+     font-family: sans-serif;
+        background: linear-gradient(180deg, rgba(18,12,8,0.85), rgba(30,20,14,0.6));
+        color: #ffd48a;
+        font-size: 16px;
+        font-weight: 700;
+        text-align: left;
+        line-height: 72px;
+        box-shadow: 0 12px 30px rgba(0,0,0,0.6), inset 0 2px 8px rgba(255,255,255,0.02);
+            border-top: 2px solid rgba(255,212,138,0.9);
+    border-bottom: 2px solid rgba(255,212,138,0.9);
+    padding: 0px 20px;
 }

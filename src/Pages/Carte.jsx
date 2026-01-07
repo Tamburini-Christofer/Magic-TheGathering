@@ -1,8 +1,12 @@
+import Filter from "../Components/FIlter";
+
 const Carte = () => {
   return (
   <>
     <div className="contenitoreCard">
-      <div className="contenitoreCardSx"></div>
+      <div className="contenitoreCardSx">
+        <Filter />
+      </div>
       <div className="contenitoreCardDx"></div>
     </div>
   </>
