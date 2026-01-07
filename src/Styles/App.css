@@ -166,12 +166,15 @@ a{
 
 /*todo Contenitore Carte */
 .contenitoreCard{
-    background-color: aqua;
     height: 100vh;
 }   
 .contenitoreCardSx{
-    background-color: #f901f9;
-    border: 3px solid black;
+    background-image: url('/public/vertical.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position-x: 90%;
+    opacity: 0.5;
+    border: 3px solid rgb(0, 128, 240);
     width: 20%;
     height: 100vh;
     float: left;
@@ -179,7 +182,9 @@ a{
 
 /*todo Contenitore Carte Dx */
 .contenitoreCardDx{
-    background-color: #01f9f2;
+    background-image: url('/public/sfondo.jpg');
+    background-size: cover;
+    background-position: center;
     border: 3px solid black;
     width: 80%;
     height: 100vh;
