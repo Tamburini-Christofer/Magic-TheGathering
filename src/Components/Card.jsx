@@ -1,4 +1,28 @@
+import { useState, useEffect } from "react";
+import { toggleFavorite, isFavorite } from "../utils/favorites";
+
+
 function Card() {
+
+  const [isFavorited, setIsFavorited] = useState(false);
+
+  // generiamo un id semplice per questa demo (meglio passare `id` come prop)
+  const cardId = `card-${Math.random().toString(36).slice(2,9)}`;
+
+  const toggleFav = () => {
+    const cardObj = { id: cardId, title: "Eldrazi" };
+    const nowFav = toggleFavorite(cardObj);
+    setIsFavorited(nowFav);
+    // notifico NavBar e altri listener che la lista è cambiata
+    window.dispatchEvent(new CustomEvent("favoritesChanged"));
+  };
+
+  useEffect(() => {
+
+  }, []);
+
+
+
   return (
     <>
       <div className="cards">
@@ -27,8 +51,13 @@ function Card() {
         <div className="authorCard">John Wick 1992</div>
         <div className="authorCard authorCardC">Copyright: Magic The Gathering</div>
 
-        <button className="favBtn" aria-label="Aggiungi ai preferiti" tabIndex={-1}>
-          <img src="/public/iconHeart.png" alt="Aggiungi ai preferiti" className="heartIcon" />
+        <button 
+        className={`favBtn ${isFavorited ? "colorActive" : ""}`}
+        onClick={toggleFav} 
+        aria-label="Aggiungi ai preferiti" 
+        tabIndex={-1}>
+
+          <img src="/public/iconHeart.png" alt="Aggiungi ai preferiti" className="heartIcon"/>
         </button>
       </div>
     </>

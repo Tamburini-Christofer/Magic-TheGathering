@@ -27,6 +27,23 @@
     height: auto;
 }
 
+/* Cuore al posto del logo quando ci sono preferiti */
+.logoHeart{
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: linear-gradient(180deg, rgb(210,20,30), rgb(170,10,20));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+.logoHeart img{
+    width: 60%;
+    height: auto;
+    filter: brightness(0) invert(1);
+}
+
 .navBar nav{
     display: flex;
     align-items: center;

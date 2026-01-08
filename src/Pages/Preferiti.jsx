@@ -15,10 +15,6 @@ const Preferiti = () => {
     setList([]);
   }
 
-  function handleReload() {
-    setList(getFavorites());
-  }
-
   return (
     <>
       <div className="preferitiPage">
