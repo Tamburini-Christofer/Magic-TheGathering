@@ -13,7 +13,6 @@ function Cards() {
           </div>
           <div className="categoryCard">
             <h5>categoria</h5>
-            <img src="" alt="" />
           </div>
           <div className="descriptionCard">
             <p>
@@ -26,6 +25,10 @@ function Cards() {
           </div>
         </div>
         <span className="authorCard">John Wick 1992</span>
+
+        <button className="favBtn" aria-label="Aggiungi ai preferiti" tabIndex={-1}>
+          <img src="/public/iconHeart.png" alt="Aggiungi ai preferiti" className="heartIcon" />
+        </button>
       </div>
     </>
   );
