@@ -1,10 +1,22 @@
 //! Importo le dipendenze necessarie da React Router e il componente Layout
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+
+//! Importo il componente Layout
 import Layout from "./Layout/Layout.jsx";
-import Home from "./Pages/Home.jsx";
-import Carte from "./Pages/Carte.jsx";
+
+//! Importo le pagine dell'applicazione
+import Home from "./Pages/HomePage.jsx";
+import Carte from "./Pages/TutteCarte.jsx";
 import Preferiti from "./Pages/Preferiti.jsx";
+
+//! Importo i file CSS per lo stile dell'applicazione
 import "./Styles/App.css";
+import "./Styles/NavBar.css";
+import "./Styles/HomePage.css";
+import "./Styles/TutteCarte.css";
+import "./Styles/Preferiti.css";
+import "./Styles/CartaSingola.css";
+import "./Styles/Footer.css";
 
 function App() {
   return (

@@ -1,0 +1,97 @@
+/*! todo NavBar */
+.navBar{
+    background: linear-gradient(180deg, rgba(6,6,8,0.55), rgba(6,6,8,0.35));
+    backdrop-filter: blur(6px) saturate(110%);
+
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;  
+    
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    height: 76px;
+  
+    padding: 0 32px;
+    
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    z-index: 1000;
+}
+
+.logo{
+    display: block;
+
+    max-width: 100px;
+    height: auto;
+}
+
+.navBar nav{
+    display: flex;
+    align-items: center;
+}
+
+.navBar ul{
+    display: flex;
+    align-items: center;
+    gap: 28px;
+
+    margin: 0;
+    padding: 0;
+}
+
+.navBar a{
+    color: #fff;
+    font-weight: 700;
+    font-size: 16px;
+    letter-spacing: 1.4px;
+
+    padding: 8px 12px;
+
+    border-radius: 10px;
+
+    transition: all 180ms ease;
+}
+
+.navBar a:hover{
+    color: var(--Gold);
+    transform: scale(1.08);
+}
+
+/*? Azioni NavBar (cuore preferiti) */
+.navActions{
+    display: flex;
+    align-items: center;
+
+    margin-left: 12px;
+}
+
+.heartLink{
+    position: relative;
+
+    display: inline-block;
+}
+.navHeart{
+    display: block;
+
+    width: 50px;
+    height: 50px;
+
+    object-fit: contain;
+}
+.heartBadge{
+    background: var(--Gold);
+    color: #000;  
+    font-size: 12px;
+    font-weight: 700;
+  
+    position: absolute;
+    top: 10%;
+    right: 12%;
+   
+    padding: 2px 6px;
+
+    border-radius: 999px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.35);
+}

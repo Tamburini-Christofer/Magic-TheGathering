@@ -93,7 +93,7 @@ function Filter() {
             </button>
 
             {openSort && (
-              <ul className="customOptions">
+              <ul className="customOptions customOptionsAlfabethic">
                 {sortOptions.map((opt) => (
                   <li
                     key={opt.value}
@@ -128,8 +128,7 @@ function Filter() {
         </div>
         <div>
             
-            <div className="raritySymbols">    
-            <h2>Rarità</h2>      
+            <div className="raritySymbols">         
             <img src="/public/rarity/comuns.png" alt="" />
             <img src="/public/rarity/silver.png" alt="" />
             <img src="/public/rarity/rare.png" alt="" />

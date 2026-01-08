@@ -3,3 +3,24 @@
     padding: 0;
     box-sizing: border-box;
 }
+
+:root{
+    /*! Colori Base*/
+    --Gold: #ffd48a;
+
+    /*! Colori Mana*/
+    --Pianura: #F3E39D;
+    --Isola: #7FC2E9;
+    --Montagna: #F18676;
+    --Palude: #9E90D3;
+    --Foresta: #95C977;
+    --Incolore: #C0C0C0;
+    
+    /*! Colori Rarità*/ 
+    --Comune: #fbfbfb;
+    --NonComune: #5398AF;   
+    --Rara: #B38726;
+    --Mitica: #E32C00;
+    
+    
+}

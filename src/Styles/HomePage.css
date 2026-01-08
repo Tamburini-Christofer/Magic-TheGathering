@@ -1,0 +1,85 @@
+/*! Home Page */
+/*? Hero Section */
+.hero{
+    position: relative;
+
+    height: 100vh;
+
+    background-image: url('/public/wp4579177-magic-the-gathering-arena-wallpapers.jpg');
+    background-size: cover;
+    background-position-y: -40px;
+}
+
+/*? Novita Section */
+.novita{
+    background: linear-gradient(135deg, rgba(18,6,36,0.7), rgba(70,6,40,0.5));
+    backdrop-filter: blur(8px) saturate(120%);
+    color: #fff;
+
+    position: absolute;
+    top: 17%;
+    left: 3%;
+
+    display: flex;
+    align-items: center;
+    gap: 10px 30px;
+
+    min-width: 770px;
+    max-width: 40%;
+
+    padding: 30px;
+  
+    border-radius: 18px;
+    border: 1px solid rgba(255,255,255,0.12);
+    box-shadow: 0 14px 50px rgba(0,0,0,0.7), 0 0 28px rgba(200,30,40,0.12) inset;
+    
+    text-shadow: 0 3px 12px rgba(0,0,0,0.65);
+
+    transform: translateZ(0);
+}
+
+.secondaria{
+    top:52%;
+    left:3%;
+}
+
+.novita img{
+    max-width: 320px;
+
+    padding: 8px;
+    
+    border: 2px solid rgba(255,255,255,0.06);
+    border-radius: 14px;
+    box-shadow: 0 18px 48px rgba(0,0,0,0.7), 0 0 22px rgba(200,20,40,0.16);
+}
+
+.testo-novita{
+    max-width: 600px;
+}
+
+.testo-novita h2{
+    color: var(--Gold);
+    font-family: "Cinzel Decorative", serif;
+    font-size: 20px;
+
+    text-shadow: 0 2px 10px rgba(150,30,60,0.35);
+}
+
+.testo-novita p{
+    color: #f3e8e8;
+    font-size: 16px;
+
+    opacity: 0.98;
+    line-height: 1.5;
+
+    margin: 5px 0;
+}
+
+.goldStrong{
+    color: var(--Gold);
+    font-weight: 700;
+
+    display: inline-block;
+
+    margin: 10px 0
+}

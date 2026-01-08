@@ -1,4 +1,4 @@
-function Cards() {
+function Card() {
   return (
     <>
       <div className="cards">
@@ -24,7 +24,8 @@ function Cards() {
             <div className="forzaCard">2/2</div>
           </div>
         </div>
-        <span className="authorCard">John Wick 1992</span>
+        <div className="authorCard">John Wick 1992</div>
+        <div className="authorCard authorCardC">Copyright: Magic The Gathering</div>
 
         <button className="favBtn" aria-label="Aggiungi ai preferiti" tabIndex={-1}>
           <img src="/public/iconHeart.png" alt="Aggiungi ai preferiti" className="heartIcon" />
@@ -33,4 +34,4 @@ function Cards() {
     </>
   );
 }
-export default Cards;
+export default Card;

@@ -1,0 +1,157 @@
+/*! Carta singola */
+
+.cards{    
+    background-color: rgb(0, 0, 0);
+
+    position: relative;
+    
+    width: 320px;
+    height: 470px;
+
+    border-radius: 10px;    
+    border: 1px solid rgb(255, 255, 255);
+    
+    transition: transform 180ms ease, filter 180ms ease, box-shadow 180ms ease;
+}
+
+/*? Immagine di sfondo della carta */
+
+.sopraSfondo{
+    height: 340px;
+
+    background-image: url(/public/ae499f3dfcdb9f6f6a1722c12aa642d8.jpeg);
+    background-size: cover;
+
+    border-radius: 20px;
+
+    padding: 1px 0;  
+    margin: 15px 15px 45px 15px;
+}
+
+/*? Titolo della carta */
+
+.titleCard{
+    background-color: var(--Gold);
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    text-align: left;
+    font-size: 14px;
+    font-family: "Sorts Mill Goudy", serif;
+    font-weight:bolder;
+
+    margin: 10px 10px 0 10px; 
+    padding: 5px 10px;
+
+    border-radius: 5px 5px 0 0;
+    border: 2px solid rgba(0, 0, 0, 0.9);
+}
+
+.costMana{
+    background-color: grey;
+
+    display: inline-block;
+
+    width: 24px;
+    height: 26px;
+
+    font-family: "Sorts Mill Goudy", serif;
+    text-align: center;
+    font-size: 14px;
+    font-weight: bold;
+    vertical-align: sub;
+    
+    border-radius: 100%;
+    border: 3px solid grey;  
+}
+
+/*? Immagine di sfondo della carta */
+
+.imgCard{
+    width: 92%;
+    height: 46%;
+
+    margin: 0 auto;
+}
+
+.imgCard img{
+    border: 1px solid rgb(255, 255, 255);
+    
+    max-width: 100%;
+}
+
+/*? Categoria e rarità della carta */
+
+.categoryCard{ 
+    background-color: var(--Gold);
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    width: 94%;
+
+    font-family: "Sorts Mill Goudy", serif;
+    font-size: 14px;
+    font-weight:bolder;
+    text-align: left;
+
+    margin: 0px 10px 0 10px;
+    padding: 5px 10px;
+
+    border: 2px solid rgba(0, 0, 0, 0.9);
+}
+
+/*? Descrizione e valori di forza della carta */
+
+.descriptionCard{
+    background-color: #F5F3E3;
+
+    position: absolute;
+
+    width: 85%;
+
+    font-family: "Sorts Mill Goudy", serif;
+    font-size: 14px;
+
+    padding: 5px 10px;
+    margin: 0px 10px;
+
+    border: 2px solid rgba(0, 0, 0, 0.9);
+    
+    z-index: 1000;
+}
+
+.forzaCard{
+    background-color: #4A90E2;
+
+    position: absolute;
+    top: 90%;
+    right: -0.5%;
+
+    font-size: large;
+
+    border: 2px solid rgba(0, 0, 0, 0.9);
+    border-radius: 5px;
+
+    padding: 4px 8px;
+}
+
+/*? Autore della carta */
+
+.authorCard{
+    color: white;
+    font-family: "Sorts Mill Goudy", serif;
+    font-size: 12px;
+    
+    padding: 5px 10px;
+    margin: 5px 10px;
+}
+
+.authorCardC{
+    font-size: 8px;
+    
+    opacity: 0.8;
+}
