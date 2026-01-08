@@ -1,4 +1,5 @@
 import Filter from "../Components/FIlter";
+import Cards from "../Components/Cards";
 
 const Carte = () => {
   return (
@@ -7,7 +8,22 @@ const Carte = () => {
       <div className="contenitoreCardSx">
         <Filter />
       </div>
-      <div className="contenitoreCardDx"></div>
+      <div className="contenitoreCardDx">
+        <div className="cardsContainer">       
+          <Cards />
+          <Cards />
+          <Cards />
+          <Cards />
+          <Cards />
+          <Cards />
+          <Cards />
+          <Cards />
+          <Cards />
+          <Cards />
+          <Cards />
+        </div>
+        
+      </div>
     </div>
   </>
   )

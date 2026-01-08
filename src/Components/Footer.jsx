@@ -14,11 +14,7 @@ const Footer = () => (
       </p>
             <div>
         <ul className="iconSocial">
-          <li><a href=""><i class="fa-brands fa-square-facebook"></i></a></li>
-          <li><a href=""><i class="fa-brands fa-square-x-twitter"></i></a></li>
-          <li><a href=""><i class="fa-brands fa-square-instagram"></i></a></li>
-          <li><a href=""><i class="fa-brands fa-youtube"></i></a></li>
-          <li><a href=""><i class="fa-brands fa-twitch"></i></a></li>
+          <li><a href=""><i className="fa-brands fa-twitch"></i></a></li>
         </ul>
       </div>
     </div>
