@@ -21,6 +21,13 @@ const NavBar = () => {
                 <NavLink to={link.route}>{link.label}</NavLink>
               </li>
             ))}</ul>
+
+            <div className="navActions">
+              <NavLink to="/le-mie-preferite" className="heartLink">
+                <span className="heartBadge">0</span>
+                <img src="/public/iconHeart.png" alt="Preferiti" className="navHeart" />
+              </NavLink>
+            </div>
           </div>
         </nav>
       </div>

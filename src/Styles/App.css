@@ -55,6 +55,35 @@ a{
     list-style: none;
 }
 
+/* Nav actions: heart icon with badge */
+.navActions{
+    display: flex;
+    align-items: center;
+    margin-left: 12px;
+}
+.heartLink{
+    position: relative;
+    display: inline-block;
+}
+.navHeart{
+    width: 50px;
+    height: 50px;
+    display: block;
+    object-fit: contain;
+}
+.heartBadge{
+    position: absolute;
+    top: 10%;
+    right: 12%;
+    background: #ffd48a;
+    color: #000;
+    font-weight: 700;
+    font-size: 12px;
+    padding: 2px 6px;
+    border-radius: 999px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.35);
+}
+
 .navBar li{
     margin: 0;
 }
@@ -66,12 +95,11 @@ a{
     padding: 8px 12px;
     border-radius: 10px;
     transition: all 180ms ease;
-    text-transform: uppercase;
     letter-spacing: 1.4px;
 }
 
 .navBar a:hover{
-    transform: translateY(-2px);
+    transform: scale(1.08);
     color: #ffd48a;
 }
 
@@ -92,7 +120,7 @@ a{
     align-items: center;
     gap: 10px 30px;
     padding: 30px;
-    min-width: 720px;
+    min-width: 770px;
     max-width: 40%;
     background: linear-gradient(135deg, rgba(18,6,36,0.7), rgba(70,6,40,0.5));
     border-radius: 18px;
@@ -510,6 +538,7 @@ position: fixed;
 
 .cardsContainer{
     display: grid;
+    justify-items: center;
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
     gap: 25px;
     width: 100%;
@@ -520,8 +549,8 @@ position: fixed;
 
 .cards{
     position: relative;
-    width: 300px;
-    height: 440px;
+    width: 320px;
+    height: 470px;
     border-radius: 10px;
     background-color: rgb(0, 0, 0);
     border: 1px solid rgb(255, 255, 255);
@@ -565,8 +594,8 @@ position: fixed;
 }
 
 .imgCard{
-    width: 244px;
-    height: 138px;
+    width: 92%;
+    height: 46%;
     margin: 0 auto;
 }
 
@@ -577,6 +606,7 @@ position: fixed;
 
 .categoryCard{
     display: flex;
+    width: 94%;
     justify-content: space-between;
     align-items: center;
     text-align: left;
@@ -591,7 +621,7 @@ position: fixed;
 
 .descriptionCard{
     position: absolute;
-    width: 248px;
+    width: 85%;
     font-family: "Sorts Mill Goudy", serif;
     font-size: 14px;
     padding: 5px 10px;
@@ -630,27 +660,31 @@ position: fixed;
 }
 .favBtn{
     position: absolute;
-    width: 300px;
-    height: 100%;
-    top: 0%;
-    border: none;
+    top: 89.5%;
+    left: 84.5%;
+    width: 50px;
+    height: 50px;
+    border: 1px solid rgba(255, 255, 255, 0.432);
     display: flex;
-    border-radius: 10px;
-    background: rgba(0,0,0,0.4);
     align-items: center;
     justify-content: center;
-    font-size: 18px;
-    opacity: 0;
-    transform: scale(0.9);
-    transition: opacity 160ms ease, transform 160ms ease, background 160ms ease;
-    z-index: 9000;
-}
-.cards:hover .favBtn{
+    border-radius: 10px 0 10px 0;
+    background: rgba(0, 0, 0, 0.168);
+    padding: 6px;
+    font-size: 14px;
     opacity: 1;
-    transform: scale(1);
+    transform: none;
+    transition: transform 160ms ease, background 160ms ease;
+    z-index: 1000;
+}
+.favBtn:hover{
+    transform: scale(1.02);
+    cursor: pointer;
+    background-color: #fa010197;
 }
 .heartIcon{
-    width: 100px;
-    height: 150px;
+    width: 30px;
+    height: 30px;
+    object-fit: contain;
 }
 
