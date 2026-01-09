@@ -68,7 +68,7 @@ function Card({ id, title, manaCost, category, description, powerToughness, auth
     manaCost,
     category,
     description,
-    imageUrl: "/public/sfondo2.jpg",
+    imageUrl,
     power: 0,
     toughness: 0,
     artist: author,
@@ -122,7 +122,6 @@ function Card({ id, title, manaCost, category, description, powerToughness, auth
       }
     }
 
-    // 4) fallback: cerca parole nel testo (title/category/description)
     if (!colorClass) {
       for (const [key, variants] of Object.entries(colorVariants)) {
         if (variants.some(v => textToScan.includes(v))) { colorClass = key; break; }
@@ -141,7 +140,7 @@ function Card({ id, title, manaCost, category, description, powerToughness, auth
             <div className="costMana">{display.manaCost}</div>
           </div>
           <div className="imgCard">
-            <img src= "/public/sfondo2.jpg" alt={display.title} />
+            <img src={display.imageUrl} alt={display.title} />
           </div>
           <div className="categoryCard">
             <h5>{display.category}</h5>
@@ -150,11 +149,41 @@ function Card({ id, title, manaCost, category, description, powerToughness, auth
             <p>
               {display.description}
             </p>
-            <div className="forzaCard">{display.power ? `${display.power}/${display.toughness}` : powerToughness}</div>
+            {
+              // calcola power/toughness: preferisci i valori dal display, altrimenti prova la prop `powerToughness`
+              (() => {
+                const dp = (typeof display?.power !== 'undefined' && display?.power !== null) ? Number(display.power) : null;
+                const dt = (typeof display?.toughness !== 'undefined' && display?.toughness !== null) ? Number(display.toughness) : null;
+                let parsedPower = dp;
+                let parsedToughness = dt;
+                if ((parsedPower === null || Number.isNaN(parsedPower)) && powerToughness) {
+                  const parts = String(powerToughness).split('/');
+                  parsedPower = parts[0] ? Number(parts[0]) : NaN;
+                }
+                if ((parsedToughness === null || Number.isNaN(parsedToughness)) && powerToughness) {
+                  const parts = String(powerToughness).split('/');
+                  parsedToughness = parts[1] ? Number(parts[1]) : NaN;
+                }
+
+                const showPower = typeof parsedPower === 'number' && !Number.isNaN(parsedPower) && parsedPower !== 0;
+                const showToughness = typeof parsedToughness === 'number' && !Number.isNaN(parsedToughness) && parsedToughness !== 0;
+
+                if (!showPower && !showToughness) return null;
+
+                return (
+                  <div className="forzaCard">
+                    {showPower && <span className="powerVal">{parsedPower}</span>}
+                    {(showPower && showToughness) && <span className="sep">/</span>}
+                    {showToughness && <span className="toughnessVal">{parsedToughness}</span>}
+                  </div>
+                );
+              })()
+            }
           </div>
         </div>
         <div className="authorCard">{display.artist ?? author}</div>
-        <div className="authorCard authorCardC">Copyright: {display.set ?? copyright}</div>
+        <div className="authorCard authorCardC">{display.copyright ?? copyright}<br />
+        <span>© The Gathering 2026</span></div>
         <button 
         className={`favBtn ${favActive ? "colorActive" : ""}`}
         onClick={(e) => { e.stopPropagation(); toggleFav(); }} 
