@@ -1,185 +1,436 @@
 /*! Carta singola */
 
-.cards{    
-    background-color: rgb(0, 0, 0);
+.cards {
+  background-color: rgb(0, 0, 0);
 
-    position: relative;
-    
-    width: 320px;
-    height: 470px;
+  position: relative;
 
-    border-radius: 10px;    
-    border: 1px solid rgb(255, 255, 255);
-    
-    transition: transform 180ms ease, filter 180ms ease, box-shadow 180ms ease;
+  width: 320px;
+  height: 480px;
+
+  border-radius: 10px;
+  border: 1px solid rgb(255, 255, 255);
+
+  transition: transform 180ms ease, filter 180ms ease, box-shadow 180ms ease;
 }
 
 /*? Immagine di sfondo della carta */
 
-.sopraSfondo{
-    height: 340px;
+.sopraSfondo {
+  height: 340px;
 
-    background-image: url(/public/ae499f3dfcdb9f6f6a1722c12aa642d8.jpeg);
-    background-size: cover;
+  background-image: url(/public/ae499f3dfcdb9f6f6a1722c12aa642d8.jpeg);
+  background-size: contain;
+  background-blend-mode: luminosity;
 
-    border-radius: 20px;
+  border-radius: 20px;
 
-    padding: 1px 0;  
-    margin: 15px 15px 45px 15px;
+  padding: 1px 0;
+  margin: 15px 15px 45px 15px;
 }
 
 /*? Titolo della carta */
 
-.titleCard{
-    background-color: var(--Gold);
+.titleCard {
+  background-color: var(--Gold);
 
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 
-    text-align: left;
-    font-size: 14px;
-    font-family: "Sorts Mill Goudy", serif;
-    font-weight:bolder;
+  text-align: left;
+  font-size: 14px;
+  font-family: "Sorts Mill Goudy", serif;
+  font-weight: bolder;
 
-    margin: 10px 10px 0 10px; 
-    padding: 5px 10px;
+  margin: 10px 10px 0 10px;
+  padding: 5px 10px;
 
-    border-radius: 5px 5px 0 0;
-    border: 2px solid rgba(0, 0, 0, 0.9);
+  border-radius: 5px 5px 0 0;
+  border: 2px solid rgba(0, 0, 0, 0.9);
 }
 
-.costMana{
-    background-color: grey;
+.costMana {
+  background-color: grey;
 
-    display: inline-block;
+  display: inline-block;
 
-    width: 24px;
-    height: 26px;
+  width: 24px;
+  height: 26px;
 
-    font-family: "Sorts Mill Goudy", serif;
-    text-align: center;
-    font-size: 14px;
-    font-weight: bold;
-    vertical-align: sub;
-    
-    border-radius: 100%;
-    border: 3px solid grey;  
+  font-family: "Sorts Mill Goudy", serif;
+  text-align: center;
+  font-size: 14px;
+  font-weight: bold;
+  vertical-align: sub;
+
+  border-radius: 100%;
+  border: 3px solid grey;
 }
 
 /*? Immagine di sfondo della carta */
 
-.imgCard{
-    width: 92%;
-    height: 46%;
+.imgCard {
+  width: 92%;
+  height: 46%;
 
-    margin: 0 auto;
+  margin: 0 auto;
 }
 
-.imgCard img{
-    border: 1px solid rgb(255, 255, 255);
-    
-    max-width: 100%;
+.imgCard img {
+  border: 1px solid rgb(255, 255, 255);
+
+  max-width: 100%;
 }
 
 /*? Categoria e rarità della carta */
 
-.categoryCard{ 
-    background-color: var(--Gold);
+.categoryCard {
+  background-color: var(--Gold);
 
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 
-    width: 94%;
+  width: 94%;
 
-    font-family: "Sorts Mill Goudy", serif;
-    font-size: 14px;
-    font-weight:bolder;
-    text-align: left;
+  font-family: "Sorts Mill Goudy", serif;
+  font-size: 14px;
+  font-weight: bolder;
+  text-align: left;
 
-    margin: 13px 10px 0 10px;
-    padding: 5px 10px;
+  margin: 13px 10px 0 10px;
+  padding: 5px 10px;
 
-    border: 2px solid rgba(0, 0, 0, 0.9);
+  border: 2px solid rgba(0, 0, 0, 0.9);
 }
 
 /*? Descrizione e valori di forza della carta */
 
-.descriptionCard{
-    background-color: #F5F3E3;
+.descriptionCard {
+  background-color: #f5f3e3;
 
-    position: absolute;
+  position: absolute;
 
-    width: 85%;
-    height: 28%;
+  width: 85%;
+  height: 28%;
 
-    font-family: "Sorts Mill Goudy", serif;
-    font-size: 14px;
+  font-family: "Sorts Mill Goudy", serif;
+  font-size: 14px;
 
-    padding: 5px 10px;
-    margin: 0px 10px;
+  padding: 5px 10px;
+  margin: 0px 10px;
 
-    border: 2px solid rgba(0, 0, 0, 0.9);
-    
-    z-index: 1000;
+  border: 2px solid rgba(0, 0, 0, 0.9);
+
+  z-index: 1000;
 }
 
-.forzaCard{
-    background-color: #4A90E2;
+.forzaCard {
+  background-color: #4a90e2;
 
-    position: absolute;
-    top: 90%;
-    right: -0.5%;
+  position: absolute;
+  top: 90%;
+  right: -0.5%;
 
-    font-size: large;
+  font-size: large;
 
-    border: 2px solid rgba(0, 0, 0, 0.9);
-    border-radius: 5px;
+  border: 2px solid rgba(0, 0, 0, 0.9);
+  border-radius: 5px;
 
-    padding: 4px 8px;
+  padding: 4px 8px;
 }
 
 /*? Autore della carta */
 
-.authorCard{
-    color: white;
-    font-family: "Sorts Mill Goudy", serif;
-    font-size: 12px;
-    
-    padding: 5px 10px;
-    margin: 5px 10px;
+.authorCard {
+  color: white;
+  font-family: "Sorts Mill Goudy", serif;
+  font-size: 12px;
+
+  padding: 5px 10px;
+  margin: 5px 10px;
 }
 
-.authorCardC{
-    font-size: 8px;
-    
-    opacity: 0.8;
-}
-/*? Carte preferite */
-.cardPreferiti{
-    background-color: #ff0000;
+.authorCardC {
+  font-size: 8px;
+
+  opacity: 0.8;
 }
 
-.cardPreferitiCont {
-    transform: scale(0.4);
-    position: relative;
-     transition: 1000ms ease;
+/*******************************************************************************************************/
+/*? Stili specifici per il colore delle carte */
+/*******************************************************************************************************/
+.cards.forest {
+  border-color: var(--Foresta);
+}
+.cards.forest .titleCard,
+.cards.forest .categoryCard {
+  background-color: var(--Foresta);
+}
+.cards.island {
+  border-color: var(--Isola);
+}
+.cards.island .titleCard,
+.cards.island .categoryCard {
+  background: var(--Isola);
+}
+.cards.mountain {
+  border-color: var(--Montagna);
+}
+.cards.mountain .titleCard,
+.cards.mountain .categoryCard {
+  background: var(--Montagna);
+}
+.cards.plains {
+  border-color: var(--Pianura);
+}
+.cards.plains .titleCard,
+.cards.plains .categoryCard {
+  background: var(--Pianura);
+}
+.cards.swamp {
+  border-color: var(--Palude);
+}
+.cards.swamp .titleCard,
+.cards.swamp .categoryCard {
+  background: var(--Palude);
+}
+/*******************************************************************************************************/
+/*? Stili specifici per il sopra sfondo del colore delle carte*/
+/*******************************************************************************************************/
+.cards.forest .sopraSfondo {
+  background-color: var(--Foresta);
+}
+.cards.island .sopraSfondo {
+  background-color: var(--Isola);
+}
+.cards.mountain .sopraSfondo {
+  background-color: var(--Montagna);
+}
+.cards.plains .sopraSfondo {
+  background-color: var(--Pianura);
+}
+.cards.swamp .sopraSfondo {
+  background-color: var(--Palude);
+}
+/*******************************************************************************************************/
+/*? Stili specifici per le carte delle terre */
+/*******************************************************************************************************/
+/*? Nascondiamo il costo mana*/
+.cards.forest .costMana,
+.cards.island .costMana,
+.cards.mountain .costMana,
+.cards.plains .costMana,
+.cards.swamp .costMana {
+  display: none;
 }
 
-.cardPreferitiCont:hover{
-    cursor: pointer;
-    transform: translateY(-7px) scale(0.4);
-   box-shadow: 0px 30px 65px 5px rgba(0, 2, 0, 35);
+.cards.mana .forzaCard,
+.cards.mana .descriptionCard,
+.cards.mana .descriptionCard p,
+.cards.mana .descriptionCard::before {
+  /* previously used to hide for mana-only cards; kept for compatibility but
+     now we do not force hiding here so non-land colored cards keep their content */
 }
 
-.cardPreferitiCont.expanded{
-    position: absolute;
-    transform: scale(1.5);
-    transition: 1000ms ease;
-    transform-origin: -320%;
-    top: 24%;
-    right: 40%;
-    z-index: 1001;
-    box-shadow: 0 18px 15px -7px rgba(0, 0, 0, 0.7), 0 0 28px rgba(200, 30, 40, 0.12) inset;
+.cards.forest .forzaCard,
+.cards.island .forzaCard,
+.cards.mountain .forzaCard,
+.cards.plains .forzaCard,
+.cards.swamp .forzaCard,
+.cards.forest .descriptionCard p,
+.cards.island .descriptionCard p,
+.cards.mountain .descriptionCard p,
+.cards.plains .descriptionCard p,
+.cards.swamp .descriptionCard p {
+  display: none;
+}
+
+.cards.forest .descriptionCard {
+  background-color: var(--Foresta);
+  border: 2px solid black;
+  opacity: 0.9;
+}
+.cards.island .descriptionCard {
+  background-color: var(--Isola);
+  border: 2px solid black;
+  opacity: 0.9;
+}
+.cards.mountain .descriptionCard {
+  background-color: var(--Montagna);
+  border: 2px solid black;
+  opacity: 0.9;
+}
+.cards.plains .descriptionCard {
+  background-color: var(--Pianura);
+  border: 2px solid black;
+  opacity: 0.9;
+}
+.cards.swamp .descriptionCard {
+  background-color: var(--Palude);
+  border: 2px solid black;
+  opacity: 0.9;
+}
+
+/*? icone per descrizione e forza */
+.cards.forest .descriptionCard::before {
+  content: "";
+  position: absolute;
+  left: 0%;
+  top: 0%;
+  width: 100%;
+  height: 100%;
+  background-image: url(/public/mana/three.png);
+  background-size: 25%;
+  background-repeat: no-repeat;
+  background-position-x: 50%;
+  background-position-y: 50%;
+}
+.cards.swamp .descriptionCard::before {
+  content: "";
+  background-color: var(--Palude);
+  position: absolute;
+  left: 0%;
+  top: 0%;
+  width: 100%;
+  height: 100%;
+  background-image: url(/public/mana/swamp.png);
+  background-size: 25%;
+  background-repeat: no-repeat;
+  background-position-x: 50%;
+  background-position-y: 50%;
+}
+.cards.mountain .descriptionCard::before {
+  content: "";
+  background-color: var(--Montagna);
+  position: absolute;
+  left: 0%;
+  top: 0%;
+  width: 100%;
+  height: 100%;
+  background-image: url(/public/mana/mountains.png);
+  background-size: 25%;
+  background-repeat: no-repeat;
+  background-position-x: 50%;
+  background-position-y: 50%;
+}
+
+.cards.mountain .descriptionCard::before {
+  content: "";
+  background-color: var(--Montagna);
+  position: absolute;
+  left: 0%;
+  top: 0%;
+  width: 100%;
+  height: 100%;
+  background-image: url(/public/mana/mountains.png);
+  background-size: 25%;
+  background-repeat: no-repeat;
+  background-position-x: 50%;
+  background-position-y: 50%;
+}
+
+.cards.plains .descriptionCard::before {
+  content: "";
+  background-color: var(--Pianura);
+  position: absolute;
+  left: 0%;
+  top: 0%;
+  width: 100%;
+  height: 100%;
+  background-image: url(/public/mana/sun.png);
+  background-size: 25%;
+  background-repeat: no-repeat;
+  background-position-x: 50%;
+  background-position-y: 50%;
+}
+.cards.island .descriptionCard::before {
+  content: "";
+  background-color: var(--Isola);
+  position: absolute;
+  left: 0%;
+  top: 0%;
+  width: 100%;
+  height: 100%;
+  background-image: url(/public/mana/water.png);
+  background-size: 25%;
+  background-repeat: no-repeat;
+  background-position-x: 50%;
+  background-position-y: 50%;
+}
+/*******************************************************************************************************/
+/*? Stili specifici per il colore delle carte */
+/*******************************************************************************************************/
+/*? Rosse ovvero Montagna*/
+.cards.red {
+  border-color: var(--Montagna);
+}
+.cards.red .titleCard,
+.cards.red .categoryCard {
+  background: var(--Montagna);
+}
+.cards.red .sopraSfondo {
+  background-color: var(--Montagna);
+}
+.cards.red .forzaCard {
+  background-color: var(--Montagna);
+}
+
+/*? Blue ovvero Isola*/
+.cards.blue {
+  border-color: var(--Isola);
+}
+.cards.blue .titleCard,
+.cards.blue .categoryCard {
+  background: var(--Isola);
+}
+.cards.blue .sopraSfondo {
+  background-color: var(--Isola);
+}
+.cards.blue .forzaCard {
+  background-color: var(--Isola);
+}
+/*? Green ovvero Foresta*/
+.cards.green {
+  border-color: var(--Foresta);
+}
+.cards.green .titleCard,
+.cards.green .categoryCard {
+  background: var(--Foresta);
+}
+.cards.green .sopraSfondo {
+  background-color: var(--Foresta);
+}
+.cards.green .forzaCard {
+  background-color: var(--Foresta);
+}
+/*? White ovvero Pianura*/
+.cards.white {
+  border-color: var(--Pianura);
+}
+.cards.white .titleCard,
+.cards.white .categoryCard {
+  background: var(--Pianura);
+}
+.cards.white .sopraSfondo {
+  background-color: var(--Pianura);
+}
+.cards.white .forzaCard {
+  background-color: var(--Pianura);
+}
+
+/*? Black ovvero Palude*/
+.cards.black {
+  border-color: var(--Palude);
+}
+.cards.black .titleCard,
+.cards.black .categoryCard {
+  background: var(--Palude);
+}
+.cards.black .sopraSfondo {
+  background-color: var(--Palude);
+}
+.cards.black .forzaCard {
+  background-color: var(--Palude);
 }

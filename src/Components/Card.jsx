@@ -75,19 +75,66 @@ function Card({ id, title, manaCost, category, description, powerToughness, auth
     set: copyright
   };
 
+  // determina automaticamente la classe 'terra' da applicare basata sulla categoria
+  const _cat = (display?.category ?? category ?? '').toString().toLowerCase();
+  const landTypes = ['forest', 'island', 'mountain', 'plains', 'swamp'];
+  let landClass = landTypes.find(t => _cat.includes(t)) || '';
+
   // sinronizza stato preferito quando cambia la carta mostrata
   useEffect(() => {
     setIsFavorited(isFavorite(display.id));
   }, [display.id]);
 
-  // if `forceFavActive` is provided, use it to determine the active class
+  // determina automaticamente la classe 'terra' da applicare basata sulla categoria, titolo o descrizione
+  const textToScan = `${display?.category ?? category ?? ''} ${display?.title ?? ''} ${display?.description ?? ''}`.toString().toLowerCase();
+  const landVariants = {
+    forest: ['forest', 'foresta', 'foreste', 'bosco', 'boschi'],
+    island: ['island', 'isola', 'isole'],
+    mountain: ['mountain', 'montagna', 'montagne'],
+    plains: ['plains', 'piana', 'pianura', 'piani'],
+    swamp: ['swamp', 'palude', 'paludi']
+  };
+
+  landClass = '';
+  for (const [key, variants] of Object.entries(landVariants)) {
+    if (variants.some(v => textToScan.includes(v))) { landClass = key; break; }
+  }
+
+  // rileva carte 'mana' (hanno manaCost ma non sono terre)
+  const hasManaCost = !!(display?.manaCost || manaCost);
+  const manaClass = (hasManaCost && !landClass) ? 'mana' : '';
+
+  // rileva colore principale delle carte (quando non è una land)
+  const colorVariants = {
+    red: ['red', 'rosso'],
+    blue: ['blue', 'blu'],
+    green: ['green', 'verde'],
+    white: ['white', 'bianco'],
+    black: ['black', 'nero']
+  };
+  let colorClass = '';
+  if (!landClass) {
+    const apiColors = display?.colors || display?.color || display?.colours || display?.colour;
+
+    if (!colorClass && typeof apiColors === 'string') {
+      for (const [key, variants] of Object.entries(colorVariants)) {
+        if (variants.some(v => apiColors.toString().toLowerCase().includes(v))) { colorClass = key; break; }
+      }
+    }
+
+    // 4) fallback: cerca parole nel testo (title/category/description)
+    if (!colorClass) {
+      for (const [key, variants] of Object.entries(colorVariants)) {
+        if (variants.some(v => textToScan.includes(v))) { colorClass = key; break; }
+      }
+    }
+  }
+
   const favActive = typeof forceFavActive === 'boolean' ? forceFavActive : isFavorited;
-
-
 
   return (
     <>
-        <div ref={containerRef} className={`cards ${className ?? ''} ${expanded ? 'expanded' : ''}`} onClick={handleContainerClick}>
+      <div ref={containerRef} className={`cards ${className ?? ''} ${landClass} ${manaClass} ${colorClass} ${expanded ? 'expanded' : ''}`.trim()} onClick={handleContainerClick}>
         <div className="sopraSfondo">
           <div className="titleCard">
             <h4>{display.title}</h4>

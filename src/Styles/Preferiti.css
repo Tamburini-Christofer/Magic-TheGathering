@@ -136,4 +136,30 @@
 
 }
 
+/*? Carte preferite */
+.cardPreferiti{
+    background-color: #ff0000;
+}
 
+.cardPreferitiCont {
+    transform: scale(0.4);
+    position: relative;
+     transition: 1000ms ease;
+}
+
+.cardPreferitiCont:hover{
+    cursor: pointer;
+    transform: translateY(-7px) scale(0.4);
+   box-shadow: 0px 30px 65px 5px rgba(0, 2, 0, 35);
+}
+
+.cardPreferitiCont.expanded{
+    position: absolute;
+    transform: scale(1.5);
+    transition: 1000ms ease;
+    transform-origin: -320%;
+    top: 24%;
+    right: 40%;
+    z-index: 1001;
+    box-shadow: 0 18px 15px -7px rgba(0, 0, 0, 0.7), 0 0 28px rgba(200, 30, 40, 0.12) inset;
+}
