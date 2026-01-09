@@ -1,8 +1,10 @@
 import { useState, useRef, useEffect } from "react";
+import Chalk from "chalk";
 
 function Filter() {
   const [open, setOpen] = useState(false);
   const [category, setCategory] = useState("");
+  const [searchValue, setSearchValue] = useState("");
   const wrapRef = useRef(null);
 
   const [openSort, setOpenSort] = useState(false);
@@ -10,6 +12,23 @@ function Filter() {
   const sortRef = useRef(null);
   const [count, setCount] = useState(0);
   const countRef = useRef(null);
+
+  const handleSearchChange = (e) => {
+    const value = (e.target.value ?? e.target.textContent ?? "").toString();
+    setSearchValue(value);
+    console.log(`Hai cercato ${Chalk.green(value)} utilizzando ${Chalk.blue("la barra di ricerca generica")}`);
+
+    const search = value.toLowerCase().trim();
+    const cards = document.querySelectorAll(".cards");
+    cards.forEach((el) => {
+      const text = (el.textContent || "").toLowerCase();
+      if (!search || text.includes(search)) {
+        el.style.display = "";
+      } else {
+        el.style.display = "none";
+      }
+    });
+  };
 
   const options = [
     { value: "", label: "Tutte le categorie" },
@@ -35,22 +54,28 @@ function Filter() {
 
   useEffect(() => {
     function onDoc(e) {
-      if (wrapRef.current && !wrapRef.current.contains(e.target)) setOpen(false);
-      if (sortRef.current && !sortRef.current.contains(e.target)) setOpenSort(false);
-      if (countRef.current && !countRef.current.contains(e.target)) {}
+      if (wrapRef.current && !wrapRef.current.contains(e.target))
+        setOpen(false);
+      if (sortRef.current && !sortRef.current.contains(e.target))
+        setOpenSort(false);
+      if (countRef.current && !countRef.current.contains(e.target)) {
+        // nessuna azione per ora
+      }
     }
     document.addEventListener("mousedown", onDoc);
     return () => document.removeEventListener("mousedown", onDoc);
   }, []);
 
   return (
-    <div>
+    <><div>
       <form action="" className="filterContainer">
         <div className="inputCont">
           <input
             className="searchBar"
             type="text"
             placeholder="Cerca carte, set, edizioni..."
+            value={searchValue}
+            onChange={handleSearchChange}
           />
 
           <div className="customSelect" ref={wrapRef}>
@@ -109,7 +134,7 @@ function Filter() {
               </ul>
             )}
           </div>
-          <div className="costoSymbols"> 
+          <div className="costoSymbols">
             <span>Costo in mana</span>
             <div className="numericInputWrap" ref={countRef}>
               <input
@@ -123,12 +148,11 @@ function Filter() {
                 aria-label="Costo mana"
                 min={0}
               />
-            </div></div>
-           
+            </div>
+          </div>
         </div>
         <div>
-            
-            <div className="raritySymbols">         
+          <div className="raritySymbols">
             <img src="/public/rarity/comuns.png" alt="" />
             <img src="/public/rarity/silver.png" alt="" />
             <img src="/public/rarity/rare.png" alt="" />
@@ -144,7 +168,7 @@ function Filter() {
           </div>
         </div>
       </form>
-    </div>
+    </div></>
   );
 }
 

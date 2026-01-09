@@ -18,6 +18,7 @@ import "./Styles/Preferiti.css";
 import "./Styles/CartaSingola.css";
 import "./Styles/Footer.css";
 
+//! Definisco il componente principale dell'applicazione
 function App() {
   return (
     <>
