@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { toggleFavorite, isFavorite } from "../utils/favorites";
+import Chalk from "chalk";
 
 
 function Card({ id, title, manaCost, category, description, powerToughness, author, copyright, imageUrl, className, forceFavActive }) {
@@ -13,6 +14,11 @@ function Card({ id, title, manaCost, category, description, powerToughness, auth
     const cardObj = { id: card?.id ?? id, title: card?.title ?? title };
     const nowFav = toggleFavorite(cardObj);
     setIsFavorited(nowFav);
+    if (nowFav) {
+      console.log(`${Chalk.green("Aggiunta")} ai preferiti: ${cardObj.title}`);
+    } else {
+      console.log(`${Chalk.red("Rimossa")} dai preferiti: ${cardObj.title}`);
+    }
     window.dispatchEvent(new CustomEvent("favoritesChanged"));
   };
 
@@ -41,20 +47,9 @@ function Card({ id, title, manaCost, category, description, powerToughness, auth
           const res = await fetch(`${base}/cards/${id}`);
           const json = await res.json();
           setCard(json.card);
-        } else {
-          const res = await fetch(`${base}/cards`);
-          const json = await res.json();
-          if (Array.isArray(json) && json.length > 0) {
-            const firstId = json[0].id;
-            const res2 = await fetch(`${base}/cards/${firstId}`);
-            const json2 = await res2.json();
-            setCard(json2.card);
-          } else {
-            setCard(null);
-          }
-        }
-      } catch (error) {
-        console.error("Errore nel caricamento della carta:", error);
+          console.log(`Le carte sono state caricate ${Chalk.green("correttamente")}.`);
+        } } catch (error) {
+        console.error(`Errore nel caricamento della carta: ${Chalk.red(error)}`);
         setCard(null);
       }
     };

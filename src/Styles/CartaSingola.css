@@ -232,14 +232,6 @@
   display: none;
 }
 
-.cards.mana .forzaCard,
-.cards.mana .descriptionCard,
-.cards.mana .descriptionCard p,
-.cards.mana .descriptionCard::before {
-  /* previously used to hide for mana-only cards; kept for compatibility but
-     now we do not force hiding here so non-land colored cards keep their content */
-}
-
 .cards.forest .forzaCard,
 .cards.island .forzaCard,
 .cards.mountain .forzaCard,
