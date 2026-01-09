@@ -57,8 +57,6 @@
 }
 
 .contenitorePage {
-    background: rgba(0, 0, 0, 0.6);
-    backdrop-filter: blur(1px) saturate(120%);
 
     text-shadow: 0 3px 12px rgba(0,0,0,0.65);
 
@@ -71,16 +69,21 @@
 
 .contenitorePage h2{
     color: var(--Gold);
-    font-size: 24px;
-    text-align: center;
 
-    margin: 60px 0;
+    display: inline-block;
+
+    position: absolute;
+    right: 2%;
+    font-size: 24px;
+    text-align: right;
+
+    margin: 50px 0 0 0 ;
 }
 
 .btn{
     position: absolute;
     left: 90%;
-    top: 15%;
+    top: 85%;
 
     font-weight: 700;
 
@@ -125,15 +128,13 @@
 .ContCardsPref{
     display: grid;
     justify-items: center;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 25px;
+    align-content: center;
+    grid-template-columns: repeat(auto-fill, minmax(50px, 1fr));
 
-    width: 98%;
-    height: 70vh;
+    width: 95%;
+    height: 20%;
     
-    margin: 20px 30px;
-
-    overflow-y: auto;
+    margin: 4%;
 }
 
 

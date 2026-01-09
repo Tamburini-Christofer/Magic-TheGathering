@@ -38,7 +38,7 @@ const NavBar = () => {
             ))}</ul>
 
             <div className="navActions">
-              <NavLink to="/le-mie-preferite" className="heartLink" onClick={aggiungiPreferito}>
+              <NavLink to="/le-mie-preferite" className="heartLink">
                 <span className="heartBadge">{preferiti}</span>
                 <img src="/public/iconHeart.png" alt="Preferiti" className="navHeart" />
               </NavLink>

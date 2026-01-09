@@ -24,6 +24,11 @@ const Preferiti = () => {
           </div>
           <h2>Preferiti ({list.length})</h2>
           <div className="ContCardsPref">
+            {list.length === 0 && <p>Nessun preferito</p>}
+            {list.map((c) => (
+              <Card key={c.id} id={c.id} 
+              className="cards cardPreferitiCont" forceFavActive={false} />
+            ))}
           </div>
         </div>
       </div>
