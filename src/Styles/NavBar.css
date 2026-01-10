@@ -1,6 +1,6 @@
 /*! todo NavBar */
 .navBar{
-    background: linear-gradient(180deg, rgba(6,6,8,0.55), rgba(6,6,8,0.35));
+    background: linear-gradient(180deg, rgba(6, 6, 8, 0.9), rgba(6, 6, 8, 0.6));
     backdrop-filter: blur(6px) saturate(110%);
 
     position: fixed;
@@ -17,7 +17,7 @@
     padding: 0 32px;
     
     border-bottom: 1px solid rgba(255,255,255,0.04);
-    z-index: 1000;
+    z-index: 9999;
 }
 
 .logo{

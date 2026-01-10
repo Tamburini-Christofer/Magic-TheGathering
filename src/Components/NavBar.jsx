@@ -32,7 +32,7 @@ const NavBar = () => {
       <div>
         <nav>
           <div className="navBar">
-                  <img className="logo" src="/magic-logo.webp" alt="Magic logo" />
+                  <a href="/"><img className="logo" src="/magic-logo.webp" alt="Magic logo" /></a>
             <ul> {linkPages.map((link, i) => (
               <li key={i}>
                 <NavLink to={link.route}>{link.label}</NavLink>

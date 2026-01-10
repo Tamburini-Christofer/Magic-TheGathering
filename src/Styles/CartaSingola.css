@@ -5,8 +5,8 @@
 
   position: relative;
 
-  width: 320px;
-  height: 480px;
+  width: 340px;
+  height: 500px;
 
   border-radius: 10px;
   border: 1px solid rgb(255, 255, 255);
@@ -356,6 +356,10 @@
   background-repeat: no-repeat;
   background-position-x: 50%;
   background-position-y: 50%;
+}
+.rarityIcon {
+  display: block;
+  max-width: 25px;
 }
 /*******************************************************************************************************/
 /*? Stili specifici per il colore delle carte */

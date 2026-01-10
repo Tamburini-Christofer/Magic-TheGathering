@@ -1,3 +1,7 @@
+import chalk from "chalk";
+
+console.log(`Benvenuto nella mia pagina personale di ${chalk.yellow("Magic: The Gathering")}, mio amico ${chalk.yellow("Placewalker")}`);
+
 const HomePage = () => {
   return (
   <>

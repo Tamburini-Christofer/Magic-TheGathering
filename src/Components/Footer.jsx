@@ -14,11 +14,11 @@ const Footer = () => (
       </p>
             <div>
         <ul className="iconSocial">
-          <li><a href=""><i className="fa-brands fa-square-facebook"></i></a></li>
-          <li><a href=""><i className="fa-brands fa-square-x-twitter"></i></a></li>
-          <li><a href=""><i className="fa-brands fa-square-instagram"></i></a></li>
-          <li><a href=""><i className="fa-brands fa-youtube"></i></a></li>
-          <li><a href=""><i className="fa-brands fa-twitch"></i></a></li>
+          <li><a href="https://www.facebook.com/MagicTheGathering.it/?brand_redir=201120755306&locale=it_IT" target="_blank"><i className="fa-brands fa-square-facebook"></i></a></li>
+          <li><a href="https://x.com/?lang=it" target="_blank"><i className="fa-brands fa-square-x-twitter" ></i></a></li>
+          <li><a href="https://www.instagram.com/wizards_magic/?__pwa=1" target="_blank"><i className="fa-brands fa-square-instagram"></i></a></li>
+          <li><a href="https://www.youtube.com/@mtg" target="_blank"><i className="fa-brands fa-youtube"></i></a></li>
+          <li><a href="https://www.twitch.tv/directory/category/magic-the-gathering" target="_blank"><i className="fa-brands fa-twitch"></i></a></li>
         </ul>
       </div>
     </div>

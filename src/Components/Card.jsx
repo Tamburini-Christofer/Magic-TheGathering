@@ -4,7 +4,7 @@ import { toggleFavorite, isFavorite } from "../utils/favorites";
 import Calck from "chalk";
 
 //! Componente Card per visualizzare le informazioni di una carta
-function Card({ id, title, manaCost, category, description, powerToughness, author, copyright, imageUrl, className, forceFavActive }) {
+function Card({ id, title, manaCost, category, description, powerToughness, author, copyright, imageUrl, className, forceFavActive, draggableProps }) {
 
   //! Definizione degli stati e dei riferimenti
   const [isFavorited, setIsFavorited] = useState(false);                                                        //* Stato per indicare se la carta è nei preferiti
@@ -54,6 +54,17 @@ function Card({ id, title, manaCost, category, description, powerToughness, auth
   const handleContainerClick = (e) => {
     if (e.target.closest('button') || e.target.closest('a')) return;
     setExpanded(v => !v);
+  };
+  //!
+
+  //! Gestione fine trascinamento (solo se abilitato)
+  const handleDragEndInternal = (e) => {
+    if (typeof draggableProps?.onDragEnd === 'function') {
+      draggableProps.onDragEnd(e);
+    }
+    if (draggableProps?.expandOnDrop) {
+      setExpanded(true);
+    }
   };
   //!
 
@@ -119,6 +130,15 @@ function Card({ id, title, manaCost, category, description, powerToughness, auth
   };
   //?
 
+  //? icone per la rarità
+   const rarityIcons = {
+    "comune": "/rarity/comuns.png",
+    "non comune": "/rarity/silver.png",
+    "rara": "/rarity/rare.png",
+    "mitica": "/rarity/mitic.png",
+  };
+  //?
+
   //? rileva carte 'land' (terre)
   landClass = '';
   for (const [key, variants] of Object.entries(landVariants)) {
@@ -165,7 +185,16 @@ function Card({ id, title, manaCost, category, description, powerToughness, auth
 
   return (
     <>
-      <div ref={containerRef} className={`cards ${className ?? ''} ${landClass} ${manaClass} ${colorClass} ${expanded ? 'expanded' : ''}`.trim()} onClick={handleContainerClick}>
+      <div
+        ref={containerRef}
+        className={`cards ${className ?? ''} ${landClass} ${manaClass} ${colorClass} ${expanded ? 'expanded' : ''}`.trim()}
+        onClick={handleContainerClick}
+        draggable={draggableProps?.draggable}
+        onDragStart={draggableProps?.onDragStart}
+        onDragOver={draggableProps?.onDragOver}
+        onDrop={draggableProps?.onDrop}
+        onDragEnd={handleDragEndInternal}
+      >
         <div className="sopraSfondo">
           <div className="titleCard">
             <h4>{display.title}</h4>
@@ -176,15 +205,27 @@ function Card({ id, title, manaCost, category, description, powerToughness, auth
           </div>
           <div className="categoryCard">
             <h5>{display.category}</h5>
+            
+            {/* Icona e testo (nascosto) per la rarità, usata anche dal filtro */}
+
+            {(() => {
+              if (!display.rarity) return null;
+
+              const rarity = display.rarity.toString().toLowerCase();
+
+             
+              const src = rarityIcons[rarity];
+              if (!src) return null;
+              return (
+                <>
+                  <img className="rarityIcon" src={src} alt={display.rarity} />
+                  <span className="rarityHidden" style={{ display: "none" }}>
+                    {display.rarity}
+                  </span>
+                </>
+              );
+            })()}
           </div>
-
-          {/* Usata per il filtro tramite i simboli di rarità */}
-
-          {display.rarity && (
-            <span className="rarityHidden" style={{ display: "none" }}>
-              {display.rarity}
-            </span>
-          )}
 
           {/* Usato per il filtro tramite i simboli di mana */}
 
@@ -199,7 +240,7 @@ function Card({ id, title, manaCost, category, description, powerToughness, auth
             </p>
             {
               //todo calcola power/toughness: preferisci i valori dal display, altrimenti prova la prop `powerToughness`
-              
+
               (() => {
 
                 //? tenta di leggere power e toughness dai dati della carta

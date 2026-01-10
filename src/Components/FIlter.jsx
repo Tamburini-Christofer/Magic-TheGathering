@@ -33,6 +33,8 @@ function Filter({ onSfondoChange }) {
   //? Stato per il filtro colore mana e costo
   const [colorFilter, setColorFilter] = useState("");                                          //* stato per il filtro colore mana selezionato
   const [count, setCount] = useState(0);                                                       //* stato per il valore numerico del costo mana
+  const [selectedRarityIcon, setSelectedRarityIcon] = useState("");                           //* rarità selezionata tramite icona
+  const [selectedManaIcon, setSelectedManaIcon] = useState("");                               //* colore mana selezionato tramite icona
   //!
 
   //! Funzione per filtrare le carte
@@ -71,6 +73,32 @@ function Filter({ onSfondoChange }) {
     );
   }, [filterCards, catehorySelected, mana, colorFilter]);
   //!
+
+  //! Reset completo di tutti i filtri
+  const handleResetFilters = useCallback(() => {
+    if (searchTimerRef.current) clearTimeout(searchTimerRef.current);
+    if (manaTimerRef.current) clearTimeout(manaTimerRef.current);
+
+    setSearchValue("");
+    setCategory("");
+    setCategorySelected("");
+    setOpen(false);
+    setOpenSort(false);
+    setSort("");
+    setSortOrder("");
+    setMana("");
+    setColorFilter("");
+    setCount(0);
+    setSelectedRarityIcon("");
+    setSelectedManaIcon("");
+
+    if (onSfondoChange) onSfondoChange("");
+
+    // mostra di nuovo tutte le carte
+    filterCards("", "", null, "");
+
+    console.log(`${chalk.green(`${chalk.yellow("Tutti i filtri sono stati resettati.")}`)}`);                                               //todo Console Log di reset completo filtri
+  }, [filterCards, onSfondoChange]);
 
   //! Gestore del cambiamento nella barra di ricerca
 
@@ -183,7 +211,8 @@ function Filter({ onSfondoChange }) {
 
   const handleRarityClick = useCallback((rarityValue) => {
     const value = (rarityValue || "").toString().toLowerCase();
-    setSearchValue(value);
+    setSelectedRarityIcon(value);
+    setSelectedManaIcon("");
     // quando filtro per rarità, azzero il filtro colore
     setColorFilter("");
     if (!value) {
@@ -201,6 +230,8 @@ function Filter({ onSfondoChange }) {
   const handleManaSymbolClick = useCallback((colorValue) => {
     const value = (colorValue || "").toString().toLowerCase();
     setColorFilter(value);
+    setSelectedManaIcon(value);
+    setSelectedRarityIcon("");
 
     // aggiorna lo sfondo del contenitore destro in base al colore selezionato
     if (onSfondoChange) {
@@ -311,7 +342,7 @@ function Filter({ onSfondoChange }) {
           <input
             className="searchBar"
             type="text"
-            placeholder="Cerca carte, set, edizioni..."
+            placeholder="Cerca per nome, parola, forza, difesa..."
             value={searchValue}
             onChange={handleSearchChange}
           />
@@ -413,23 +444,70 @@ function Filter({ onSfondoChange }) {
 
           {/* Quinto input: selezione rarità carta */}
 
-            <img src="/rarity/comuns.png" alt="Comuni" onClick={() => handleRarityClick("comune")} />
-            <img src="/rarity/silver.png" alt="Non comuni" onClick={() => handleRarityClick("non comune")} />
-            <img src="/rarity/rare.png" alt="Rare" onClick={() => handleRarityClick("rara")} />
-            <img src="/rarity/mitic.png" alt="Mitiche" onClick={() => handleRarityClick("mitica")} />
+            <img
+              src="/rarity/comuns.png"
+              alt="Comuni"
+              className={`rarityFilterIcon ${selectedRarityIcon === "comune" ? "selectedFilterIcon" : ""}`.trim()}
+              onClick={() => handleRarityClick("comune")} />
+            <img
+              src="/rarity/silver.png"
+              alt="Non comuni"
+              className={`rarityFilterIcon ${selectedRarityIcon === "non comune" ? "selectedFilterIcon" : ""}`.trim()}
+              onClick={() => handleRarityClick("non comune")} />
+            <img
+              src="/rarity/rare.png"
+              alt="Rare"
+              className={`rarityFilterIcon ${selectedRarityIcon === "rara" ? "selectedFilterIcon" : ""}`.trim()}
+              onClick={() => handleRarityClick("rara")} />
+            <img
+              src="/rarity/mitic.png"
+              alt="Mitiche"
+              className={`rarityFilterIcon ${selectedRarityIcon === "mitica" ? "selectedFilterIcon" : ""}`.trim()}
+              onClick={() => handleRarityClick("mitica")} />
           </div>
           <div className="manaSymbols">
 
           {/* Sesto input: selezione simbolo mana */}    
 
-            <img src="/mana/water.png" alt="Blu" onClick={() => handleManaSymbolClick("blu")} />
-            <img src="/mana/sun.png" alt="Bianco" onClick={() => handleManaSymbolClick("bianco")} />
-            <img src="/mana/mountains.png" alt="Rosso" onClick={() => handleManaSymbolClick("rosso")} />
-            <img src="/mana/swamp.png" alt="Nero" onClick={() => handleManaSymbolClick("nero")} />
-            <img src="/mana/three.png" alt="Verde" onClick={() => handleManaSymbolClick("verde")} />
-            <img src="/mana/nocolor.webp" alt="Incolore" onClick={() => handleManaSymbolClick("incolore")} />
+            <img
+              src="/mana/water.png"
+              alt="Blu"
+              className={`manaFilterIcon ${selectedManaIcon === "blu" ? "selectedFilterIcon" : ""}`.trim()}
+              onClick={() => handleManaSymbolClick("blu")} />
+            <img
+              src="/mana/sun.png"
+              alt="Bianco"
+              className={`manaFilterIcon ${selectedManaIcon === "bianco" ? "selectedFilterIcon" : ""}`.trim()}
+              onClick={() => handleManaSymbolClick("bianco")} />
+            <img
+              src="/mana/mountains.png"
+              alt="Rosso"
+              className={`manaFilterIcon ${selectedManaIcon === "rosso" ? "selectedFilterIcon" : ""}`.trim()}
+              onClick={() => handleManaSymbolClick("rosso")} />
+            <img
+              src="/mana/swamp.png"
+              alt="Nero"
+              className={`manaFilterIcon ${selectedManaIcon === "nero" ? "selectedFilterIcon" : ""}`.trim()}
+              onClick={() => handleManaSymbolClick("nero")} />
+            <img
+              src="/mana/three.png"
+              alt="Verde"
+              className={`manaFilterIcon ${selectedManaIcon === "verde" ? "selectedFilterIcon" : ""}`.trim()}
+              onClick={() => handleManaSymbolClick("verde")} />
+            <img
+              src="/mana/nocolor.webp"
+              alt="Incolore"
+              className={`manaFilterIcon ${selectedManaIcon === "incolore" ? "selectedFilterIcon" : ""}`.trim()}
+              onClick={() => handleManaSymbolClick("incolore")} />
           </div>
         </div>
+        <button
+            type="button"
+            className="resetFiltersBtn"
+            onClick={handleResetFilters}
+          >
+            Resetta tutti i filtri
+          </button>
       </form>
     </div></>
   );
