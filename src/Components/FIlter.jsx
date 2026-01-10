@@ -4,6 +4,7 @@ import chalk from "chalk";
 function Filter() {
   const [open, setOpen] = useState(false);
   const [category, setCategory] = useState("");
+  const [catehorySelected, setCategorySelected] = useState("");
   const [searchValue, setSearchValue] = useState("");
   const wrapRef = useRef(null);
 
@@ -15,18 +16,26 @@ function Filter() {
 
   const searchTimerRef = useRef(null);
 
-  const applySearch = useCallback((rawValue) => {
-    const search = rawValue.toLowerCase().trim();
+  const filterCards = useCallback((searchTerm, categoryValue) => {
+    const search = (searchTerm || "").toLowerCase().trim();
+    const categoryFilter = (categoryValue || "").toLowerCase().trim();
+
     const cards = document.querySelectorAll(".cards");
     cards.forEach((el) => {
       const text = (el.textContent || "").toLowerCase();
-      if (!search || text.includes(search)) {
-        el.style.display = "";
-      } else {
-        el.style.display = "none";
-      }
+      const catNode = el.querySelector(".categoryCard h5");
+      const catText = (catNode?.textContent || "").toLowerCase();
+
+      const matchesSearch = !search || text.includes(search);
+      const matchesCategory = !categoryFilter || catText.includes(categoryFilter);
+
+      el.style.display = matchesSearch && matchesCategory ? "" : "none";
     });
   }, []);
+
+  const applySearch = useCallback((rawValue, categoryValue) => {
+    filterCards(rawValue, categoryValue ?? catehorySelected);
+  }, [filterCards, catehorySelected]);
 
   const handleSearchChange = useCallback((e) => {
     const value = (e.target.value ?? e.target.textContent ?? "").toString();
@@ -37,15 +46,25 @@ function Filter() {
     }
 
     searchTimerRef.current = setTimeout(() => {
-      if(value === "") {
-      console.log(`${chalk.yellow("Ricerca vuota, nessun filtro applicato.")}`)
-        applySearch(""); 
+      if (value === "") {
+        console.log("Ricerca vuota, nessun filtro applicato.");
+        applySearch("", catehorySelected);
         return;
       }
-      applySearch(value);
-      console.log(`Hai cercato: ${chalk.green(value)} utilizzando la ${chalk.blue("barra di ricerca generica")}`);
+      applySearch(value, catehorySelected);
+      console.log("Hai cercato:", value, "utilizzando la barra di ricerca generica");
     }, 1000);
-  }, [applySearch]);
+  }, [applySearch, catehorySelected]);
+
+  const handleCategoryChange = useCallback((e) => {
+    const value = (e.target.value ?? "").toString();
+    setCategorySelected(value);
+    setCategory(value);
+    console.log(`Categoria selezionata: ${chalk.green(value)}`);
+
+    filterCards(searchValue, value);
+  }, [filterCards, searchValue]);
+  
 
   const options = [
     { value: "", label: "Tutte le categorie" },
@@ -120,9 +139,11 @@ function Filter() {
                     key={opt.value}
                     className="Option"
                     role="option"
+                    value={searchValue}
                     onClick={() => {
-                      setCategory(opt.value);
-                      setOpen(false);
+                    setCategory(opt.value)
+                    setOpen(false)
+                    handleCategoryChange({target: {value: opt.value}})
                     }}
                   >
                     {opt.label}
