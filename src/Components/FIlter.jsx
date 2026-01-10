@@ -37,6 +37,11 @@ function Filter() {
     }
 
     searchTimerRef.current = setTimeout(() => {
+      if(value === "") {
+      console.log(`${chalk.yellow("Ricerca vuota, nessun filtro applicato.")}`)
+        applySearch(""); 
+        return;
+      }
       applySearch(value);
       console.log(`Hai cercato: ${chalk.green(value)} utilizzando la ${chalk.blue("barra di ricerca generica")}`);
     }, 1000);
