@@ -6,6 +6,7 @@ import Card from "../Components/Card";
 //! Definizione del componente Carte per visualizzare tutte le carte con filtro
 const Carte = () => {
   const [cards, setCards] = useState([]);
+  const [sfondoClasse, setSfondoClasse] = useState("");
 
   useEffect(() => {
     const load = async () => {
@@ -28,9 +29,9 @@ const Carte = () => {
     <>
       <div className="contenitoreCard">
         <div className="contenitoreCardSx">
-          <Filter />
+          <Filter onSfondoChange={setSfondoClasse} />
         </div>
-        <div className="contenitoreCardDx">
+        <div className={`contenitoreCardDx ${sfondoClasse}`.trim()}>
           <div className="cardsContainer">
             {cards.length === 0 && <p>Caricamento...</p>}
             {cards.map((c) => (

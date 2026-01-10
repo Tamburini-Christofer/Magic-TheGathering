@@ -4,7 +4,7 @@ import chalk from "chalk";
 //!
 
 //! Inizio funzione Filter
-function Filter() {
+function Filter({ onSfondoChange }) {
 
   //! Definizione degli stati e dei riferimenti
   //? Riferimenti per i timer di ricerca e costo mana
@@ -201,6 +201,39 @@ function Filter() {
   const handleManaSymbolClick = useCallback((colorValue) => {
     const value = (colorValue || "").toString().toLowerCase();
     setColorFilter(value);
+
+    // aggiorna lo sfondo del contenitore destro in base al colore selezionato
+    if (onSfondoChange) {
+      if (!value) {
+        onSfondoChange("");
+      } else {
+        let bgClass = "";
+        switch (value) {
+          case "blu":
+            bgClass = "sfondoIsola";
+            break;
+          case "bianco":
+            bgClass = "sfondoPianura";
+            break;
+          case "rosso":
+            bgClass = "sfondoMontagna";
+            break;
+          case "nero":
+            bgClass = "sfondoPalude";
+            break;
+          case "verde":
+            bgClass = "sfondoForesta";
+            break;
+          case "incolore":
+            bgClass = "sfondoIncolore";
+            break;
+          default:
+            bgClass = "";
+        }
+        onSfondoChange(bgClass);
+      }
+    }
+
     if (!value) {
       console.log(`${chalk.yellow("Il filtro colore mana è stato resettato.")}`);                                          //todo Console Log di reset filtro colore mana
       applySearch("", catehorySelected, mana, "");
@@ -208,7 +241,7 @@ function Filter() {
     }
     console.log(`Hai filtrato per colore di mana: ${chalk.green(value)} usando ${chalk.blue("i simboli di mana")}.`);      //* Console Log di ricerca filtro colore mana
     applySearch("", catehorySelected, mana, value);
-  }, [applySearch, catehorySelected, mana]);
+  }, [applySearch, catehorySelected, mana, onSfondoChange]);
   //*
   //!
   

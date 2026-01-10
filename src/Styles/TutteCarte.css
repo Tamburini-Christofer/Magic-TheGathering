@@ -35,6 +35,24 @@
 
     float: left;
 }       
+.sfondoIsola{
+    background-image: url('/public/Sfondi/jace-the-mind-sculptor-magic-the-gathering-43639-2560x1440.jpg');
+}
+.sfondoMontagna{
+    background-image: url('/public/Sfondi/chandra-nalaar-magic-the-gathering-32103-2880x1800.jpg');
+}
+.sfondoPianura{
+    background-image: url('/public/Sfondi/wp11058737.jpg');
+}
+.sfondoPalude{
+    background-image: url('/public/Sfondi/magic-the-gathering.jpg');
+}
+.sfondoForesta{
+    background-image: url('/public/Sfondi/wp13746473-desktop-magic-wallpapers.jpg');
+}
+.sfondoIncolore{
+    background-image: url('/public/Sfondi/mtg-background-90k0qivfy22w6ori.jpg');
+}
 
 /*? Filtri Carte */
 
