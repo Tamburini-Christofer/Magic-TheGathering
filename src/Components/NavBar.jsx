@@ -10,21 +10,23 @@ const linkPages = [
   { route: "/le-mie-preferite", label: "Le mie preferite" },
 ];
 
-// stato locale per il conteggio preferiti (spostato dentro il componente)
-
 //todo Creazione del componente NavBar con logo e menu di navigazione
 const NavBar = () => {
   const [preferiti, setPreferiti] = useState(0);
   const aggiungiPreferito = () => setPreferiti((p) => p + 1);
 
   useEffect(() => {
-    // inizializza il conteggio dai dati in localStorage
+
+    //todo  inizializza il conteggio dai dati in localStorage
+
     setPreferiti(getFavorites().length);
 
     const handler = () => setPreferiti(getFavorites().length);
     window.addEventListener("favoritesChanged", handler);
     return () => window.removeEventListener("favoritesChanged", handler);
   }, []);
+
+  
   return (
     <>
       <div>

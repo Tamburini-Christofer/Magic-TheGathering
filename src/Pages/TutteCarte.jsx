@@ -1,7 +1,9 @@
+//! Importazioni necessarie
 import { useEffect, useState } from "react";
 import Filter from "../Components/FIlter";
 import Card from "../Components/Card";
 
+//! Definizione del componente Carte per visualizzare tutte le carte con filtro
 const Carte = () => {
   const [cards, setCards] = useState([]);
 
@@ -18,6 +20,9 @@ const Carte = () => {
     };
     load();
   }, []);
+//!
+
+//! Render del componente con filtro e lista di carte
 
   return (
     <>

@@ -3,14 +3,14 @@ import { getFavorites, clearFavorites } from "../utils/favorites";
 import Card from "../Components/Card";
 
 const Preferiti = () => {
-  const [list, setList] = useState([]);
+  const [list, setList] = useState([]);                                                    //* stato locale per la lista delle carte preferite
 
   useEffect(() => {
     setList(getFavorites());
   }, []);
 
   function handleClear() {
-    if (!confirm("Vuoi svuotare tutte le carte preferite?")) return;
+    if (!confirm("Vuoi svuotare tutte le carte preferite?")) return;                       //todo conferma l'azione di svuotamento preferiti     
     clearFavorites();
     setList([]);
   }
