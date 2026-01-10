@@ -1,7 +1,6 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { toggleFavorite, isFavorite } from "../utils/favorites";
-import Chalk from "chalk";
-
+import Calck from "chalk";
 
 function Card({ id, title, manaCost, category, description, powerToughness, author, copyright, imageUrl, className, forceFavActive }) {
 
@@ -10,14 +9,33 @@ function Card({ id, title, manaCost, category, description, powerToughness, auth
   const [expanded, setExpanded] = useState(false);
   const containerRef = useRef(null);
 
+  const loadCard = useCallback(async (cardId) => {
+    if (!cardId) {
+      setCard(null);
+      return;
+    }
+
+    try {
+      setCard(true); // loading state
+      const base = "http://localhost:3001";
+      const res = await fetch(`${base}/cards/${cardId}`);
+      const json = await res.json();
+      setCard(json.card);
+      console.log(`Le carte sono state caricate ${Calck.green("correttamente")}`);
+    } catch (error) {
+      console.error(`${Calck.red("Errore nel caricamento della carta:")}`, error);
+      setCard(null);
+    }
+  }, []);
+
   const toggleFav = () => {
     const cardObj = { id: card?.id ?? id, title: card?.title ?? title };
     const nowFav = toggleFavorite(cardObj);
     setIsFavorited(nowFav);
     if (nowFav) {
-      console.log(`${Chalk.green("Aggiunta")} ai preferiti: ${cardObj.title}`);
+      console.log(`${Calck.green("Aggiunta ai preferiti:")} ${cardObj.title}`);
     } else {
-      console.log(`${Chalk.red("Rimossa")} dai preferiti: ${cardObj.title}`);
+      console.log(`${Calck.red("Rimossa dai preferiti:")} ${cardObj.title}`);
     }
     window.dispatchEvent(new CustomEvent("favoritesChanged"));
   };
@@ -39,22 +57,17 @@ function Card({ id, title, manaCost, category, description, powerToughness, auth
   }, [expanded]);
 
   useEffect(() => {
-    const loadCard = async () => {
-      try {
-        setCard(true); // loading state
-        const base = "http://localhost:3001";
-        if (id) {
-          const res = await fetch(`${base}/cards/${id}`);
-          const json = await res.json();
-          setCard(json.card);
-          console.log(`Le carte sono state caricate ${Chalk.green("correttamente")}.`);
-        } } catch (error) {
-        console.error(`Errore nel caricamento della carta: ${Chalk.red(error)}`);
-        setCard(null);
-      }
-    };
-    loadCard();
-  }, [id]);
+    if (!id) {
+      setCard(null);
+      return;
+    }
+
+    const timer = setTimeout(() => {
+      loadCard(id);
+    }, 1000);
+
+    return () => clearTimeout(timer);
+  }, [id, loadCard]);
 
   // display prende i dati dal fetch se disponibili, altrimenti usa le prop ricevute
   const display = (card && typeof card === 'object') ? card : {
@@ -185,7 +198,7 @@ function Card({ id, title, manaCost, category, description, powerToughness, auth
         aria-label="Aggiungi ai preferiti" 
         tabIndex={-1}>
 
-          <img src="/public/iconHeart.png" alt="Aggiungi ai preferiti" className="heartIcon"/>
+          <img src="/iconHeart.png" alt="Aggiungi ai preferiti" className="heartIcon"/>
         </button>
       </div>
     </>

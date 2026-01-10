@@ -1,5 +1,5 @@
-import { useState, useRef, useEffect } from "react";
-import Chalk from "chalk";
+import { useState, useRef, useEffect, useCallback } from "react";
+import chalk from "chalk";
 
 function Filter() {
   const [open, setOpen] = useState(false);
@@ -13,12 +13,10 @@ function Filter() {
   const [count, setCount] = useState(0);
   const countRef = useRef(null);
 
-  const handleSearchChange = (e) => {
-    const value = (e.target.value ?? e.target.textContent ?? "").toString();
-    setSearchValue(value);
-    console.log(`Hai cercato ${Chalk.green(value)} utilizzando ${Chalk.blue("la barra di ricerca generica")}`);
+  const searchTimerRef = useRef(null);
 
-    const search = value.toLowerCase().trim();
+  const applySearch = useCallback((rawValue) => {
+    const search = rawValue.toLowerCase().trim();
     const cards = document.querySelectorAll(".cards");
     cards.forEach((el) => {
       const text = (el.textContent || "").toLowerCase();
@@ -28,7 +26,21 @@ function Filter() {
         el.style.display = "none";
       }
     });
-  };
+  }, []);
+
+  const handleSearchChange = useCallback((e) => {
+    const value = (e.target.value ?? e.target.textContent ?? "").toString();
+    setSearchValue(value);
+
+    if (searchTimerRef.current) {
+      clearTimeout(searchTimerRef.current);
+    }
+
+    searchTimerRef.current = setTimeout(() => {
+      applySearch(value);
+      console.log(`Hai cercato: ${chalk.green(value)} utilizzando la ${chalk.blue("barra di ricerca generica")}`);
+    }, 1000);
+  }, [applySearch]);
 
   const options = [
     { value: "", label: "Tutte le categorie" },
@@ -64,6 +76,14 @@ function Filter() {
     }
     document.addEventListener("mousedown", onDoc);
     return () => document.removeEventListener("mousedown", onDoc);
+  }, []);
+
+  useEffect(() => {
+    return () => {
+      if (searchTimerRef.current) {
+        clearTimeout(searchTimerRef.current);
+      }
+    };
   }, []);
 
   return (
@@ -153,18 +173,18 @@ function Filter() {
         </div>
         <div>
           <div className="raritySymbols">
-            <img src="/public/rarity/comuns.png" alt="" />
-            <img src="/public/rarity/silver.png" alt="" />
-            <img src="/public/rarity/rare.png" alt="" />
-            <img src="/public/rarity/mitic.png" alt="" />
+            <img src="/rarity/comuns.png" alt="" />
+            <img src="/rarity/silver.png" alt="" />
+            <img src="/rarity/rare.png" alt="" />
+            <img src="/rarity/mitic.png" alt="" />
           </div>
           <div className="manaSymbols">
-            <img src="/public/mana/water.png" alt="" />
-            <img src="/public/mana/sun.png" alt="" />
-            <img src="/public/mana/mountains.png" alt="" />
-            <img src="/public/mana/swamp.png" alt="" />
-            <img src="/public/mana/three.png" alt="" />
-            <img src="/public/mana/nocolor.webp" alt="" />
+            <img src="/mana/water.png" alt="" />
+            <img src="/mana/sun.png" alt="" />
+            <img src="/mana/mountains.png" alt="" />
+            <img src="/mana/swamp.png" alt="" />
+            <img src="/mana/three.png" alt="" />
+            <img src="/mana/nocolor.webp" alt="" />
           </div>
         </div>
       </form>
