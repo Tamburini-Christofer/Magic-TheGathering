@@ -5,6 +5,7 @@ function Filter() {
   const [open, setOpen] = useState(false);
   const [category, setCategory] = useState("");
   const [catehorySelected, setCategorySelected] = useState("");
+  const [sort, setSort] = useState("");
   const [searchValue, setSearchValue] = useState("");
   const wrapRef = useRef(null);
 
@@ -47,25 +48,60 @@ function Filter() {
 
     searchTimerRef.current = setTimeout(() => {
       if (value === "") {
-        console.log("Ricerca vuota, nessun filtro applicato.");
+        console.log(`${chalk.yellow("La barra di ricerca generica è stata svuotata.")}`);
         applySearch("", catehorySelected);
         return;
       }
       applySearch(value, catehorySelected);
-      console.log("Hai cercato:", value, "utilizzando la barra di ricerca generica");
+      console.log(`Hai cercato: ${chalk.green(value)} utilizzando la ${chalk.blue("barra di ricerca generica")}`);
     }, 1000);
   }, [applySearch, catehorySelected]);
 
   const handleCategoryChange = useCallback((e) => {
     const value = (e.target.value ?? "").toString();
+    if(value === "") {
+      console.log(`${chalk.yellow("Il filtro categoria è stato resettato.")}`)
+      return;
+    }
     setCategorySelected(value);
     setCategory(value);
-    console.log(`Categoria selezionata: ${chalk.green(value)}`);
-
+    console.log(`Categoria selezionata: ${chalk.green(value)} usando ${chalk.blue("il filtro a tendina")}.`);
     filterCards(searchValue, value);
   }, [filterCards, searchValue]);
-  
 
+  const handleSortChange = useCallback((e) => {
+    const value = (e.target.value ?? "").toString();
+    if (value === "") {
+      console.log(`${chalk.yellow("Il filtro alfabetico è stato resettato.")}`);
+      setSortOrder("");
+      setSort("");
+      return;
+    }
+
+    setSortOrder(value);
+    setSort(value);
+    console.log(`Ordine di ordinamento selezionato: ${chalk.green(value)} usando ${chalk.blue("il filtro alfabetico")}.`);
+
+    const cards = Array.from(document.querySelectorAll(".cards"));
+    if (cards.length === 0) return;
+
+    const parent = cards[0].parentElement;
+    const sorted = cards.slice().sort((a, b) => {
+      const ta = (a.querySelector(".titleCard h4")?.textContent || "").toLowerCase();
+      const tb = (b.querySelector(".titleCard h4")?.textContent || "").toLowerCase();
+
+      if (value === "dalla z alla a") {
+        return tb.localeCompare(ta);
+      }
+      // default: dalla a alla z
+      return ta.localeCompare(tb);
+    });
+
+    sorted.forEach((cardEl) => {
+      parent.appendChild(cardEl);
+    });
+  }, []);
+  
   const options = [
     { value: "", label: "Tutte le categorie" },
     { value: "terra", label: "Terra" },
@@ -79,8 +115,9 @@ function Filter() {
   ];
 
   const sortOptions = [
-    { value: "az", label: "Dalla A alla Z" },
-    { value: "za", label: "Dalla Z alla A" },
+    { value: "", label: "Ordine alfabetico" },
+    { value: "dalla a alla z", label: "Dalla A alla Z" },
+    { value: "dalla z alla a", label: "Dalla Z alla A" },
   ];
 
   const currentLabel =
@@ -172,6 +209,7 @@ function Filter() {
                     onClick={() => {
                       setSortOrder(opt.value);
                       setOpenSort(false);
+                      handleSortChange({target: {value: opt.value}});
                     }}
                   >
                     {opt.label}
@@ -190,6 +228,7 @@ function Filter() {
                 onChange={(e) => {
                   const v = e.target.value;
                   setCount(v === "" ? 0 : parseInt(v, 10));
+                  
                 }}
                 aria-label="Costo mana"
                 min={0}
