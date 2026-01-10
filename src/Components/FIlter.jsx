@@ -6,6 +6,7 @@ function Filter() {
   const [category, setCategory] = useState("");
   const [catehorySelected, setCategorySelected] = useState("");
   const [sort, setSort] = useState("");
+  const [mana, setMana] = useState("");
   const [searchValue, setSearchValue] = useState("");
   const wrapRef = useRef(null);
 
@@ -16,27 +17,34 @@ function Filter() {
   const countRef = useRef(null);
 
   const searchTimerRef = useRef(null);
+  const manaTimerRef = useRef(null);
 
-  const filterCards = useCallback((searchTerm, categoryValue) => {
+  const filterCards = useCallback((searchTerm, categoryValue, manaValue) => {
     const search = (searchTerm || "").toLowerCase().trim();
     const categoryFilter = (categoryValue || "").toLowerCase().trim();
+    const manaFilter = manaValue === "" || manaValue === null ? null : Number(manaValue);
 
     const cards = document.querySelectorAll(".cards");
     cards.forEach((el) => {
       const text = (el.textContent || "").toLowerCase();
       const catNode = el.querySelector(".categoryCard h5");
       const catText = (catNode?.textContent || "").toLowerCase();
+      const manaNode = el.querySelector(".costMana");
+      const manaText = (manaNode?.textContent || "").toString().trim();
+      const manaNum = manaText === "" ? null : Number(manaText);
 
       const matchesSearch = !search || text.includes(search);
       const matchesCategory = !categoryFilter || catText.includes(categoryFilter);
+      const matchesMana =
+        manaFilter === null || (typeof manaNum === "number" && !Number.isNaN(manaNum) && manaNum === manaFilter);
 
-      el.style.display = matchesSearch && matchesCategory ? "" : "none";
+      el.style.display = matchesSearch && matchesCategory && matchesMana ? "" : "none";
     });
   }, []);
 
-  const applySearch = useCallback((rawValue, categoryValue) => {
-    filterCards(rawValue, categoryValue ?? catehorySelected);
-  }, [filterCards, catehorySelected]);
+  const applySearch = useCallback((rawValue, categoryValue, manaValue) => {
+    filterCards(rawValue, categoryValue ?? catehorySelected, manaValue ?? mana);
+  }, [filterCards, catehorySelected, mana]);
 
   const handleSearchChange = useCallback((e) => {
     const value = (e.target.value ?? e.target.textContent ?? "").toString();
@@ -48,14 +56,14 @@ function Filter() {
 
     searchTimerRef.current = setTimeout(() => {
       if (value === "") {
-        console.log(`${chalk.yellow("La barra di ricerca generica è stata svuotata.")}`);
-        applySearch("", catehorySelected);
+        console.log(`${chalk.yellow("Il filtro generico è stato resettato.")}`);
+        applySearch("", catehorySelected, mana);
         return;
       }
-      applySearch(value, catehorySelected);
+      applySearch(value, catehorySelected, mana);
       console.log(`Hai cercato: ${chalk.green(value)} utilizzando la ${chalk.blue("barra di ricerca generica")}`);
     }, 1000);
-  }, [applySearch, catehorySelected]);
+  }, [applySearch, catehorySelected, mana]);
 
   const handleCategoryChange = useCallback((e) => {
     const value = (e.target.value ?? "").toString();
@@ -65,9 +73,9 @@ function Filter() {
     }
     setCategorySelected(value);
     setCategory(value);
-    console.log(`Categoria selezionata: ${chalk.green(value)} usando ${chalk.blue("il filtro a tendina")}.`);
-    filterCards(searchValue, value);
-  }, [filterCards, searchValue]);
+    console.log(`Hai cercato la categoria ${chalk.green(value)} utilizzando ${chalk.blue("il filtro categoria")}.`);
+    filterCards(searchValue, value, mana);
+  }, [filterCards, searchValue, mana]);
 
   const handleSortChange = useCallback((e) => {
     const value = (e.target.value ?? "").toString();
@@ -77,7 +85,6 @@ function Filter() {
       setSort("");
       return;
     }
-
     setSortOrder(value);
     setSort(value);
     console.log(`Ordine di ordinamento selezionato: ${chalk.green(value)} usando ${chalk.blue("il filtro alfabetico")}.`);
@@ -101,6 +108,46 @@ function Filter() {
       parent.appendChild(cardEl);
     });
   }, []);
+
+  const handleManaChange = useCallback((e) => {
+    const raw = e.target.value;
+    setMana(raw);
+
+    if (manaTimerRef.current) {
+      clearTimeout(manaTimerRef.current);
+    }
+
+    manaTimerRef.current = setTimeout(() => {
+      // reset filtro mana se vuoto
+      if (raw === "") {
+        console.log(`${chalk.yellow("Il filtro costo mana è stato resettato.")}`);
+        filterCards(searchValue, catehorySelected, "");
+        return;
+      }
+
+      const value = Number(raw);
+      if (Number.isNaN(value)) {
+        filterCards(searchValue, catehorySelected, "");
+        return;
+      }
+
+      if (value > 15) {
+        console.log(`Hai cercato costo mana: ${chalk.green(value)} utilizzando il ${chalk.blue("filtro costo mana")}. Tuttavia i valori superiori a 15 potrebbero far parte di carte ${chalk.red("non ufficiali")}.`);
+        filterCards(searchValue, catehorySelected, value);
+        return;
+      }
+
+      if (value === 0) {
+        console.log(`Hai cercato costo mana: ${chalk.green(value)} utilizzando il ${chalk.blue("filtro costo mana")}. Molto probabilmente una terra.`);
+        filterCards(searchValue, catehorySelected, value);
+        return;
+      }
+
+      // 0 < value <= 15
+      console.log(`Hai cercato costo mana: ${chalk.green(value)} utilizzando il ${chalk.blue("filtro costo mana")}.`);
+      filterCards(searchValue, catehorySelected, value);
+    }, 500);
+  }, [filterCards, searchValue, catehorySelected]);
   
   const options = [
     { value: "", label: "Tutte le categorie" },
@@ -228,6 +275,7 @@ function Filter() {
                 onChange={(e) => {
                   const v = e.target.value;
                   setCount(v === "" ? 0 : parseInt(v, 10));
+                  handleManaChange(e);
                   
                 }}
                 aria-label="Costo mana"
