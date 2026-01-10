@@ -61,12 +61,7 @@ function Card({ id, title, manaCost, category, description, powerToughness, auth
       setCard(null);
       return;
     }
-
-    const timer = setTimeout(() => {
-      loadCard(id);
-    }, 1000);
-
-    return () => clearTimeout(timer);
+    loadCard(id);
   }, [id, loadCard]);
 
   // display prende i dati dal fetch se disponibili, altrimenti usa le prop ricevute
@@ -153,6 +148,18 @@ function Card({ id, title, manaCost, category, description, powerToughness, auth
           <div className="categoryCard">
             <h5>{display.category}</h5>
           </div>
+          {/* rarità nascosta, usata per il filtro tramite i simboli di rarità */}
+          {display.rarity && (
+            <span className="rarityHidden" style={{ display: "none" }}>
+              {display.rarity}
+            </span>
+          )}
+          {/* colore nascosto, usato per il filtro tramite i simboli di mana */}
+          {display.colors && (
+            <span className="colorHidden" style={{ display: "none" }}>
+              {display.colors}
+            </span>
+          )}
           <div className="descriptionCard">
             <p>
               {display.description}
@@ -202,6 +209,7 @@ function Card({ id, title, manaCost, category, description, powerToughness, auth
         </button>
       </div>
     </>
-  );
+  ); 
 }
+
 export default Card;

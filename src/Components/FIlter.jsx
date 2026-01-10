@@ -7,9 +7,9 @@ function Filter() {
   const [catehorySelected, setCategorySelected] = useState("");
   const [sort, setSort] = useState("");
   const [mana, setMana] = useState("");
+  const [colorFilter, setColorFilter] = useState("");
   const [searchValue, setSearchValue] = useState("");
   const wrapRef = useRef(null);
-
   const [openSort, setOpenSort] = useState(false);
   const [sortOrder, setSortOrder] = useState("az");
   const sortRef = useRef(null);
@@ -19,10 +19,11 @@ function Filter() {
   const searchTimerRef = useRef(null);
   const manaTimerRef = useRef(null);
 
-  const filterCards = useCallback((searchTerm, categoryValue, manaValue) => {
+  const filterCards = useCallback((searchTerm, categoryValue, manaValue, colorValue) => {
     const search = (searchTerm || "").toLowerCase().trim();
     const categoryFilter = (categoryValue || "").toLowerCase().trim();
     const manaFilter = manaValue === "" || manaValue === null ? null : Number(manaValue);
+    const colorFilterLocal = (colorValue || "").toLowerCase().trim();
 
     const cards = document.querySelectorAll(".cards");
     cards.forEach((el) => {
@@ -32,19 +33,27 @@ function Filter() {
       const manaNode = el.querySelector(".costMana");
       const manaText = (manaNode?.textContent || "").toString().trim();
       const manaNum = manaText === "" ? null : Number(manaText);
+      const colorNode = el.querySelector(".colorHidden");
+      const colorText = (colorNode?.textContent || "").toLowerCase();
 
       const matchesSearch = !search || text.includes(search);
       const matchesCategory = !categoryFilter || catText.includes(categoryFilter);
+      const matchesColor = !colorFilterLocal || colorText.includes(colorFilterLocal);
       const matchesMana =
         manaFilter === null || (typeof manaNum === "number" && !Number.isNaN(manaNum) && manaNum === manaFilter);
 
-      el.style.display = matchesSearch && matchesCategory && matchesMana ? "" : "none";
+      el.style.display = matchesSearch && matchesCategory && matchesMana && matchesColor ? "" : "none";
     });
   }, []);
 
-  const applySearch = useCallback((rawValue, categoryValue, manaValue) => {
-    filterCards(rawValue, categoryValue ?? catehorySelected, manaValue ?? mana);
-  }, [filterCards, catehorySelected, mana]);
+  const applySearch = useCallback((rawValue, categoryValue, manaValue, colorValue) => {
+    filterCards(
+      rawValue,
+      categoryValue ?? catehorySelected,
+      manaValue ?? mana,
+      colorValue ?? colorFilter
+    );
+  }, [filterCards, catehorySelected, mana, colorFilter]);
 
   const handleSearchChange = useCallback((e) => {
     const value = (e.target.value ?? e.target.textContent ?? "").toString();
@@ -57,13 +66,13 @@ function Filter() {
     searchTimerRef.current = setTimeout(() => {
       if (value === "") {
         console.log(`${chalk.yellow("Il filtro generico è stato resettato.")}`);
-        applySearch("", catehorySelected, mana);
+        applySearch("", catehorySelected, mana, colorFilter);
         return;
       }
-      applySearch(value, catehorySelected, mana);
+      applySearch(value, catehorySelected, mana, colorFilter);
       console.log(`Hai cercato: ${chalk.green(value)} utilizzando la ${chalk.blue("barra di ricerca generica")}`);
     }, 1000);
-  }, [applySearch, catehorySelected, mana]);
+  }, [applySearch, catehorySelected, mana, colorFilter]);
 
   const handleCategoryChange = useCallback((e) => {
     const value = (e.target.value ?? "").toString();
@@ -74,8 +83,8 @@ function Filter() {
     setCategorySelected(value);
     setCategory(value);
     console.log(`Hai cercato la categoria ${chalk.green(value)} utilizzando ${chalk.blue("il filtro categoria")}.`);
-    filterCards(searchValue, value, mana);
-  }, [filterCards, searchValue, mana]);
+    filterCards(searchValue, value, mana, colorFilter);
+  }, [filterCards, searchValue, mana, colorFilter]);
 
   const handleSortChange = useCallback((e) => {
     const value = (e.target.value ?? "").toString();
@@ -121,33 +130,59 @@ function Filter() {
       // reset filtro mana se vuoto
       if (raw === "") {
         console.log(`${chalk.yellow("Il filtro costo mana è stato resettato.")}`);
-        filterCards(searchValue, catehorySelected, "");
+        filterCards(searchValue, catehorySelected, "", colorFilter);
         return;
       }
 
       const value = Number(raw);
       if (Number.isNaN(value)) {
-        filterCards(searchValue, catehorySelected, "");
+        filterCards(searchValue, catehorySelected, "", colorFilter);
         return;
       }
 
       if (value > 15) {
         console.log(`Hai cercato costo mana: ${chalk.green(value)} utilizzando il ${chalk.blue("filtro costo mana")}. Tuttavia i valori superiori a 15 potrebbero far parte di carte ${chalk.red("non ufficiali")}.`);
-        filterCards(searchValue, catehorySelected, value);
+        filterCards(searchValue, catehorySelected, value, colorFilter);
         return;
       }
 
       if (value === 0) {
         console.log(`Hai cercato costo mana: ${chalk.green(value)} utilizzando il ${chalk.blue("filtro costo mana")}. Molto probabilmente una terra.`);
-        filterCards(searchValue, catehorySelected, value);
+        filterCards(searchValue, catehorySelected, value, colorFilter);
         return;
       }
 
       // 0 < value <= 15
       console.log(`Hai cercato costo mana: ${chalk.green(value)} utilizzando il ${chalk.blue("filtro costo mana")}.`);
-      filterCards(searchValue, catehorySelected, value);
+      filterCards(searchValue, catehorySelected, value, colorFilter);
     }, 500);
-  }, [filterCards, searchValue, catehorySelected]);
+  }, [filterCards, searchValue, catehorySelected, colorFilter]);
+ 
+  const handleRarityClick = useCallback((rarityValue) => {
+    const value = (rarityValue || "").toString().toLowerCase();
+    setSearchValue(value);
+    // quando filtro per rarità, azzero il filtro colore
+    setColorFilter("");
+    if (!value) {
+      console.log(`${chalk.yellow("Il filtro rarità è stato resettato.")}`);
+      applySearch("", catehorySelected, mana, "");
+      return;
+    }
+    console.log(`Hai filtrato per rarità: ${chalk.green(value)} usando ${chalk.blue("i simboli di rarità")}.`);
+    applySearch(value, catehorySelected, mana, "");
+  }, [applySearch, catehorySelected, mana]);
+ 
+  const handleManaSymbolClick = useCallback((colorValue) => {
+    const value = (colorValue || "").toString().toLowerCase();
+    setColorFilter(value);
+    if (!value) {
+      console.log(`${chalk.yellow("Il filtro colore mana è stato resettato.")}`);
+      applySearch("", catehorySelected, mana, "");
+      return;
+    }
+    console.log(`Hai filtrato per colore di mana: ${chalk.green(value)} usando ${chalk.blue("i simboli di mana")}.`);
+    applySearch("", catehorySelected, mana, value);
+  }, [applySearch, catehorySelected, mana]);
   
   const options = [
     { value: "", label: "Tutte le categorie" },
@@ -286,18 +321,18 @@ function Filter() {
         </div>
         <div>
           <div className="raritySymbols">
-            <img src="/rarity/comuns.png" alt="" />
-            <img src="/rarity/silver.png" alt="" />
-            <img src="/rarity/rare.png" alt="" />
-            <img src="/rarity/mitic.png" alt="" />
+            <img src="/rarity/comuns.png" alt="Comuni" onClick={() => handleRarityClick("comune")} />
+            <img src="/rarity/silver.png" alt="Non comuni" onClick={() => handleRarityClick("non comune")} />
+            <img src="/rarity/rare.png" alt="Rare" onClick={() => handleRarityClick("rara")} />
+            <img src="/rarity/mitic.png" alt="Mitiche" onClick={() => handleRarityClick("mitica")} />
           </div>
           <div className="manaSymbols">
-            <img src="/mana/water.png" alt="" />
-            <img src="/mana/sun.png" alt="" />
-            <img src="/mana/mountains.png" alt="" />
-            <img src="/mana/swamp.png" alt="" />
-            <img src="/mana/three.png" alt="" />
-            <img src="/mana/nocolor.webp" alt="" />
+            <img src="/mana/water.png" alt="Blu" onClick={() => handleManaSymbolClick("blu")} />
+            <img src="/mana/sun.png" alt="Bianco" onClick={() => handleManaSymbolClick("bianco")} />
+            <img src="/mana/mountains.png" alt="Rosso" onClick={() => handleManaSymbolClick("rosso")} />
+            <img src="/mana/swamp.png" alt="Nero" onClick={() => handleManaSymbolClick("nero")} />
+            <img src="/mana/three.png" alt="Verde" onClick={() => handleManaSymbolClick("verde")} />
+            <img src="/mana/nocolor.webp" alt="Incolore" onClick={() => handleManaSymbolClick("incolore")} />
           </div>
         </div>
       </form>
