@@ -88,7 +88,14 @@ const Preferiti = () => {
   function handleClear() {
     if (!confirm("Vuoi svuotare tutte le carte preferite?")) return;                       //todo conferma l'azione di svuotamento preferiti     
     clearFavorites();
-    setList([]);
+    setList([]);                                                                            //* svuota la lista locale
+    setDraggedId(null);                                                                    //* nessuna carta in drag
+    setLeftSlotId(null);                                                                   //* svuota slot sinistro di confronto
+    setRightSlotId(null);                                                                  //* svuota slot destro di confronto
+    setLeftCardData(null);                                                                 //* rimuove dati carta sinistra
+    setRightCardData(null);                                                                //* rimuove dati carta destra
+    setAllCardData({});                                                                    //* azzera dati globali per statistiche
+    window.dispatchEvent(new CustomEvent("favoritesChanged"));                            //* notifica le altre parti dell'app (es. NavBar)
   }
 
   // calcola differenze per i due slot (sinistra - destra)

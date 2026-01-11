@@ -3,14 +3,65 @@ import { useState, useEffect } from "react";
 
 console.log(`Benvenuto nella mia pagina personale di ${chalk.yellow("Magic: The Gathering")}, mio amico ${chalk.yellow("Placewalker")}`);
 
+const heroSlides = [
+  {
+    id: "lorwyn",
+    headline: "The Lord of The Rings",
+    kicker: "Nuova espansione",
+    tagline:
+      "Scopri la nuova espansione ispirata al leggendario mondo di Tolkien, con oltre 280 carte uniche e potenti.",
+    background: "/public/Sfondi/sfondoCaroselloTlotr.jpg",
+    primaryCta: "INFORMAZIONI",
+    secondaryCta: "PREORDINA SUBITO",
+    hasOverlay: false,
+  },
+  {
+    id: "torneo",
+    headline: "Magic World Championship 2026",
+    kicker: "Ospite speciale: Augusto: il maestro",
+    tagline:
+      "Partecipa al prossimo grande torneo e dimostra di essere il planeswalker più forte del multiverso.",
+    background: "/public/Sfondi/wordChampions.webp",
+    primaryCta: "SCOPRI I TORNEI",
+    secondaryCta: "ISCRIVITI ORA",
+    hasOverlay: false,
+  },
+  {
+    id: "arena",
+    headline: "Gioca subito su Arena",
+    kicker: "Gioca online",
+    tagline:
+      "Costruisci i tuoi mazzi, affronta amici e sfidanti da tutto il mondo e tieni il passo con tutte le uscite.",
+    background: "/public/Sfondi/sfondoCaroselloArena .jpg",
+    primaryCta: "PRENOTA ORA",
+    secondaryCta: "SCOPRI DI PIÙ",
+    hasOverlay: false,
+  },
+    {
+    id: "SuperClassName",
+    headline: "Super Class Name 148",
+    kicker: "Nuova Espansione",
+    tagline:
+      "Scopri la nuova espansione ispirata alla leggendaria saga di Super Class Name, con oltre 280 carte uniche e potenti.",
+    background: "/public/104Edition/Pack.png",
+    primaryCta: "PRENOTA ORA",
+    secondaryCta: "SCOPRI DI PIÙ",
+    hasOverlay: true,
+  },
+];
+
 const HomePage = () => {
+  const [currentIndex, setCurrentIndex] = useState(0);
   const [isOverlayOpen, setIsOverlayOpen] = useState(false);
   const [videoFile, setVideoFile] = useState(null);
   const [videoUrl, setVideoUrl] = useState(null);
 
+  const currentSlide = heroSlides[currentIndex];
+  const lotrSlide = heroSlides.find((s) => s.id === "lorwyn");
+
   useEffect(() => {
     if (!videoFile) {
-      return;
+      return undefined;
     }
 
     const url = URL.createObjectURL(videoFile);
@@ -18,6 +69,13 @@ const HomePage = () => {
 
     return () => URL.revokeObjectURL(url);
   }, [videoFile]);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentIndex((prev) => (prev + 1) % heroSlides.length);
+    }, 20000);
+    return () => clearInterval(timer);
+  }, []);
 
   const handleOpenOverlay = () => {
     setIsOverlayOpen(true);
@@ -34,35 +92,98 @@ const HomePage = () => {
     }
   };
 
+  const goToSlide = (index) => {
+    if (index < 0) {
+      setCurrentIndex(heroSlides.length - 1);
+      return;
+    }
+    if (index >= heroSlides.length) {
+      setCurrentIndex(0);
+      return;
+    }
+    setCurrentIndex(index);
+  };
+
   return (
     <>
-      <div className="hero">
-        <div className="novita" onClick={handleOpenOverlay}>
-          <img src="/public/Screenshot 2026-01-11 041049.png" alt="Vampiri" />
-          <div className="testo-novita">
-            <h2>Novità in arrivo!</h2>
-            <p>
-              Scopri il nuovo set <br /> <strong className="goldStrong">"SuperClassName148"</strong>
-            </p>
-            <p>Scegli la tua fazione e combatti per il destino del nostro paese</p>
+      <div
+        className="hero"
+        style={{ backgroundImage: `url('${currentSlide.background}')` }}
+      >
+        <div className="heroOverlayGradient" />
+
+        <div className="heroContentWrap">
+          <div className="heroTextBlock">
+            <p className="heroKicker">{currentSlide.kicker}</p>
+            <h1 className="heroTitle">{currentSlide.headline}</h1>
+            <p className="heroTagline">{currentSlide.tagline}</p>
+
+            <div className="heroButtons">
+              <button
+                type="button"
+                className="heroBtn heroBtnPrimary"
+                onClick={() => {
+                  // per tutte le slide il primario avanza il carosello
+                  goToSlide((currentIndex + 1) % heroSlides.length);
+                }}
+              >
+                {currentSlide.primaryCta}
+              </button>
+              <button
+                type="button"
+                className="heroBtn heroBtnSecondary"
+                onClick={() => {
+                  // l'overlay "Il Signore degli Anelli" si apre solo su "SCOPRI DI PIÙ" di Super Class Name 148
+                  if (currentSlide.id === "SuperClassName") {
+                    handleOpenOverlay();
+                    return;
+                  }
+                  goToSlide((currentIndex + 1) % heroSlides.length);
+                }}
+              >
+                {currentSlide.secondaryCta}
+              </button>
+            </div>
           </div>
         </div>
-        <div className="novita secondaria">
-          <img src="/public/torneo.jpg" alt="Vampiri" />
-          <div className="testo-novita">
-            <h2>Prossimo torneo</h2>
-            <p>
-              Non perderti il prossimo torneo
-              <br /> <strong className="goldStrong">"Magic Word Champion 2026"</strong>
-            </p>
-            <p>
-              Ospite speciale: <strong className="goldStrong">John Doe</strong>
-            </p>
-          </div>
+
+        <div className="heroDots">
+          {heroSlides.map((slide, index) => (
+            <button
+              key={slide.id}
+              type="button"
+              className={
+                index === currentIndex
+                  ? "heroDot heroDot--active"
+                  : "heroDot"
+              }
+              onClick={() => goToSlide(index)}
+              aria-label={`Vai alla slide ${index + 1}`}
+            />
+          ))}
+        </div>
+
+        <div className="heroArrows">
+          <button
+            type="button"
+            className="heroArrowBtn"
+            onClick={() => goToSlide(currentIndex - 1)}
+            aria-label="Slide precedente"
+          >
+            ←
+          </button>
+          <button
+            type="button"
+            className="heroArrowBtn"
+            onClick={() => goToSlide(currentIndex + 1)}
+            aria-label="Slide successiva"
+          >
+            →
+          </button>
         </div>
       </div>
 
-      {isOverlayOpen && (
+      {isOverlayOpen && lotrSlide && (
         <div className="novita-overlay" onClick={handleCloseOverlay}>
           <div className="novita-overlay-content" onClick={(e) => e.stopPropagation()}>
             <button className="novita-overlay-close" type="button" onClick={handleCloseOverlay}>
@@ -70,28 +191,47 @@ const HomePage = () => {
             </button>
 
             <div className="novita-overlay-left">
-              <label className="novita-upload-area">
-  
-              </label>
-              {videoUrl && (
-                <video className="novita-video-preview" src={videoUrl} controls />
-              )}
+              <img
+                src="/public/104Edition/8dd788e7-55ed-41ad-b306-678ce4d94965.png"
+                alt="Booster Super Class Name 148"
+                className="imgExp"
+              />
             </div>
 
             <div className="novita-overlay-right">
-              <h2>Nuovo set: SuperClassName148!</h2>
+              <h2>Super Class Name 148: l'assedio del Colosseo</h2>
               <p>
-                Sceglierai di unirti a CarcolaMan e difendere Roma o sceglierai Tankboy per distruggerla?
+                Una nuova espansione ad alto impatto, ispirata all'evento cult Super Class
+                Name 148: gladiatori, leggende urbane e magie proibite che scuotono le
+                fondamenta di Roma.
               </p>
               <ul>
-                <li>Data di uscita: <strong style={{color: "var(--Gold)"}}>Primavera 2026</strong></li>
-                <li>Oltre <strong style={{color: "var(--Gold)"}}>280 carte</strong> ognuna inedita</li>
-                <li><strong style={{color: "var(--Gold)"}}>+ di 20 nuovi PlaneWalker</strong></li>
-                <li>Formato: <strong style={{color: "var(--Gold)"}}>Standard, Draft, Sealed</strong></li>
+                <li>
+                  Data di uscita: <strong style={{ color: "var(--Gold)" }}>Primavera 2026</strong>
+                </li>
+                <li>
+                  Oltre <strong style={{ color: "var(--Gold)" }}>280 carte</strong> ognuna inedita
+                </li>
+                <li>
+                  <strong style={{ color: "var(--Gold)" }}>+ di 20 nuovi Planeswalker</strong>
+                </li>
+                <li>
+                  Formato: <strong style={{ color: "var(--Gold)" }}>Standard, Draft, Sealed</strong>
+                </li>
               </ul>
               <p>
-                Scegli la tua fazione, costruisci il tuo mazzo e preparati alla battaglia definitiva.
+                Scegli la tua fazione tra guardiani del Colosseo e invasori dimensionali,
+                costruisci il tuo mazzo tematico e preparati alla battaglia definitiva sotto
+                le luci della città eterna.
               </p>
+              <div className="novita-overlay-ctaRow">
+                <button type="button" className="heroBtn heroBtnPrimary novita-overlay-btn">
+                  Preordina il bundle
+                </button>
+                <button type="button" className="heroBtn heroBtnSecondary novita-overlay-btn">
+                  Guarda le prime carte
+                </button>
+              </div>
             </div>
           </div>
         </div>

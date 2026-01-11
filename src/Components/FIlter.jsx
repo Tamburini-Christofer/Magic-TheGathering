@@ -4,7 +4,7 @@ import chalk from "chalk";
 //!
 
 //! Inizio funzione Filter
-function Filter({ onSfondoChange }) {
+function Filter({ onSfondoChange, onResultsChange }) {
 
   //! Definizione degli stati e dei riferimenti
   //? Riferimenti per i timer di ricerca e costo mana
@@ -32,7 +32,8 @@ function Filter({ onSfondoChange }) {
 
   //? Stato per il filtro colore mana e costo
   const [colorFilter, setColorFilter] = useState("");                                          //* stato per il filtro colore mana selezionato
-  const [count, setCount] = useState(0);                                                       //* stato per il valore numerico del costo mana
+  const [count, setCount] = useState("");                                                     //* stato per il valore numerico del costo mana (mostrato nell'input)
+  const [rarityFilter, setRarityFilter] = useState("");                                      //* stato per il filtro rarità selezionato
   const [selectedRarityIcon, setSelectedRarityIcon] = useState("");                           //* rarità selezionata tramite icona
   const [selectedManaIcon, setSelectedManaIcon] = useState("");                               //* colore mana selezionato tramite icona
   //!
@@ -43,7 +44,10 @@ function Filter({ onSfondoChange }) {
     const categoryFilter = (categoryValue || "").toLowerCase().trim();                        //* filtro categoria converte in minuscolo e toglie gli spazi            
     const manaFilter = manaValue === "" || manaValue === null ? null : Number(manaValue);     //* filtro mana converte in numero o null se vuoto
     const colorFilterLocal = (colorValue || "").toLowerCase().trim();                         //* filtro colore converte in minuscolo e toglie gli spazi  
-    const cards = document.querySelectorAll(".cards");                                        //* seleziona tutte le carte presenti nel DOM     
+    const rarityFilterLocal = (rarityFilter || "").toLowerCase().trim();                      //* filtro rarità converte in minuscolo e toglie gli spazi
+    const container = document.querySelector(".cardsContainer");                              //* contenitore principale delle carte nella pagina "tutte le carte" 
+    const cards = container ? container.querySelectorAll(".cards") : [];                     //* seleziona solo le carte di quella lista    
+    let visible = 0;                                                                           //* contatore carte visibili dopo il filtro
     cards.forEach((el) => {
       const text = (el.textContent || "").toLowerCase();                                      //* testo completo della carta in minuscolo
       const catNode = el.querySelector(".categoryCard h5");                                   //* nodo categoria della carta
@@ -53,14 +57,22 @@ function Filter({ onSfondoChange }) {
       const manaNum = manaText === "" ? null : Number(manaText);                              //* costo mana convertito in numero o null se vuoto
       const colorNode = el.querySelector(".colorHidden");                                     //* nodo colore della carta 
       const colorText = (colorNode?.textContent || "").toLowerCase();                         //* testo colore in minuscolo
+      const rarityNode = el.querySelector(".rarityHidden");                                   //* nodo rarità della carta
+      const rarityText = (rarityNode?.textContent || "").toLowerCase();                       //* testo rarità in minuscolo
       const matchesSearch = !search || text.includes(search);                                 //* verifica se il testo della carta include il termine di ricerca
       const matchesCategory = !categoryFilter || catText.includes(categoryFilter);            //* verifica se la categoria della carta include il filtro categoria
       const matchesColor = !colorFilterLocal || colorText.includes(colorFilterLocal);         //* verifica se il colore della carta include il filtro colore
+      const matchesRarity = !rarityFilterLocal || rarityText.includes(rarityFilterLocal);     //* verifica se la rarità della carta include il filtro rarità
       const matchesMana =
         manaFilter === null || (typeof manaNum === "number" && !Number.isNaN(manaNum) && manaNum === manaFilter);
-      el.style.display = matchesSearch && matchesCategory && matchesMana && matchesColor ? "" : "none";
+      const isVisible = matchesSearch && matchesCategory && matchesMana && matchesColor && matchesRarity;
+      el.style.display = isVisible ? "" : "none";
+      if (isVisible) visible += 1;
     });
-  }, []);  
+    if (typeof onResultsChange === "function") {
+      onResultsChange(visible);
+    }
+  }, [onResultsChange, rarityFilter]);  
   //!                                                                                         //* Esegui una volta sola
 
   //! Funzioni di gestione degli eventi
@@ -88,6 +100,7 @@ function Filter({ onSfondoChange }) {
     setSortOrder("");
     setMana("");
     setColorFilter("");
+    setRarityFilter("");
     setCount(0);
     setSelectedRarityIcon("");
     setSelectedManaIcon("");
@@ -127,6 +140,10 @@ function Filter({ onSfondoChange }) {
     const value = (e.target.value ?? "").toString();
     if(value === "") {
       console.log(`${chalk.yellow("Il filtro categoria è stato resettato.")}`);                                       //todo Console Log di reset filtro categoria
+      setCategorySelected("");
+      setCategory("");
+      // nessuna categoria selezionata => mostra tutte le carte correnti rispettando gli altri filtri
+      filterCards(searchValue, "", mana, colorFilter);
       return;
     }
     setCategorySelected(value);
@@ -144,13 +161,35 @@ function Filter({ onSfondoChange }) {
       console.log(`${chalk.yellow("Il filtro alfabetico è stato resettato.")}`);                                      //todo Console Log di reset filtro alfabetico
       setSortOrder("");
       setSort("");
+      // nessun ordine specifico => ripristina l'ordine originale delle carte
+      const container = document.querySelector(".cardsContainer");
+      const cards = container ? Array.from(container.querySelectorAll(".cards")) : [];
+      if (cards.length > 0) {
+        const sortedByOriginal = cards.slice().sort((a, b) => {
+          const aIndex = Number(a.dataset.originalIndex ?? 0);
+          const bIndex = Number(b.dataset.originalIndex ?? 0);
+          return aIndex - bIndex;
+        });
+        sortedByOriginal.forEach((cardEl) => {
+          container.appendChild(cardEl);
+        });
+      }
+      // e riapplica la visibilità in base agli altri filtri attivi
+      filterCards(searchValue, catehorySelected, mana, colorFilter);
       return;
     }
     setSortOrder(value);
     setSort(value);
     console.log(`Ordine di ordinamento selezionato: ${chalk.green(value)} usando ${chalk.blue("il filtro alfabetico")}.`); //* Console Log di ricerca filtro alfabetico
-    const cards = Array.from(document.querySelectorAll(".cards"));
+    const container = document.querySelector(".cardsContainer");
+    const cards = container ? Array.from(container.querySelectorAll(".cards")) : [];
     if (cards.length === 0) return;
+    // alla prima applicazione del sort, salva la posizione originale di ogni carta
+    cards.forEach((cardEl, index) => {
+      if (typeof cardEl.dataset.originalIndex === "undefined") {
+        cardEl.dataset.originalIndex = String(index);
+      }
+    });
     const parent = cards[0].parentElement;
     const sorted = cards.slice().sort((a, b) => {
       const ta = (a.querySelector(".titleCard h4")?.textContent || "").toLowerCase();
@@ -163,7 +202,7 @@ function Filter({ onSfondoChange }) {
     sorted.forEach((cardEl) => {
       parent.appendChild(cardEl);
     });
-  }, []);
+  }, [catehorySelected, colorFilter, filterCards, mana, searchValue]);
   //*
   //!
 
@@ -212,17 +251,17 @@ function Filter({ onSfondoChange }) {
   const handleRarityClick = useCallback((rarityValue) => {
     const value = (rarityValue || "").toString().toLowerCase();
     setSelectedRarityIcon(value);
-    setSelectedManaIcon("");
-    // quando filtro per rarità, azzero il filtro colore
-    setColorFilter("");
+    setRarityFilter(value);
     if (!value) {
       console.log(`${chalk.yellow("Il filtro rarità è stato resettato.")}`);                                              //todo Console Log di reset filtro rarità
-      applySearch("", catehorySelected, mana, "");
+      // nessuna rarità selezionata: applica gli altri filtri correnti
+      filterCards(searchValue, catehorySelected, mana, colorFilter);
       return;
     }
     console.log(`Hai filtrato per rarità: ${chalk.green(value)} usando ${chalk.blue("i simboli di rarità")}.`);           //* Console Log di ricerca filtro rarità
-    applySearch(value, catehorySelected, mana, "");
-  }, [applySearch, catehorySelected, mana]);
+    // applica il filtro combinato: ricerca, categoria, mana, colore e rarità
+    filterCards(searchValue, catehorySelected, mana, colorFilter);
+  }, [catehorySelected, colorFilter, filterCards, mana, searchValue]);
   //*
  
   //* Gestore del clic sui simboli di colore mana
@@ -231,7 +270,6 @@ function Filter({ onSfondoChange }) {
     const value = (colorValue || "").toString().toLowerCase();
     setColorFilter(value);
     setSelectedManaIcon(value);
-    setSelectedRarityIcon("");
 
     // aggiorna lo sfondo del contenitore destro in base al colore selezionato
     if (onSfondoChange) {
@@ -267,12 +305,14 @@ function Filter({ onSfondoChange }) {
 
     if (!value) {
       console.log(`${chalk.yellow("Il filtro colore mana è stato resettato.")}`);                                          //todo Console Log di reset filtro colore mana
-      applySearch("", catehorySelected, mana, "");
+      // nessun colore selezionato: applica gli altri filtri correnti (compresa la rarità)
+      filterCards(searchValue, catehorySelected, mana, "");
       return;
     }
     console.log(`Hai filtrato per colore di mana: ${chalk.green(value)} usando ${chalk.blue("i simboli di mana")}.`);      //* Console Log di ricerca filtro colore mana
-    applySearch("", catehorySelected, mana, value);
-  }, [applySearch, catehorySelected, mana, onSfondoChange]);
+    // applica il filtro combinato: ricerca, categoria, mana, colore e rarità
+    filterCards(searchValue, catehorySelected, mana, value);
+  }, [catehorySelected, filterCards, mana, onSfondoChange, searchValue]);
   //*
   //!
   
@@ -429,7 +469,7 @@ function Filter({ onSfondoChange }) {
                 value={count}
                 onChange={(e) => {
                   const v = e.target.value;
-                  setCount(v === "" ? 0 : parseInt(v, 10));
+                  setCount(v);
                   handleManaChange(e);
                   
                 }}

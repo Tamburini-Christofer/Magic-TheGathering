@@ -7,6 +7,8 @@ import { toggleFavorite, isFavorite } from "../utils/favorites";
 //! Definizione del componente Carte per visualizzare tutte le carte con filtro
 const Carte = () => {
   const [cards, setCards] = useState([]);
+  const [visibleCount, setVisibleCount] = useState(0);                                        //* numero di carte attualmente visibili dopo i filtri
+  const [isLoading, setIsLoading] = useState(true);                                           //* stato di caricamento iniziale delle carte
   const [sfondoClasse, setSfondoClasse] = useState("");
   const [selectedCard, setSelectedCard] = useState(null);
   const [selectedIsFav, setSelectedIsFav] = useState(false);
@@ -16,10 +18,15 @@ const Carte = () => {
       try {
         const res = await fetch("http://localhost:3001/cards");
         const json = await res.json();
-        setCards(Array.isArray(json) ? json : []);
+        const list = Array.isArray(json) ? json : [];
+        setCards(list);
+        setVisibleCount(list.length);                                                         //* inizialmente sono tutte visibili
+        setIsLoading(false);
       } catch (e) {
         console.error("Errore caricamento cards:", e);
         setCards([]);
+        setVisibleCount(0);
+        setIsLoading(false);
       }
     };
     load();
@@ -49,11 +56,14 @@ const Carte = () => {
     <>
       <div className="contenitoreCard">
         <div className="contenitoreCardSx">
-          <Filter onSfondoChange={setSfondoClasse} />
+          <Filter onSfondoChange={setSfondoClasse} onResultsChange={setVisibleCount} />
         </div>
         <div className={`contenitoreCardDx ${sfondoClasse}`.trim()}>
           <div className="cardsContainer">
-            {cards.length === 0 && <p>Caricamento...</p>}
+            {isLoading && <p>Caricamento...</p>}
+            {!isLoading && visibleCount === 0 && (
+              <p className="noResultsMessage">Nessuna carta trovata</p>
+            )}
             {cards.map((c) => (
               <Card
                 key={c.id}

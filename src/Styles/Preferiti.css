@@ -132,7 +132,7 @@
 .ContCardsPref {
     display: grid;
     grid-template-columns: repeat(5, 173px);
-    grid-template-rows: repeat(20, 67px);
+    grid-template-rows: repeat(20, 66px);
     width: 61%;
     height: 75%;
     padding: 109px 0px 0 190px;
@@ -212,10 +212,10 @@ position: absolute;
     left: 0%;
     width: 260px;
     background: rgba(0, 0, 0, 0.7);
-    border-right: 2px solid var(--Gold);
+    border: 2px solid var(--Gold);
+    border-radius: 0 0 5px 5px;
     padding: 20px 0px 20px 20px;
     color: #fff;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.8);
     font-size: 12px;
 }
 
