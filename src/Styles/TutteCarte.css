@@ -406,3 +406,195 @@
     padding: 95px 10px;
     overflow-y: auto;
 }
+
+/*? Overlay dettaglio carta */
+.card-detail-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 20000;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(10px);
+}
+
+.card-detail-overlay-content {
+    position: relative;
+
+    display: flex;
+    gap: 32px;
+
+    width: 100%;
+    height: 100%;
+
+    padding: 32px 40px;
+
+    background-color: rgba(10, 10, 10, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    box-shadow: 0 28px 90px rgba(0, 0, 0, 0.9);
+    overflow: hidden;
+}
+
+.card-detail-overlay-close {
+    position: absolute;
+    top: 14px;
+    right: 18px;
+
+    background: transparent;
+    border: none;
+    color: #fff;
+    font-size: 22px;
+    cursor: pointer;
+}
+
+.card-detail-left,
+.card-detail-right {
+    flex: 1;
+}
+
+.card-detail-right {
+    position: absolute;
+    top: 15%;
+    right: 40%;
+}
+
+
+.card-detail-left {
+    position: relative;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
+    padding: 100px 20px;
+}
+
+.card-detail-title {
+    position: absolute;
+    right: 62%;
+    font-family: "Cinzel Decorative", serif;
+    font-size: 26px;
+    color: var(--Gold);
+}
+
+.card-detail-info p {
+    margin: 4px 0;
+    line-height: 1.8;
+}
+
+.card-detail-fav-btn {
+    position: absolute;
+    align-self: flex-start;
+
+    top: 71%;
+    left: 64%;
+
+    margin-top: 12px;
+    padding: 10px 18px;
+
+    background: linear-gradient(180deg, rgba(150, 10, 0, 0.95), rgba(206, 0, 0, 0.7));
+    color: #fff;
+    border: 1px solid var(--Gold);
+    border-radius: 999px;
+    cursor: pointer;
+
+    font-size: 14px;
+    letter-spacing: 0.5px;
+
+    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.7);
+}
+
+.card-detail-fav-btn.active {
+    background-color: red;
+}
+
+.card-detail-right {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.card-overlay-card {
+    transform: scale(1.15);
+}
+
+.dettMana{
+    position: absolute;
+    top: 8%;
+    left: 64%;
+}
+.dettRarita{
+    position: absolute;
+    top: 42%;
+    left: 68%;
+    width: 30%;
+}
+.dettDescrizione{
+    position: absolute;
+    top: 74%;
+    left: 4%;
+    width: 38%;
+}
+.dettTipologia{
+    position: absolute;
+    top: 40%;
+    right:62%;
+    text-align: end;
+    width: 50%;
+}
+.dettForzaDifesa{
+    position: absolute;
+    top: 75%;
+    left: 70%;
+    width: 20%;
+    text-align: end;
+}
+
+
+@media (max-width: 1000px) {
+    .card-detail-overlay-content {
+        flex-direction: column-reverse;
+        max-height: 90vh;
+    }
+
+    .card-overlay-card {
+        transform: scale(1);
+    }
+}
+
+/*? Icone mana inline nell'overlay */
+.mana-inline-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-right: 8px;
+}
+
+.mana-icon-inline {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+}
+
+/*? Icona rarità inline nell'overlay */
+.rarity-inline-item {
+    display: inline-flex;
+    align-items: center;
+    margin-left: 8px;
+}
+
+.rarity-icon-inline {
+    width: 22px;
+    height: 22px;
+    margin-right: 6px;
+}
+
+/*? Costo mana nell'overlay (riuso stile carta) */
+.card-detail-info .costMana {
+    margin-left: 8px;
+}

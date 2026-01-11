@@ -4,7 +4,23 @@ import { toggleFavorite, isFavorite } from "../utils/favorites";
 import Calck from "chalk";
 
 //! Componente Card per visualizzare le informazioni di una carta
-function Card({ id, title, manaCost, category, description, powerToughness, author, copyright, imageUrl, className, forceFavActive, draggableProps }) {
+function Card({
+  id,
+  title,
+  manaCost,
+  category,
+  description,
+  powerToughness,
+  author,
+  copyright,
+  imageUrl,
+  className,
+  forceFavActive,
+  draggableProps,
+  onCardClick,
+  onDataLoaded,
+  compareDiff,
+}) {
 
   //! Definizione degli stati e dei riferimenti
   const [isFavorited, setIsFavorited] = useState(false);                                                        //* Stato per indicare se la carta è nei preferiti
@@ -50,10 +66,14 @@ function Card({ id, title, manaCost, category, description, powerToughness, auth
   };
   //!
 
-  //! Gestione dell'espansione della carta al click esterno
+  //! Gestione del click sulla carta (espansione o callback esterna)
   const handleContainerClick = (e) => {
     if (e.target.closest('button') || e.target.closest('a')) return;
-    setExpanded(v => !v);
+    if (typeof onCardClick === "function") {
+      onCardClick(display);
+      return;
+    }
+    setExpanded((v) => !v);
   };
   //!
 
@@ -103,6 +123,28 @@ function Card({ id, title, manaCost, category, description, powerToughness, auth
     set: copyright
   };
   //?
+
+  //! Espone i dati della carta al parent (se richiesto)
+  useEffect(() => {
+    if (typeof onDataLoaded === 'function' && display && typeof display === 'object') {
+      const safeNumber = (val) => {
+        if (val === null || typeof val === 'undefined') return null;
+        const n = Number(val);
+        return Number.isNaN(n) ? null : n;
+      };
+      onDataLoaded({
+        id: display.id,
+        title: display.title,
+        manaCost: display.manaCost,
+        power: safeNumber(display.power),
+        toughness: safeNumber(display.toughness),
+        rarity: display.rarity || null,
+        category: display.category || null,
+        colors: display.colors || display.color || null,
+      });
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [display?.id, display?.title, display?.manaCost, display?.power, display?.toughness, display?.rarity, display?.category, display?.colors, display?.color]);
 
   //? determina automaticamente la classe 'terra' da applicare basata sulla categoria
 
@@ -198,7 +240,9 @@ function Card({ id, title, manaCost, category, description, powerToughness, auth
         <div className="sopraSfondo">
           <div className="titleCard">
             <h4>{display.title}</h4>
-            <div className="costMana">{display.manaCost}</div>
+            <div className="costMana">
+              {display.manaCost}
+            </div>
           </div>
           <div className="imgCard">
             <img src={display.imageUrl} alt={display.title} />
@@ -273,7 +317,7 @@ function Card({ id, title, manaCost, category, description, powerToughness, auth
 
                 if (!showPower && !showToughness) return null;
 
-                //todo altrimenti ritorna il JSX con i valori
+                //todo altrimenti ritorna il JSX con i soli valori di forza/difesa
 
                 return (
                   <div className="forzaCard">

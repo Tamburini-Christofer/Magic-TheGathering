@@ -73,8 +73,8 @@
   display: inline-block;
 
   position: absolute;
-  right: 80%;
-  top: 9.4%;
+  right: 12%;
+  top: 80.4%;
   font-size: 16px;
   text-align: right;
 
@@ -83,8 +83,8 @@
 
 .btn {
   position: absolute;
-  left: 5%;
-  top: 14%;
+  left: 91%;
+  top: 85%;
 
   font-weight: 700;
 
@@ -126,17 +126,18 @@
   font-size: 24px;
   font-weight: 700;
   text-align: center;
-
   margin-top: 30vh;
 }
 
 .ContCardsPref {
-  display: grid;
-  grid-template-columns: repeat(12, 6%);
-  grid-template-rows: repeat(4, 12%);
-  width: 40%;
-  height: 96%;
-  margin: 1%;
+    display: grid;
+    grid-template-columns: repeat(5, 208px);
+    grid-template-rows: repeat(9, 38px);
+    width: 42%;
+    height: 75%;
+    padding: 130px 20px 0 20px;
+    justify-items: center;
+    align-items: center;
 }
 
 .cardPreferitiDraggable {
@@ -154,31 +155,29 @@
 }
 
 .cardPreferitiCont {
-  transform: scale(0.4);
+  transform: scale(0.5);
   position: relative;
   transition: 1000ms ease;
 }
 
 .cardPreferitiCont:hover {
   cursor: pointer;
-  transform: translateY(-22px) scale(0.4);
+  transform: translateY(-40px) scale(0.5);
   box-shadow: 0px 30px 65px 5px rgba(0, 2, 0, 35);
 }
 
 .compareArea {
-  position: absolute;
-  top: 20%;
-  right: 2%;
-
-  width: 50%;
-
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-around;
+    position: absolute;
+    top: 12.5%;
+    right: 1%;
+    width: 43%;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-around;
 }
 
 .compareSlot {
-  height: 520px;
+  height: 500px;
   width: 340px;
 
   border: 2px dashed var(--Gold);
@@ -198,10 +197,140 @@
 }
 
 .compareCard {
-  transform: scale(1.2);
+  transform: scale(1.05);
 }
 .compareCard:hover {
-  cursor: default;
-  transform: scale(1.2);
+  cursor: pointer;
+  transform: scale(1.07);
     box-shadow: none;
+}
+
+/*? Tabella confronto valori */
+.compareStats {
+    position: absolute;
+    right: 24%;
+    top: 72%;
+    width: 74%;
+    background: rgba(0, 0, 0, 0.7);
+    border: 1px solid var(--Gold);
+    border-radius: 12px;
+    padding: 10px;
+    color: #fff;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.8);
+    font-size: 14px;
+}
+
+.compareStats h3 {
+  text-align: center;
+  font-size: 16px;
+  color: var(--Gold);
+}
+
+.compareStatsContent {
+  display: flex;
+  align-items: flex-start;
+  gap: 30px;
+}
+
+.compareTable {
+  width: 55%;
+  border-collapse: collapse;
+}
+
+.compareTable th,
+.compareTable td {
+  padding: 4px 6px;
+  text-align: center;
+}
+
+.compareTable th {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.compareTable td:first-child {
+  text-align: center;
+}
+
+.compareTable td.better {
+  color: var(--Gold);
+  font-weight: 700;
+}
+
+.favoritesSummary {
+  width: 45%;
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.favoritesSummary h4 {
+  margin: 0 0 6px 0;
+  color: var(--Gold);
+}
+
+.favoritesSummaryGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px 70px;
+  margin-bottom: 6px;
+}
+
+.favoritesSummaryCol h5 {
+  margin: 0 0 4px 0;
+  color: #ffd27f;
+  font-size: 13px;
+}
+
+.favoritesSummaryItem {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 2px;
+}
+
+.favoritesSummaryIcon {
+  width: 18px;
+  height: 18px;
+  object-fit: contain;
+}
+
+.favoritesSummaryLabel {
+  flex: 1;
+}
+
+.favoritesSummaryCount {
+  font-weight: 700;
+}
+
+.favoritesSummarySection {
+  margin-bottom: 6px;
+}
+
+/*? Label differenza valori */
+.diffLabel {
+  display: inline-block;
+  margin-left: 6px;
+  padding: 2px 6px;
+  border-radius: 0 8px 8px 0px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.diffLabel--positive {
+  background-color: rgba(0, 120, 40, 0.85);
+  color: #fff;
+}
+
+.diffLabel--negative {
+  background-color: rgba(170, 20, 20, 0.9);
+  color: #fff;
+}
+
+.diffLabel--equal {
+  background-color: rgba(200, 170, 0, 0.9);
+  color: #111;
+}
+
+.diffLabel--neutral {
+  background-color: rgba(120, 120, 120, 0.7);
+  color: #fff;
 }
