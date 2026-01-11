@@ -131,12 +131,11 @@
 
 .ContCardsPref {
     display: grid;
-    grid-template-columns: repeat(5, 208px);
-    grid-template-rows: repeat(9, 38px);
-    width: 42%;
+    grid-template-columns: repeat(5, 173px);
+    grid-template-rows: repeat(20, 67px);
+    width: 61%;
     height: 75%;
-    padding: 130px 20px 0 20px;
-    justify-items: center;
+    padding: 109px 0px 0 190px;
     align-items: center;
 }
 
@@ -162,15 +161,14 @@
 
 .cardPreferitiCont:hover {
   cursor: pointer;
-  transform: translateY(-40px) scale(0.5);
-  box-shadow: 0px 30px 65px 5px rgba(0, 2, 0, 35);
+  transform: translateY(-35px) scale(0.5);
 }
 
 .compareArea {
     position: absolute;
-    top: 12.5%;
+    top: 10.5%;
     right: 1%;
-    width: 43%;
+    width: 39%;
     display: flex;
     align-items: flex-start;
     justify-content: space-around;
@@ -197,39 +195,34 @@
 }
 
 .compareCard {
-  transform: scale(1.05);
+  transform: scale(1.02);
 }
 .compareCard:hover {
   cursor: pointer;
-  transform: scale(1.07);
-    box-shadow: none;
+  transform: scale(1.01);
+  box-shadow: none;
+  filter: none;
+
 }
 
 /*? Tabella confronto valori */
 .compareStats {
-    position: absolute;
-    right: 24%;
-    top: 72%;
-    width: 74%;
+position: absolute;
+    top: 8%;
+    left: 0%;
+    width: 260px;
     background: rgba(0, 0, 0, 0.7);
-    border: 1px solid var(--Gold);
-    border-radius: 12px;
-    padding: 10px;
+    border-right: 2px solid var(--Gold);
+    padding: 20px 0px 20px 20px;
     color: #fff;
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.8);
-    font-size: 14px;
+    font-size: 12px;
 }
 
 .compareStats h3 {
   text-align: center;
   font-size: 16px;
   color: var(--Gold);
-}
-
-.compareStatsContent {
-  display: flex;
-  align-items: flex-start;
-  gap: 30px;
 }
 
 .compareTable {
@@ -239,12 +232,12 @@
 
 .compareTable th,
 .compareTable td {
-  padding: 4px 6px;
+  padding: 5px;
   text-align: center;
 }
 
 .compareTable th {
-  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  border-bottom: 2px solid var(--Gold);
 }
 
 .compareTable td:first-child {
@@ -258,8 +251,8 @@
 
 .favoritesSummary {
   width: 45%;
-  font-size: 13px;
-  line-height: 1.4;
+  font-size: 14px;
+  line-height: 1.6;
 }
 
 .favoritesSummary h4 {
@@ -267,24 +260,18 @@
   color: var(--Gold);
 }
 
-.favoritesSummaryGrid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 8px 70px;
-  margin-bottom: 6px;
-}
-
 .favoritesSummaryCol h5 {
-  margin: 0 0 4px 0;
+  margin: 10px 0;
   color: #ffd27f;
   font-size: 13px;
 }
 
 .favoritesSummaryItem {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  margin-bottom: 2px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 2px;
+    width: 151%;
 }
 
 .favoritesSummaryIcon {
@@ -307,12 +294,12 @@
 
 /*? Label differenza valori */
 .diffLabel {
-  display: inline-block;
-  margin-left: 6px;
-  padding: 2px 6px;
-  border-radius: 0 8px 8px 0px;
-  font-size: 14px;
-  font-weight: 600;
+    display: inline-block;
+    margin-left: 6px;
+    padding: 6px 7px;
+    border-radius: 0 0 100% 100%;
+    font-size: 14px;
+    font-weight: 600;
 }
 
 .diffLabel--positive {
