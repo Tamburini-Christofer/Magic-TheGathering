@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react";
 import { getFavorites, clearFavorites, saveFavorites } from "../utils/favorites";
 import Card from "../Components/Card";
+import chalk from "chalk";
 
 const Preferiti = () => {
   const [list, setList] = useState([]);                                                    //* stato locale per la lista delle carte preferite
   const [draggedId, setDraggedId] = useState(null);                                        //* id della carta attualmente trascinata
   const [leftSlotId, setLeftSlotId] = useState(null);                                      //* carta nello slot sinistro di confronto
   const [rightSlotId, setRightSlotId] = useState(null);                                    //* carta nello slot destro di confronto
+  const [returningIds, setReturningIds] = useState([]);                                    //* carte che stanno animando il ritorno in griglia
   const [leftCardData, setLeftCardData] = useState(null);                                  //* dati carta nello slot sinistro
   const [rightCardData, setRightCardData] = useState(null);                                //* dati carta nello slot destro
   const [allCardData, setAllCardData] = useState({});                                      //* dati di tutte le carte preferite (per statistiche)
@@ -75,6 +77,21 @@ const Preferiti = () => {
     e.preventDefault();
     e.stopPropagation();
     if (!draggedId) return;
+    // se nello slot c'è già una carta, la facciamo "tornare" in griglia
+    if (slot === "left" && leftSlotId) {
+      const prevId = leftSlotId;
+      setReturningIds((prev) => (prev.includes(prevId) ? prev : [...prev, prevId]));
+      setTimeout(() => {
+        setReturningIds((prev) => prev.filter((id) => id !== prevId));
+      }, 450);
+    }
+    if (slot === "right" && rightSlotId) {
+      const prevId = rightSlotId;
+      setReturningIds((prev) => (prev.includes(prevId) ? prev : [...prev, prevId]));
+      setTimeout(() => {
+        setReturningIds((prev) => prev.filter((id) => id !== prevId));
+      }, 450);
+    }
     if (slot === "left") {
       setLeftSlotId(draggedId);
       setLeftCardData(null);
@@ -95,7 +112,8 @@ const Preferiti = () => {
     setLeftCardData(null);                                                                 //* rimuove dati carta sinistra
     setRightCardData(null);                                                                //* rimuove dati carta destra
     setAllCardData({});                                                                    //* azzera dati globali per statistiche
-    window.dispatchEvent(new CustomEvent("favoritesChanged"));                            //* notifica le altre parti dell'app (es. NavBar)
+    window.dispatchEvent(new CustomEvent("favoritesChanged"));   
+    console.log(chalk.yellow("Preferiti svuotati"));                         //* notifica le altre parti dell'app (es. NavBar)
   }
 
   // calcola differenze per i due slot (sinistra - destra)
@@ -143,6 +161,8 @@ const Preferiti = () => {
       rarity: rarityDiff !== null ? -rarityDiff : null,
     };
 
+    console.log(chalk.green("Differenza calculated:"), {left, right});  //todo log differenze calcolate
+
     return { left, right };
   })();
 
@@ -154,71 +174,93 @@ const Preferiti = () => {
             <button className="btn btn--danger" onClick={handleClear}>Svuota preferiti</button>
           </div>
           <h2>Preferiti ({list.length})</h2>
-          <div className="ContCardsPref">
-            {list.map((c) => (
-              <Card
-                key={c.id}
-                id={c.id}
-                className="cards cardPreferitiCont cardPreferitiDraggable"
-                forceFavActive={false}
-                onDataLoaded={handleCardLoadedForStats}
-                draggableProps={{
-                  draggable: true,
-                  onDragStart: handleDragStart(c.id),
-                  onDragOver: handleDragOver(),
-                  onDrop: handleDrop(c.id),
-                  onDragEnd: handleDragEnd,
-                  expandOnDrop: true,
-                }}
-              />
-            ))}
-          </div>
-          <div className="compareArea">
-            <div
-              className="compareSlot compareSlotLeft"
-              onDragOver={handleDragOverSlot}
-              onDrop={handleDropOnSlot("left")}
-            >
-              {leftSlotId ? (
-                <Card
-                  id={leftSlotId}
-                  className="cards cardPreferitiCont compareCard"
-                  forceFavActive={false}
-                  onDataLoaded={(data) => { setLeftCardData(data); handleCardLoadedForStats(data); }}
-                  compareDiff={compareDiffs.left}
-                />
-              ) : (
-                <span className="comparePlaceholder">Trascina una carta qui</span>
-              )}
+          {list.length === 0 ? (
+            <div className="emptyFavoritesWrapper">
+              <div className="emptyFavoritesCard">
+                <h3 className="emptyFavoritesTitle">Nessuna carta tra i preferiti</h3>
+              </div>
             </div>
-            <div
-              className="compareSlot compareSlotRight"
-              onDragOver={handleDragOverSlot}
-              onDrop={handleDropOnSlot("right")}
-            >
-              {rightSlotId ? (
-                <Card
-                  id={rightSlotId}
-                  className="cards cardPreferitiCont compareCard"
-                  forceFavActive={false}
-                  onDataLoaded={(data) => { setRightCardData(data); handleCardLoadedForStats(data); }}
-                  compareDiff={compareDiffs.right}
-                />
-              ) : (
-                <span className="comparePlaceholder">Trascina un'altra carta qui</span>
-              )}
-            </div>
-          </div>
+          ) : (
+            <>
+              <div className="ContCardsPref">
+                {list.map((c) => {
+                  const isInCompare = c.id === leftSlotId || c.id === rightSlotId;
+                  const isReturning = returningIds.includes(c.id);
+                  const classes = [
+                    "cards",
+                    "cardPreferitiCont",
+                    "cardPreferitiDraggable",
+                    isInCompare && !isReturning ? "cardPreferitiHidden" : "",
+                    isReturning ? "cardPreferitiReturning" : "",
+                  ]
+                    .filter(Boolean)
+                    .join(" ");
 
-          {leftCardData && rightCardData && (
-            <div className="compareStats">
-              <div className="compareStatsContent">
+                  return (
+                    <Card
+                      key={c.id}
+                      id={c.id}
+                      className={classes}
+                      forceFavActive={false}
+                      onDataLoaded={handleCardLoadedForStats}
+                      draggableProps={{
+                        draggable: true,
+                        onDragStart: handleDragStart(c.id),
+                        onDragOver: handleDragOver(),
+                        onDrop: handleDrop(c.id),
+                        onDragEnd: handleDragEnd,
+                        expandOnDrop: true,
+                      }}
+                    />
+                  );
+                })}
+              </div>
+              <div className="compareArea">
+                <div
+                  className="compareSlot compareSlotLeft"
+                  onDragOver={handleDragOverSlot}
+                  onDrop={handleDropOnSlot("left")}
+                >
+                  {leftSlotId ? (
+                    <Card
+                      id={leftSlotId}
+                      className="cards compareCard"
+                      forceFavActive={false}
+                      onDataLoaded={(data) => { setLeftCardData(data); handleCardLoadedForStats(data); }}
+                      compareDiff={compareDiffs.left}
+                    />
+                  ) : (
+                    <span className="comparePlaceholder">Trascina una carta qui</span>
+                  )}
+                </div>
+                <div
+                  className="compareSlot compareSlotRight"
+                  onDragOver={handleDragOverSlot}
+                  onDrop={handleDropOnSlot("right")}
+                >
+                  {rightSlotId ? (
+                    <Card
+                      id={rightSlotId}
+                      className="cards compareCard"
+                      forceFavActive={false}
+                      onDataLoaded={(data) => { setRightCardData(data); handleCardLoadedForStats(data); }}
+                      compareDiff={compareDiffs.right}
+                    />
+                  ) : (
+                    <span className="comparePlaceholder">Trascina un'altra carta qui</span>
+                  )}
+                </div>
+              </div>
+
+              {leftCardData && rightCardData && (
+                <div className="compareStats">
+                  <div className="compareStatsContent">
               <table className="compareTable">
                 <thead>
                   <tr>
                     <th>Proprietà</th>
-                    <th>Sinistra</th>
-                    <th>Destra</th>
+                    <th>Sx</th>
+                    <th>Dx</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -426,8 +468,10 @@ const Preferiti = () => {
                   </div>
                 );
               })()}
-              </div>
-            </div>
+                  </div>
+                </div>
+              )}
+            </>
           )}
         </div>
       </div>

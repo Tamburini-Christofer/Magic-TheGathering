@@ -125,6 +125,7 @@
 
 .customOptions{
     background: linear-gradient(180deg, rgba(45, 45, 45, 0.99), rgba(0, 0, 0, 0.928));
+    color: white;
 
     position: absolute;
 
@@ -399,7 +400,7 @@
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
     gap: 25px;
 
-    height: 100vh;
+    height: 95vh;
     width: 80%;
 
     margin: 0px 0 0 360px;
@@ -407,16 +408,48 @@
     overflow-y: auto;
 }
 
-.noResultsMessage {
+.noResultsWrapper {
+    grid-column: 1 / -1;
     display: flex;
-    align-items: self-start;
+    align-items: center;
     justify-content: center;
-    font-size: 20px;
-    font-weight: 700;
+    min-height: 60vh;
+}
+
+.noResultsCard {
+    max-width: 520px;
+    width: 100%;
     text-align: center;
+    padding: 28px 26px 24px;
+    border-radius: 18px;
+    background: linear-gradient(145deg, rgba(0, 0, 0, 0.86), rgba(26, 12, 4, 0.9));
+    border: 1px solid rgba(255, 215, 128, 0.65);
+    box-shadow:
+        0 18px 45px rgba(0, 0, 0, 0.85),
+        0 0 26px rgba(255, 215, 128, 0.18);
+    backdrop-filter: blur(6px) saturate(130%);
+}
+
+.noResultsIcon {
+    width: 60px;
+    height: 60px;
+    object-fit: contain;
+    margin-bottom: 10px;
+    filter: drop-shadow(0 0 14px rgba(255, 255, 255, 0.35));
+}
+
+.noResultsTitle {
     color: var(--Gold);
-    text-shadow: 0 2px 6px rgba(0, 0, 0, 0.7);
-    padding: 10px 0;
+    font-size: 20px;
+    letter-spacing: 0.04em;
+    margin: 0 0 8px 0;
+}
+
+.noResultsMessage {
+    color: #f1e7d0;
+    font-size: 14px;
+    line-height: 1.6;
+    margin: 0;
 }
 
 /*? Overlay dettaglio carta */
@@ -492,6 +525,18 @@
     font-family: "Cinzel Decorative", serif;
     font-size: 26px;
     color: var(--Gold);
+    animation: card-detail-title 1000ms ease-out forwards;
+}
+
+@keyframes card-detail-title {
+    0% {
+        opacity: 1;
+        transform: translateX(50px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+    }   
 }
 
 .card-detail-info p {
@@ -522,51 +567,135 @@
 }
 
 .card-detail-fav-btn.active {
+    opacity: 0;
     background-color: red;
+    animation: btn 500ms ease-out forwards;
+    animation-delay: 6s;
+}
+@keyframes btn {
+    0% {
+        opacity: 0;
+        transform: translateX(-50px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+    }   
 }
 
 .card-detail-right {
     display: flex;
     justify-content: center;
     align-items: center;
+    animation: card-detail-right 2000ms ease-out forwards;
 }
 
 .card-overlay-card {
     transform: scale(1.15);
+    z-index: 100;
+}
+.card-overlay-card {
+    animation: card-overlay-card 2000ms ease-out forwards;
 }
 
 .dettMana{
+    opacity: 0;
     position: absolute;
     top: 8%;
     left: 64%;
+    animation: dettManaAnim 1000ms ease-out forwards;
+    animation-delay: 1s;
+}
+@keyframes dettManaAnim {
+    0% {
+        opacity: 0;
+        transform: translateX(-50px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+    }   
 }
 .dettRarita{
     position: absolute;
+    opacity: 0;
     top: 42%;
-    left: 68%;
+    left: 64%;
     width: 30%;
+    animation: dettRaritaAnim 1000ms ease-out forwards;
+    animation-delay: 2s;
+}
+@keyframes dettRaritaAnim {
+    0% {
+        opacity: 0;
+        transform: translateX(-150px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+    }
 }
 .dettDescrizione{
     position: absolute;
-    top: 74%;
-    left: 4%;
-    width: 38%;
+    opacity: 0;
+    text-align: end;
+    top: 53%;
+    left: 13%;
+    width: 25%;
+    animation: dettDescrizioneAnim 1000ms ease-out forwards;
+    animation-delay: 4s;
+}
+@keyframes dettDescrizioneAnim {
+    0% {
+        opacity: 0;
+        transform: translateX(200px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+    }
 }
 .dettTipologia{
     position: absolute;
-    top: 40%;
+    opacity: 0;
+    top:20%;
     right:62%;
     text-align: end;
     width: 50%;
+    animation: dettTipologiaAnim 1000ms ease-out forwards;
+    animation-delay: 5s;
 }
-.dettForzaDifesa{
-    position: absolute;
-    top: 75%;
-    left: 70%;
-    width: 20%;
-    text-align: end;
+@keyframes dettTipologiaAnim {
+    0% {
+        opacity: 0;
+        transform: translateX(50px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+    }
 }
 
+.dettForzaDifesa{
+    position: absolute;
+    opacity: 0;
+    top: 80%;
+    left: 41%;
+    width: 20%;
+    text-align: center;
+    animation: dettForzaDifesaAnim 1000ms ease-out forwards;
+    animation-delay: 3s;
+}
+@keyframes dettForzaDifesaAnim {
+    0% {
+        opacity: 0;
+        transform: translateY(-150px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
 
 @media (max-width: 1000px) {
     .card-detail-overlay-content {
@@ -597,7 +726,6 @@
 .rarity-inline-item {
     display: inline-flex;
     align-items: center;
-    margin-left: 8px;
 }
 
 .rarity-icon-inline {

@@ -2,6 +2,8 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    scrollbar-width: thin;
+    scrollbar-color: var(--Gold) rgba(0, 0, 0, 0.7);
 }
 
 :root{
@@ -21,6 +23,25 @@
     --NonComune: #5398AF;   
     --Rara: #B38726;
     --Mitica: #E32C00;
-    
-    
+}
+
+/* Scrollbar personalizzata (browser WebKit: Chrome, Edge, Safari) */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.7);
+}
+
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, rgba(80, 40, 10, 0.95), rgba(180, 120, 40, 0.95));
+    border-radius: 999px;
+    border: 2px solid rgba(0, 0, 0, 0.8);
+    min-height: 40px;             /* altezza minima del "cursore" verticale */
+    margin: 4px 0;                /* spazio sopra/sotto per staccarlo dai bordi */
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(180deg, rgba(120, 60, 20, 0.98), rgba(220, 170, 80, 0.98));
 }

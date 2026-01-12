@@ -1,5 +1,5 @@
 import chalk from "chalk";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
 console.log(`Benvenuto nella mia pagina personale di ${chalk.yellow("Magic: The Gathering")}, mio amico ${chalk.yellow("Placewalker")}`);
 
@@ -55,6 +55,8 @@ const HomePage = () => {
   const [isOverlayOpen, setIsOverlayOpen] = useState(false);
   const [videoFile, setVideoFile] = useState(null);
   const [videoUrl, setVideoUrl] = useState(null);
+  const [isTransitioning, setIsTransitioning] = useState(false);
+  const transitionTimeoutRef = useRef(null);
 
   const currentSlide = heroSlides[currentIndex];
   const lotrSlide = heroSlides.find((s) => s.id === "lorwyn");
@@ -69,13 +71,6 @@ const HomePage = () => {
 
     return () => URL.revokeObjectURL(url);
   }, [videoFile]);
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrentIndex((prev) => (prev + 1) % heroSlides.length);
-    }, 20000);
-    return () => clearInterval(timer);
-  }, []);
 
   const handleOpenOverlay = () => {
     setIsOverlayOpen(true);
@@ -93,21 +88,44 @@ const HomePage = () => {
   };
 
   const goToSlide = (index) => {
-    if (index < 0) {
-      setCurrentIndex(heroSlides.length - 1);
-      return;
+    if (isTransitioning) return;
+
+    let nextIndex = index;
+    if (nextIndex < 0) {
+      nextIndex = heroSlides.length - 1;
+    } else if (nextIndex >= heroSlides.length) {
+      nextIndex = 0;
     }
-    if (index >= heroSlides.length) {
-      setCurrentIndex(0);
-      return;
+
+    setIsTransitioning(true);
+    if (transitionTimeoutRef.current) {
+      clearTimeout(transitionTimeoutRef.current);
     }
-    setCurrentIndex(index);
+    transitionTimeoutRef.current = setTimeout(() => {
+      setCurrentIndex(nextIndex);
+      setIsTransitioning(false);
+    }, 500);
   };
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      goToSlide(currentIndex + 1);
+    }, 20000);
+    return () => clearInterval(timer);
+  }, [currentIndex]);
+
+  useEffect(() => {
+    return () => {
+      if (transitionTimeoutRef.current) {
+        clearTimeout(transitionTimeoutRef.current);
+      }
+    };
+  }, []);
 
   return (
     <>
       <div
-        className="hero"
+        className={`hero ${isTransitioning ? "hero--transitioning" : ""}`.trim()}
         style={{ backgroundImage: `url('${currentSlide.background}')` }}
       >
         <div className="heroOverlayGradient" />

@@ -8,6 +8,7 @@ import Layout from "./Layout/Layout.jsx";
 import Home from "./Pages/HomePage.jsx";
 import Carte from "./Pages/TutteCarte.jsx";
 import Preferiti from "./Pages/Preferiti.jsx";
+import NotFound from "./Pages/NotFound.jsx";
 
 //! Importo i file CSS per lo stile dell'applicazione
 import "./Styles/App.css";
@@ -17,6 +18,7 @@ import "./Styles/TutteCarte.css";
 import "./Styles/Preferiti.css";
 import "./Styles/CartaSingola.css";
 import "./Styles/Footer.css";
+import "./Styles/NotFound.css";
 
 //! Definisco il componente principale dell'applicazione
 function App() {
@@ -28,6 +30,7 @@ function App() {
             <Route index element={<Home />} />
             <Route path="tutte-le-carte" element={<Carte />} />
             <Route path="le-mie-preferite" element={<Preferiti />} />
+            <Route path="*" element={<NotFound />} />
           </Route>
         </Routes>
       </Router>

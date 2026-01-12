@@ -43,8 +43,7 @@ function Card({
       const base = "http://localhost:3001";                                                                    //? URL base dell'API
       const res = await fetch(`${base}/cards/${cardId}`);                                                      //* Effettua la richiesta per ottenere i dati della carta
       const json = await res.json();                                                                           //* Converte la risposta in formato JSON 
-      setCard(json.card);                                                                                      //* Aggiorna lo stato della carta con i dati ricevuti
-      console.log(`Le carte sono state caricate ${Calck.green("correttamente")}`);                             //todo Log di successo
+      setCard(json.card);                                                                                      //* Aggiorna lo stato della carta con i dati ricevuta                            //todo Log di successo
     } catch (error) {
       console.error(`${Calck.red("Errore nel caricamento della carta:")}`, error);                             //todo Log di errore
       setCard(null);

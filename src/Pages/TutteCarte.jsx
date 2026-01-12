@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import Filter from "../Components/FIlter";
 import Card from "../Components/Card";
 import { toggleFavorite, isFavorite } from "../utils/favorites";
+import chalk from "chalk";
 
 //! Definizione del componente Carte per visualizzare tutte le carte con filtro
 const Carte = () => {
@@ -22,6 +23,7 @@ const Carte = () => {
         setCards(list);
         setVisibleCount(list.length);                                                         //* inizialmente sono tutte visibili
         setIsLoading(false);
+        console.log(`Le carte sono state caricate ${chalk.green("correttamente")}`); 
       } catch (e) {
         console.error("Errore caricamento cards:", e);
         setCards([]);
@@ -62,7 +64,11 @@ const Carte = () => {
           <div className="cardsContainer">
             {isLoading && <p>Caricamento...</p>}
             {!isLoading && visibleCount === 0 && (
-              <p className="noResultsMessage">Nessuna carta trovata</p>
+              <div className="noResultsWrapper">
+                <div className="noResultsCard">
+                  <h3 className="noResultsTitle">Nessuna carta trovata</h3>
+                </div>
+              </div>
             )}
             {cards.map((c) => (
               <Card
@@ -150,7 +156,6 @@ const Carte = () => {
                   <div className="dettRarita">
                         <p>
                   <strong style={{ color: "var(--Gold)" }}>Rarità:</strong>{" "}
-                  {selectedCard.rarity ?? "-"}
                   {selectedCard.rarity && (
                     <span className="rarity-inline-item">
                       {(() => {

@@ -129,13 +129,57 @@
   margin-top: 30vh;
 }
 
+.emptyFavoritesWrapper {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 24px;
+}
+
+.emptyFavoritesCard {
+  max-width: 520px;
+  width: 100%;
+  text-align: center;
+  padding: 32px 28px 28px;
+  border-radius: 18px;
+  background: linear-gradient(145deg, rgba(0, 0, 0, 0.82), rgba(35, 15, 5, 0.9));
+  border: 1px solid rgba(255, 215, 128, 0.65);
+  box-shadow:
+    0 18px 45px rgba(0, 0, 0, 0.85),
+    0 0 26px rgba(255, 215, 128, 0.18);
+  backdrop-filter: blur(6px) saturate(130%);
+}
+
+.emptyFavoritesIcon {
+  width: 68px;
+  height: 68px;
+  object-fit: contain;
+  margin-bottom: 12px;
+  filter: drop-shadow(0 0 14px rgba(255, 80, 80, 0.75));
+}
+
+.emptyFavoritesTitle {
+  color: var(--Gold);
+  font-size: 22px;
+  letter-spacing: 0.3em;
+  margin: 0 0 10px 0;
+}
+
+.emptyFavoritesMessage {
+  color: #f1e7d0;
+  font-size: 15px;
+  line-height: 1.6;
+  margin: 0;
+}
+
 .ContCardsPref {
     display: grid;
     grid-template-columns: repeat(5, 173px);
-    grid-template-rows: repeat(20, 66px);
+    grid-template-rows: repeat(20, 64px);
     width: 61%;
     height: 75%;
-    padding: 109px 0px 0 190px;
+    padding: 110px 0px 0 190px;
     align-items: center;
 }
 
@@ -154,15 +198,101 @@
 }
 
 .cardPreferitiCont {
-  transform: scale(0.5);
   position: relative;
-  transition: 1000ms ease;
+  transform: translateY(0px) scale(0.5);
+  opacity: 0;
+  animation: drawFromDeck 500ms ease-out forwards;
 }
 
 .cardPreferitiCont:hover {
   cursor: pointer;
   transform: translateY(-35px) scale(0.5);
 }
+
+/* Nascosta dalla griglia quando la carta è in uno slot di comparazione */
+.cardPreferitiHidden {
+  visibility: hidden;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateX(120px) translateY(0px) scale(0.5);
+}
+
+/* Animazione di ritorno dalla comparazione alla griglia */
+.cardPreferitiReturning {
+  opacity: 0;
+  transform: translateX(22vw) translateY(0px) scale(0.5);
+  animation: cardReturnFromCompare 550ms cubic-bezier(0.19, 1, 0.22, 1) forwards;
+}
+
+@keyframes cardReturnFromCompare {
+  0% {
+    opacity: 0;
+    transform: translateX(22vw) translateY(0px) scale(0.5);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0) translateY(0px) scale(0.5);
+  }
+}
+
+/* Animazione ingresso carte preferite: simulazione uscita dal mazzo */
+@keyframes drawFromDeck {
+  0% {
+    opacity: 1;
+    transform: translateX(500px) scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: translateY(100px) scale(0.5);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(0.5);
+  }
+}
+
+/* Leggero ritardo progressivo per simulare le carte che escono una dopo l'altra.
+  Supporta fino a 40 carte nella griglia di preferiti. */
+.ContCardsPref .cardPreferitiCont:nth-child(1)  { animation-delay:  60ms; }
+.ContCardsPref .cardPreferitiCont:nth-child(2)  { animation-delay: 120ms; }
+.ContCardsPref .cardPreferitiCont:nth-child(3)  { animation-delay: 180ms; }
+.ContCardsPref .cardPreferitiCont:nth-child(4)  { animation-delay: 240ms; }
+.ContCardsPref .cardPreferitiCont:nth-child(5)  { animation-delay: 300ms; }
+.ContCardsPref .cardPreferitiCont:nth-child(6)  { animation-delay: 360ms; }
+.ContCardsPref .cardPreferitiCont:nth-child(7)  { animation-delay: 420ms; }
+.ContCardsPref .cardPreferitiCont:nth-child(8)  { animation-delay: 480ms; }
+.ContCardsPref .cardPreferitiCont:nth-child(9)  { animation-delay: 540ms; }
+.ContCardsPref .cardPreferitiCont:nth-child(10) { animation-delay: 600ms; }
+.ContCardsPref .cardPreferitiCont:nth-child(11) { animation-delay: 660ms; }
+.ContCardsPref .cardPreferitiCont:nth-child(12) { animation-delay: 720ms; }
+.ContCardsPref .cardPreferitiCont:nth-child(13) { animation-delay: 780ms; }
+.ContCardsPref .cardPreferitiCont:nth-child(14) { animation-delay: 840ms; }
+.ContCardsPref .cardPreferitiCont:nth-child(15) { animation-delay: 900ms; }
+.ContCardsPref .cardPreferitiCont:nth-child(16) { animation-delay: 960ms; }
+.ContCardsPref .cardPreferitiCont:nth-child(17) { animation-delay: 1020ms; }
+.ContCardsPref .cardPreferitiCont:nth-child(18) { animation-delay: 1080ms; }
+.ContCardsPref .cardPreferitiCont:nth-child(19) { animation-delay: 1140ms; }
+.ContCardsPref .cardPreferitiCont:nth-child(20) { animation-delay: 1200ms; }
+.ContCardsPref .cardPreferitiCont:nth-child(21) { animation-delay: 1260ms; }
+.ContCardsPref .cardPreferitiCont:nth-child(22) { animation-delay: 1320ms; }
+.ContCardsPref .cardPreferitiCont:nth-child(23) { animation-delay: 1380ms; }
+.ContCardsPref .cardPreferitiCont:nth-child(24) { animation-delay: 1440ms; }
+.ContCardsPref .cardPreferitiCont:nth-child(25) { animation-delay: 1500ms; }
+.ContCardsPref .cardPreferitiCont:nth-child(26) { animation-delay: 1560ms; }
+.ContCardsPref .cardPreferitiCont:nth-child(27) { animation-delay: 1620ms; }
+.ContCardsPref .cardPreferitiCont:nth-child(28) { animation-delay: 1680ms; }
+.ContCardsPref .cardPreferitiCont:nth-child(29) { animation-delay: 1740ms; }
+.ContCardsPref .cardPreferitiCont:nth-child(30) { animation-delay: 1800ms; }
+.ContCardsPref .cardPreferitiCont:nth-child(31) { animation-delay: 1860ms; }
+.ContCardsPref .cardPreferitiCont:nth-child(32) { animation-delay: 1920ms; }
+.ContCardsPref .cardPreferitiCont:nth-child(33) { animation-delay: 1980ms; }
+.ContCardsPref .cardPreferitiCont:nth-child(34) { animation-delay: 2040ms; }
+.ContCardsPref .cardPreferitiCont:nth-child(35) { animation-delay: 2100ms; }
+.ContCardsPref .cardPreferitiCont:nth-child(36) { animation-delay: 2160ms; }
+.ContCardsPref .cardPreferitiCont:nth-child(37) { animation-delay: 2220ms; }
+.ContCardsPref .cardPreferitiCont:nth-child(38) { animation-delay: 2280ms; }
+.ContCardsPref .cardPreferitiCont:nth-child(39) { animation-delay: 2340ms; }
+.ContCardsPref .cardPreferitiCont:nth-child(40) { animation-delay: 2400ms; }
 
 .compareArea {
     position: absolute;
@@ -196,13 +326,25 @@
 
 .compareCard {
   transform: scale(1.02);
+  animation: fadeInCompareCard 800ms ease-out forwards;
 }
+
+@keyframes fadeInCompareCard {
+  0% {
+    opacity: 1;
+    transform: translateX(-100vw) translateY(0px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0) translateY(0) scale(1.02);
+  }
+}
+
 .compareCard:hover {
   cursor: pointer;
   transform: scale(1.01);
   box-shadow: none;
   filter: none;
-
 }
 
 /*? Tabella confronto valori */
@@ -217,6 +359,19 @@ position: absolute;
     padding: 20px 0px 20px 20px;
     color: #fff;
     font-size: 12px;
+    animation: compareStatsSlideIn 1000ms ease-out forwards;
+}
+@keyframes compareStatsSlideIn {
+  from {
+    opacity: 1;
+    transform: translateY(-100vh);
+    filter: opacity(0.9) blur(3px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    filter: opacity(1) blur(0px);
+  }
 }
 
 .compareStats h3 {
