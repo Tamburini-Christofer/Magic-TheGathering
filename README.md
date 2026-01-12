@@ -1,16 +1,67 @@
-# React + Vite
+<p align="center">🖼️ Cosa devi realizzare</p>
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+###
 
-Currently, two official plugins are available:
+<p align="center">Una SPA che simula l’esperienza di un utente non autenticato, che può:<br><br>Sfogliare, cercare e filtrare record<br>Confrontare più elementi tra loro<br>Salvare i preferit<br><br>❌ Non può creare, modificare o cancellare record.</p>
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+###
 
-## React Compiler
+<p align="center">Scegli liberamente l’argomento del tuo comparatore.<br><br>✅ Qualsiasi entità con proprietà confrontabili è valida!</p>
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+###
 
-## Expanding the ESLint configuration
+<p align="center">🥉 Requisiti Minimi</p>
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+###
+
+<p align="left" style="color: green;">1. Gestione di una risorsa definita in types.ts</p>
+
+###
+
+<p align="left" tyle="color: green;">2. Lista dei record, che mostra solo le proprietà principali title e category, e include:<br><br>- Barra di ricerca per cercare nei titoli (title)<br>- Filtro per categoria (category)<br>- Ordinamento alfabetico per title o category (A-Z e Z-A)</p>
+
+###
+
+<p align="left" tyle="color: green;">3. Pagina di dettaglio per ogni record, con visualizzazione estesa delle sue proprietà (es. price, description, brand, ecc.)</p>
+
+###
+
+<p align="left" tyle="color: green;">4. Comparatore di 2 record, visualizzati affiancati per confrontarne le caratteristiche.</p>
+
+###
+
+<p align="left" tyle="color: green;">5. Sistema di preferiti, sempre accessibile e aggiornabile:<br><br>L’utente può aggiungere o rimuovere record dai preferiti in qualsiasi momento<br>I preferiti devono essere consultabili in ogni sezione dell’app (es. tramite una sezione dedicata, un’icona fissa, o una sidebar)</p>
+
+###
+
+<p align="center">🥈 Requisiti Consigliati (Facoltativi)</p>
+
+###
+
+<p align="left" tyle="color: green;">1. Comparatore di 2 o più record: il layout si adatta per confrontare più elementi affiancati</p>
+
+###
+
+<p align="left" tyle="color: red;">2. Debounce sulla ricerca, per migliorare la UX ed evitare chiamate API inutili</p>
+
+###
+
+<p align="left" tyle="color: green;">3. Persistenza dei preferiti (es. salvataggio in localStorage), così che rimangano anche dopo il refresh della pagina</p>
+
+###
+
+<p align="left" tyle="color: green;">4 Gestione degli stati vuoti, come:<br>- Nessun risultato trovato<br>- Lista preferiti vuota<br>- Nessun elemento selezionato nel comparatore</p>
+
+###
+
+<p align="center">🥇 Requisiti Aggiuntivi (Facoltativi)</p>
+
+###
+
+<p align="left" tyle="color: red;">1. Gestione di più risorse nella stessa SPA (es. products e courses), con interfacce distinte o integrate</p>
+
+###
+
+<p align="left" tyle="color: red;">2. CRUD completo dal frontend:<br>- Creazione di nuovi record<br>- Modifica di record esistenti<br>- Eliminazione di record<br>- Validazione dei campi in input</p>
+
+###
