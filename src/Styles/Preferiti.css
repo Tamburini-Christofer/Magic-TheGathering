@@ -1,478 +1,438 @@
-/*! Pagina Preferiti */
-/*? Bottone Preferiti */
-.favBtn {
-  background: rgba(0, 0, 0, 0.168);
+  /*! Pagina Preferiti */
+  /*? Bottone Preferiti */
+  .favBtn {
+    background: rgba(0, 0, 0, 0.168);
 
-  position: absolute;
-  top: 89.8%;
-  left: 85.3%;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  font-size: 14px;
-
-  width: 50px;
-  height: 50px;
-
-  border: 1px solid rgba(255, 255, 255, 0.432);
-  border-radius: 10px 0 10px 0;
-
-  padding: 6px;
-
-  opacity: 1;
-  transform: none;
-  transition: transform 160ms ease, background 160ms ease;
-
-  z-index: 3000;
-}
-
-.favBtn {
-  backdrop-filter: blur(4px) saturate(120%);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.55),
-    0 2px 6px rgba(255, 80, 80, 0.06) inset;
-  transition: transform 200ms cubic-bezier(0.2, 0.8, 0.2, 1),
-    background 200ms ease, box-shadow 200ms ease, border-color 200ms ease;
-  z-index: 1000;
-}
-
-.favBtn:hover {
-  transform: scale(1.05);
-  cursor: pointer;
-}
-.heartIcon {
-  width: 30px;
-  height: 30px;
-  object-fit: contain;
-}
-
-/* rimosso animation heartbeat - non più necessaria */
-
-.preferitiPage {
-  background-image: url(/public/sfondi/table.jpg);
-  background-size: cover;
-
-  height: 100vh;
-}
-
-.contenitorePage {
-  text-shadow: 0 3px 12px rgba(0, 0, 0, 0.65);
-
-  height: 100vh;
-
-  box-shadow: 0 14px 50px rgba(0, 0, 0, 0.7),
-    0 0 28px rgba(200, 30, 40, 0.12) inset;
-
-  padding: 4% 0;
-}
-
-.contenitorePage h2 {
-  color: var(--Gold);
-
-  display: inline-block;
-
-  position: absolute;
-  right: 12%;
-  top: 80.4%;
-  font-size: 16px;
-  text-align: right;
-
-  margin: 50px 0 0 0;
-}
-
-.btn {
-  position: absolute;
-  left: 91%;
-  top: 85%;
-
-  font-weight: 700;
-
-  border: none;
-  border-radius: 10px;
-
-  padding: 10px 16px;
-
-  cursor: pointer;
-
-  transition: transform 160ms ease, box-shadow 160ms ease, background 160ms ease;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
-}
-
-.favBtn.colorActive {
-  background: rgb(255, 0, 0);
-}
-
-.favBtn.colorActive .heartIcon {
-  width: 30px;
-  height: 30px;
-  object-fit: contain;
-  filter: brightness(0) invert(1);
-}
-
-.btn--danger {
-  background: linear-gradient(
-    180deg,
-    rgba(255, 80, 80, 0.95),
-    rgba(200, 20, 20, 0.9)
-  );
-  color: #fff;
-
-  border: 2px solid rgba(255, 140, 100, 0.9);
-}
-
-.nessunaCarta {
-  color: var(--Gold);
-  font-size: 24px;
-  font-weight: 700;
-  text-align: center;
-  margin-top: 30vh;
-}
-
-.emptyFavoritesWrapper {
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0 24px;
-}
-
-.emptyFavoritesCard {
-  max-width: 520px;
-  width: 100%;
-  text-align: center;
-  padding: 32px 28px 28px;
-  border-radius: 18px;
-  background: linear-gradient(145deg, rgba(0, 0, 0, 0.82), rgba(35, 15, 5, 0.9));
-  border: 1px solid rgba(255, 215, 128, 0.65);
-  box-shadow:
-    0 18px 45px rgba(0, 0, 0, 0.85),
-    0 0 26px rgba(255, 215, 128, 0.18);
-  backdrop-filter: blur(6px) saturate(130%);
-}
-
-.emptyFavoritesIcon {
-  width: 68px;
-  height: 68px;
-  object-fit: contain;
-  margin-bottom: 12px;
-  filter: drop-shadow(0 0 14px rgba(255, 80, 80, 0.75));
-}
-
-.emptyFavoritesTitle {
-  color: var(--Gold);
-  font-size: 22px;
-  letter-spacing: 0.3em;
-  margin: 0 0 10px 0;
-}
-
-.emptyFavoritesMessage {
-  color: #f1e7d0;
-  font-size: 15px;
-  line-height: 1.6;
-  margin: 0;
-}
-
-.ContCardsPref {
-    display: grid;
-    grid-template-columns: repeat(5, 173px);
-    grid-template-rows: repeat(20, 64px);
-    width: 61%;
-    height: 75%;
-    padding: 110px 0px 0 190px;
-    align-items: center;
-}
-
-.cardPreferitiDraggable {
-  cursor: grab;
-  background-color: #ff0000;
-}
-
-.cardPreferitiDraggable:active {
-  cursor: grabbing;
-}
-
-/*? Carte preferite */
-.cardPreferiti {
-  background-color: #ff0000;
-}
-
-.cardPreferitiCont {
-  position: relative;
-  transform: translateY(0px) scale(0.5);
-  opacity: 0;
-  animation: drawFromDeck 500ms ease-out forwards;
-}
-
-.cardPreferitiCont:hover {
-  cursor: pointer;
-  transform: translateY(-35px) scale(0.5);
-}
-
-/* Nascosta dalla griglia quando la carta è in uno slot di comparazione */
-.cardPreferitiHidden {
-  visibility: hidden;
-  opacity: 0;
-  pointer-events: none;
-  transform: translateX(120px) translateY(0px) scale(0.5);
-}
-
-/* Animazione di ritorno dalla comparazione alla griglia */
-.cardPreferitiReturning {
-  opacity: 0;
-  transform: translateX(22vw) translateY(0px) scale(0.5);
-  animation: cardReturnFromCompare 550ms cubic-bezier(0.19, 1, 0.22, 1) forwards;
-}
-
-@keyframes cardReturnFromCompare {
-  0% {
-    opacity: 0;
-    transform: translateX(22vw) translateY(0px) scale(0.5);
-  }
-  100% {
-    opacity: 1;
-    transform: translateX(0) translateY(0px) scale(0.5);
-  }
-}
-
-/* Animazione ingresso carte preferite: simulazione uscita dal mazzo */
-@keyframes drawFromDeck {
-  0% {
-    opacity: 1;
-    transform: translateX(500px) scale(1);
-  }
-  50% {
-    opacity: 1;
-    transform: translateY(100px) scale(0.5);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0) scale(0.5);
-  }
-}
-
-/* Leggero ritardo progressivo per simulare le carte che escono una dopo l'altra.
-  Supporta fino a 40 carte nella griglia di preferiti. */
-.ContCardsPref .cardPreferitiCont:nth-child(1)  { animation-delay:  60ms; }
-.ContCardsPref .cardPreferitiCont:nth-child(2)  { animation-delay: 120ms; }
-.ContCardsPref .cardPreferitiCont:nth-child(3)  { animation-delay: 180ms; }
-.ContCardsPref .cardPreferitiCont:nth-child(4)  { animation-delay: 240ms; }
-.ContCardsPref .cardPreferitiCont:nth-child(5)  { animation-delay: 300ms; }
-.ContCardsPref .cardPreferitiCont:nth-child(6)  { animation-delay: 360ms; }
-.ContCardsPref .cardPreferitiCont:nth-child(7)  { animation-delay: 420ms; }
-.ContCardsPref .cardPreferitiCont:nth-child(8)  { animation-delay: 480ms; }
-.ContCardsPref .cardPreferitiCont:nth-child(9)  { animation-delay: 540ms; }
-.ContCardsPref .cardPreferitiCont:nth-child(10) { animation-delay: 600ms; }
-.ContCardsPref .cardPreferitiCont:nth-child(11) { animation-delay: 660ms; }
-.ContCardsPref .cardPreferitiCont:nth-child(12) { animation-delay: 720ms; }
-.ContCardsPref .cardPreferitiCont:nth-child(13) { animation-delay: 780ms; }
-.ContCardsPref .cardPreferitiCont:nth-child(14) { animation-delay: 840ms; }
-.ContCardsPref .cardPreferitiCont:nth-child(15) { animation-delay: 900ms; }
-.ContCardsPref .cardPreferitiCont:nth-child(16) { animation-delay: 960ms; }
-.ContCardsPref .cardPreferitiCont:nth-child(17) { animation-delay: 1020ms; }
-.ContCardsPref .cardPreferitiCont:nth-child(18) { animation-delay: 1080ms; }
-.ContCardsPref .cardPreferitiCont:nth-child(19) { animation-delay: 1140ms; }
-.ContCardsPref .cardPreferitiCont:nth-child(20) { animation-delay: 1200ms; }
-.ContCardsPref .cardPreferitiCont:nth-child(21) { animation-delay: 1260ms; }
-.ContCardsPref .cardPreferitiCont:nth-child(22) { animation-delay: 1320ms; }
-.ContCardsPref .cardPreferitiCont:nth-child(23) { animation-delay: 1380ms; }
-.ContCardsPref .cardPreferitiCont:nth-child(24) { animation-delay: 1440ms; }
-.ContCardsPref .cardPreferitiCont:nth-child(25) { animation-delay: 1500ms; }
-.ContCardsPref .cardPreferitiCont:nth-child(26) { animation-delay: 1560ms; }
-.ContCardsPref .cardPreferitiCont:nth-child(27) { animation-delay: 1620ms; }
-.ContCardsPref .cardPreferitiCont:nth-child(28) { animation-delay: 1680ms; }
-.ContCardsPref .cardPreferitiCont:nth-child(29) { animation-delay: 1740ms; }
-.ContCardsPref .cardPreferitiCont:nth-child(30) { animation-delay: 1800ms; }
-.ContCardsPref .cardPreferitiCont:nth-child(31) { animation-delay: 1860ms; }
-.ContCardsPref .cardPreferitiCont:nth-child(32) { animation-delay: 1920ms; }
-.ContCardsPref .cardPreferitiCont:nth-child(33) { animation-delay: 1980ms; }
-.ContCardsPref .cardPreferitiCont:nth-child(34) { animation-delay: 2040ms; }
-.ContCardsPref .cardPreferitiCont:nth-child(35) { animation-delay: 2100ms; }
-.ContCardsPref .cardPreferitiCont:nth-child(36) { animation-delay: 2160ms; }
-.ContCardsPref .cardPreferitiCont:nth-child(37) { animation-delay: 2220ms; }
-.ContCardsPref .cardPreferitiCont:nth-child(38) { animation-delay: 2280ms; }
-.ContCardsPref .cardPreferitiCont:nth-child(39) { animation-delay: 2340ms; }
-.ContCardsPref .cardPreferitiCont:nth-child(40) { animation-delay: 2400ms; }
-
-.compareArea {
     position: absolute;
-    top: 10.5%;
-    right: 1%;
-    width: 39%;
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-around;
-}
+    top: 89.8%;
+    left: 85.3%;
 
-.compareSlot {
-  height: 500px;
-  width: 340px;
-
-  border: 2px dashed var(--Gold);
-  border-radius: 14px;
-  background: rgba(0, 0, 0, 0.45);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
-}
-
-.comparePlaceholder {
-  display: inline-block;
-  padding: 50% 25%;
-  color: var(--Gold);
-  font-size: 14px;
-  text-align: center;
-  opacity: 0.9;
-  ;
-}
-
-.compareCard {
-  transform: scale(1.02);
-  animation: fadeInCompareCard 800ms ease-out forwards;
-}
-
-@keyframes fadeInCompareCard {
-  0% {
-    opacity: 1;
-    transform: translateX(-100vw) translateY(0px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateX(0) translateY(0) scale(1.02);
-  }
-}
-
-.compareCard:hover {
-  cursor: pointer;
-  transform: scale(1.01);
-  box-shadow: none;
-  filter: none;
-}
-
-/*? Tabella confronto valori */
-.compareStats {
-position: absolute;
-    top: 8%;
-    left: 0%;
-    width: 260px;
-    background: rgba(0, 0, 0, 0.7);
-    border: 2px solid var(--Gold);
-    border-radius: 0 0 5px 5px;
-    padding: 20px 0px 20px 20px;
-    color: #fff;
-    font-size: 12px;
-    animation: compareStatsSlideIn 1000ms ease-out forwards;
-}
-@keyframes compareStatsSlideIn {
-  from {
-    opacity: 1;
-    transform: translateY(-100vh);
-    filter: opacity(0.9) blur(3px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-    filter: opacity(1) blur(0px);
-  }
-}
-
-.compareStats h3 {
-  text-align: center;
-  font-size: 16px;
-  color: var(--Gold);
-}
-
-.compareTable {
-  width: 55%;
-  border-collapse: collapse;
-}
-
-.compareTable th,
-.compareTable td {
-  padding: 5px;
-  text-align: center;
-}
-
-.compareTable th {
-  border-bottom: 2px solid var(--Gold);
-}
-
-.compareTable td:first-child {
-  text-align: center;
-}
-
-.compareTable td.better {
-  color: var(--Gold);
-  font-weight: 700;
-}
-
-.favoritesSummary {
-  width: 45%;
-  font-size: 14px;
-  line-height: 1.6;
-}
-
-.favoritesSummary h4 {
-  margin: 0 0 6px 0;
-  color: var(--Gold);
-}
-
-.favoritesSummaryCol h5 {
-  margin: 10px 0;
-  color: #ffd27f;
-  font-size: 13px;
-}
-
-.favoritesSummaryItem {
     display: flex;
     align-items: center;
-    gap: 12px;
-    margin-bottom: 2px;
-    width: 151%;
-}
+    justify-content: center;
 
-.favoritesSummaryIcon {
-  width: 18px;
-  height: 18px;
-  object-fit: contain;
-}
-
-.favoritesSummaryLabel {
-  flex: 1;
-}
-
-.favoritesSummaryCount {
-  font-weight: 700;
-}
-
-.favoritesSummarySection {
-  margin-bottom: 6px;
-}
-
-/*? Label differenza valori */
-.diffLabel {
-    display: inline-block;
-    margin-left: 6px;
-    padding: 6px 7px;
-    border-radius: 0 0 100% 100%;
     font-size: 14px;
+
+    width: 50px;
+    height: 50px;
+
+    border: 1px solid rgba(255, 255, 255, 0.432);
+    border-radius: 10px 0 10px 0;
+
+    padding: 6px;
+
+    opacity: 1;
+    transform: none;
+    transition: transform 160ms ease, background 160ms ease;
+
+    z-index: 3000;
+  }
+
+  .favBtn {
+    backdrop-filter: blur(4px) saturate(120%);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.55),
+      0 2px 6px rgba(255, 80, 80, 0.06) inset;
+    transition: transform 200ms cubic-bezier(0.2, 0.8, 0.2, 1),
+      background 200ms ease, box-shadow 200ms ease, border-color 200ms ease;
+    z-index: 1000;
+  }
+
+  .favBtn:hover {
+    transform: scale(1.05);
+    cursor: pointer;
+  }
+  .heartIcon {
+    width: 30px;
+    height: 30px;
+    object-fit: contain;
+  }
+
+  /* rimosso animation heartbeat - non più necessaria */
+
+  .preferitiPage {
+    background-image: url(/public/sfondi/table.jpg);
+    background-size: cover;
+
+    height: 100vh;
+  }
+
+  .contenitorePage {
+
+    height: 100vh;
+
+    box-shadow: 0 14px 50px rgba(0, 0, 0, 0.7),
+      0 0 28px rgba(200, 30, 40, 0.12) inset;
+
+    padding: 4% 0;
+  }
+
+  .contenitorePage h2 {
+    color: #000000;
+    display: inline-block;
+    position: absolute;
+    right: 89.5%;
+    top: 11.4%;
+    font-size: 12px;
+    text-align: right;
+    margin: 50px 0 0 0;
+    z-index: 100;
+  }
+
+  .btn {
+    position: absolute;
+    left: 4.5%;
+    top: 85%;
+
+    font-weight: 700;
+
+    border: none;
+    border-radius: 10px;
+
+    padding: 10px 16px;
+
+    cursor: pointer;
+
+    transition: transform 160ms ease, box-shadow 160ms ease, background 160ms ease;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+    z-index: 100;
+  }
+
+  .favBtn.colorActive {
+    background: rgb(255, 0, 0);
+  }
+
+  .favBtn.colorActive .heartIcon {
+    width: 30px;
+    height: 30px;
+    object-fit: contain;
+    filter: brightness(0) invert(1);
+  }
+
+  .btn--danger {
+    background: linear-gradient(
+      180deg,
+      rgba(255, 80, 80, 0.95),
+      rgba(200, 20, 20, 0.9)
+    );
+    color: #fff;
+
+    border: 2px solid rgba(255, 140, 100, 0.9);
+  }
+
+  .nessunaCarta {
+    color: var(--Gold);
+    font-size: 24px;
+    font-weight: 700;
+    text-align: center;
+    margin-top: 30vh;
+  }
+
+  .emptyFavoritesWrapper {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 24px;
+  }
+
+  .emptyFavoritesCard {
+    max-width: 520px;
+    width: 100%;
+    text-align: center;
+    padding: 32px 28px 28px;
+    border-radius: 18px;
+    background: linear-gradient(145deg, rgba(0, 0, 0, 0.82), rgba(35, 15, 5, 0.9));
+    border: 1px solid rgba(255, 215, 128, 0.65);
+    box-shadow:
+      0 18px 45px rgba(0, 0, 0, 0.85),
+      0 0 26px rgba(255, 215, 128, 0.18);
+    backdrop-filter: blur(6px) saturate(130%);
+  }
+
+  .emptyFavoritesIcon {
+    width: 68px;
+    height: 68px;
+    object-fit: contain;
+    margin-bottom: 12px;
+    filter: drop-shadow(0 0 14px rgba(255, 80, 80, 0.75));
+  }
+
+  .emptyFavoritesTitle {
+    color: var(--Gold);
+    font-size: 22px;
+    letter-spacing: 0.3em;
+    margin: 0 0 10px 0;
+  }
+
+  .emptyFavoritesMessage {
+    color: #f1e7d0;
+    font-size: 15px;
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  .ContCardsPref {
+      display: grid;
+      grid-template-columns: repeat(4, 200px);
+      grid-template-rows: repeat(14, 52px);
+      width: 61%;
+      height: 75%;
+      padding: 110px 0px 0 250px;
+      align-items: center;
+  }
+
+  .cardPreferitiDraggable {
+    cursor: grab;
+    background-color: #ff0000;
+  }
+
+  .cardPreferitiDraggable:active {
+    cursor: grabbing;
+  }
+
+  /*? Carte preferite */
+  .cardPreferiti {
+    background-color: #ff0000;
+  }
+
+  .cardPreferitiCont {
+    position: relative;
+    transform: translateY(0px) scale(0.5);
+    opacity: 0;
+  }
+
+  .cardPreferitiCont:hover {
+    cursor: pointer;
+    transform: translateY(-35px) scale(0.5);
+  }
+
+  /* Nascosta dalla griglia quando la carta è in uno slot di comparazione */
+  .cardPreferitiHidden {
+    visibility: hidden;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateX(120px) translateY(0px) scale(0.5);
+  }
+
+  /* Animazione di ritorno dalla comparazione alla griglia */
+  .cardPreferitiReturning {
+    transform: translateX(0px) translateY(80vh) scale(0.5);
+    opacity: 0;
+  }
+
+  .compareArea {
+      position: absolute;
+      top: 10.5%;
+      right: 1%;
+      width: 39%;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-around;
+  }
+
+  .compareSlot {
+    height: 500px;
+    width: 340px;
+
+    border: 2px dashed var(--Gold);
+    border-radius: 14px;
+    background: rgba(0, 0, 0, 0.45);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+  }
+
+  .comparePlaceholder {
+    display: inline-block;
+    padding: 50% 25%;
+    color: var(--Gold);
+    font-size: 14px;
+    text-align: center;
+    opacity: 0.9;
+    ;
+  }
+
+  .compareCard:hover {
+    cursor: pointer;
+    transform: scale(1.01);
+    box-shadow: none;
+    filter: none;
+  }
+
+  /*? Tabella confronto valori (sotto le carte comparate) */
+  .compareTableWrapper {
+position: absolute;
+    right: 0%;
+    top: 69%;
+    width: 40%;
+    background-image: url(/public/sfondi/compare.png);
+    background-size: 100% 115%;
+    background-position: center;
+    background-repeat: no-repeat;
+    border-radius: 12px;
+    padding: 18px 22px 22px;
+    font-size: 16px;
     font-weight: 600;
-}
+    animation: compareStatsSlideIn 1000ms ease-out forwards;
+    animation-delay: 500ms;
+    opacity: 0;
+    z-index: 11;
+  }
 
-.diffLabel--positive {
-  background-color: rgba(0, 120, 40, 0.85);
-  color: #fff;
-}
+  .compareTable thead th {
+    color: black;
+    font-weight: 800;
+  }
 
-.diffLabel--negative {
-  background-color: rgba(170, 20, 20, 0.9);
-  color: #fff;
-}
+  .compareTable td,
+  .compareTable th {
+    background: transparent;
+  }
 
-.diffLabel--equal {
-  background-color: rgba(200, 170, 0, 0.9);
-  color: #111;
-}
+  /* Riquadro statistiche globali (posizione originale) */
+  .compareStats {
+    position: absolute;
+    top: 4%;
+    left: 0%;
+    width: 18%;
+    height: 95%;
+    background-image: url("/public/sfondi/VerticalTot.png");
+    background-repeat: no-repeat;
+    background-size: 35vh 43vw;
+    color: black;
+    font-size: 14px;
+    animation: compareStatsFromDeck 800ms ease-out forwards;
+  }
 
-.diffLabel--neutral {
-  background-color: rgba(120, 120, 120, 0.7);
-  color: #fff;
-}
+  .compareStatsContent {
+    padding: 120px 0px 25px 45px;
+  }
+  .compareStats h3 {
+    text-align: center;
+    font-size: 16px;
+    color: var(--Gold);
+  }
+
+  .compareTable {
+    width: 100%;
+  }
+
+  .compareTable th,
+  .compareTable td {
+    padding: 0px 45px;
+    text-align: center;
+  }
+
+  .compareTable td:first-child {
+    text-align: center;
+  }
+
+  .compareTable td.better {
+    color: green;
+    font-weight: 700;
+  }
+
+  .favoritesSummary {
+    width: 45%;
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 1.4;
+  }
+
+  .favoritesSummary h4 {
+    margin: 0 0 6px 0;
+    color: var(--Gold);
+  }
+
+  .favoritesSummaryCol h5 {
+    margin: 25px 0;
+    color: #000000;
+    font-size: 16px;
+  }
+
+  .favoritesSummaryItem {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 2px;
+      width: 151%;
+  }
+
+  .favoritesSummaryIcon {
+    width: 18px;
+    height: 18px;
+    object-fit: contain;
+  }
+
+  .favoritesSummaryLabel {
+    flex: 1;
+  }
+
+  .favoritesSummaryCount {
+    font-weight: 700;
+  }
+
+  .favoritesSummarySection {
+    margin-bottom: 6px;
+  }
+
+  /*? Label differenza valori */
+  .diffLabel {
+      display: inline-block;
+      margin-left: 6px;
+      padding: 6px 7px;
+      border-radius: 0 0 100% 100%;
+      font-size: 14px;
+      font-weight: 600;
+  }
+
+  .diffLabel--positive {
+    background-color: rgba(0, 120, 40, 0.85);
+    color: #fff;
+  }
+
+  .diffLabel--negative {
+    background-color: rgba(170, 20, 20, 0.9);
+    color: #fff;
+  }
+
+  .diffLabel--equal {
+    background-color: rgba(200, 170, 0, 0.9);
+    color: #111;
+  }
+
+  .diffLabel--neutral {
+    background-color: rgba(120, 120, 120, 0.7);
+    color: #fff;
+  }
+
+  /* Animazione stile scrittura per il testo di compareStats */
+
+  @keyframes statsTypingLine {
+    0% {
+      opacity: 0;
+      clip-path: inset(0 100% 0 0);
+    }
+    100% {
+      opacity: 1;
+      clip-path: inset(0 0 0 0);
+    }
+  }
+
+  .compareStats h3,
+  .favoritesSummaryCol h5,
+  .favoritesSummaryItem {
+    overflow: hidden;
+    opacity: 0;
+    animation: statsTypingLine 900ms steps(24, end) forwards;
+  }
+
+  .compareStats h3 {
+    animation-delay: 300ms;
+  }
+
+  .favoritesSummaryCol h5 {
+    animation-delay: 550ms;
+  }
+
+  .favoritesSummaryItem {
+    animation-delay: 800ms;
+  }

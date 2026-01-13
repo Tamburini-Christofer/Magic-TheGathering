@@ -1,0 +1,92 @@
+/*todo Animazioni Dettagli Carta */
+
+/*? Animazione Titolo Carta Dettagli */
+
+@keyframes card-detail-title {
+    0% {
+        opacity: 1;
+        transform: translateX(50px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+    }   
+}
+
+/*? Animazione Mana Carta Dettagli */
+
+@keyframes dettManaAnim {
+    0% {
+        opacity: 0;
+        transform: translateX(-50px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+    }   
+}
+
+/*? Animazione Rarità Carta Dettagli */
+
+@keyframes dettRaritaAnim {
+    0% {
+        opacity: 0;
+        transform: translateX(-150px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/*? Animazione Descrizione Carta Dettagli */
+
+@keyframes dettDescrizioneAnim {
+    0% {
+        opacity: 0;
+        transform: translateX(200px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/*? Animazione Tipologia Carta Dettagli */
+
+@keyframes dettTipologiaAnim {
+    0% {
+        opacity: 0;
+        transform: translateX(50px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/*? Animazione Forza e Difesa Carta Dettagli */
+
+@keyframes dettForzaDifesaAnim {
+    0% {
+        opacity: 0;
+        transform: translateY(-150px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/*? Animazione Bottone Carta Dettagli */
+
+@keyframes btn {
+    0% {
+        opacity: 0;
+        transform: translateX(-50px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+    }   
+}

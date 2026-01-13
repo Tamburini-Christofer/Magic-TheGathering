@@ -17,6 +17,7 @@ const Carte = () => {
   const [sfondoClasse, setSfondoClasse] = useState("");                                       //* Classe CSS per lo sfondo dinamico
   const [selectedCard, setSelectedCard] = useState(null);                                     //* Carta selezionata per il dettaglio nell'overlay
   const [selectedIsFav, setSelectedIsFav] = useState(false);      
+  const [initialCardsAnimDone, setInitialCardsAnimDone] = useState(false);                    //* Animazione di ingresso carte eseguita
 //!                           //* Stato se la carta selezionata è nei preferiti
 
 //! Effetto per caricare le carte dal server al montaggio del componente
@@ -40,6 +41,16 @@ const Carte = () => {
     };
     load();
   }, []);
+  
+  //! Segna come conclusa l'animazione iniziale delle carte dopo il primo caricamento
+  useEffect(() => {
+    if (!isLoading && !initialCardsAnimDone) {
+      const timer = setTimeout(() => {
+        setInitialCardsAnimDone(true);
+      }, 1100);
+      return () => clearTimeout(timer);
+    }
+  }, [isLoading, initialCardsAnimDone]);
 //!
 
 //! Funzioni per gestire l'apertura del dettaglio carta e il toggle dei preferiti
@@ -85,7 +96,7 @@ const Carte = () => {
               <Card
                 key={c.id}
                 id={c.id}
-                className="cards"
+                className={`cards ${initialCardsAnimDone ? "" : "cards--all-initial"}`.trim()}
                 onCardClick={handleCardClick}
               />
             ))}

@@ -18,6 +18,10 @@ import "./Styles/CartaSingola.css";
 import "./Styles/Footer.css";
 import "./Styles/NotFound.css";
 
+//! Importo i file CSS per le animazioni
+import "./Styles/Animations/Cards.css";
+import "./Styles/Animations/Details.css";
+
 //! Definisco il componente principale dell'applicazione
 function App() {
   return (

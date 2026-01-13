@@ -528,16 +528,6 @@
     animation: card-detail-title 1000ms ease-out forwards;
 }
 
-@keyframes card-detail-title {
-    0% {
-        opacity: 1;
-        transform: translateX(50px);
-    }
-    100% {
-        opacity: 1;
-        transform: translateX(0);
-    }   
-}
 
 .card-detail-info p {
     margin: 4px 0;
@@ -572,16 +562,7 @@
     animation: btn 500ms ease-out forwards;
     animation-delay: 6s;
 }
-@keyframes btn {
-    0% {
-        opacity: 0;
-        transform: translateX(-50px);
-    }
-    100% {
-        opacity: 1;
-        transform: translateX(0);
-    }   
-}
+
 
 .card-detail-right {
     display: flex;
@@ -594,9 +575,6 @@
     transform: scale(1.15);
     z-index: 100;
 }
-.card-overlay-card {
-    animation: card-overlay-card 2000ms ease-out forwards;
-}
 
 .dettMana{
     opacity: 0;
@@ -606,16 +584,7 @@
     animation: dettManaAnim 1000ms ease-out forwards;
     animation-delay: 1s;
 }
-@keyframes dettManaAnim {
-    0% {
-        opacity: 0;
-        transform: translateX(-50px);
-    }
-    100% {
-        opacity: 1;
-        transform: translateX(0);
-    }   
-}
+
 .dettRarita{
     position: absolute;
     opacity: 0;
@@ -625,16 +594,7 @@
     animation: dettRaritaAnim 1000ms ease-out forwards;
     animation-delay: 2s;
 }
-@keyframes dettRaritaAnim {
-    0% {
-        opacity: 0;
-        transform: translateX(-150px);
-    }
-    100% {
-        opacity: 1;
-        transform: translateX(0);
-    }
-}
+
 .dettDescrizione{
     position: absolute;
     opacity: 0;
@@ -645,16 +605,7 @@
     animation: dettDescrizioneAnim 1000ms ease-out forwards;
     animation-delay: 4s;
 }
-@keyframes dettDescrizioneAnim {
-    0% {
-        opacity: 0;
-        transform: translateX(200px);
-    }
-    100% {
-        opacity: 1;
-        transform: translateX(0);
-    }
-}
+
 .dettTipologia{
     position: absolute;
     opacity: 0;
@@ -664,16 +615,6 @@
     width: 50%;
     animation: dettTipologiaAnim 1000ms ease-out forwards;
     animation-delay: 5s;
-}
-@keyframes dettTipologiaAnim {
-    0% {
-        opacity: 0;
-        transform: translateX(50px);
-    }
-    100% {
-        opacity: 1;
-        transform: translateX(0);
-    }
 }
 
 .dettForzaDifesa{
@@ -686,16 +627,7 @@
     animation: dettForzaDifesaAnim 1000ms ease-out forwards;
     animation-delay: 3s;
 }
-@keyframes dettForzaDifesaAnim {
-    0% {
-        opacity: 0;
-        transform: translateY(-150px);
-    }
-    100% {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
+
 
 @media (max-width: 1000px) {
     .card-detail-overlay-content {

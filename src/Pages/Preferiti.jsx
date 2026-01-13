@@ -14,16 +14,19 @@ const Preferiti = () => {
   const [draggedId, setDraggedId] = useState(null);                                        //* id della carta attualmente trascinata
   const [leftSlotId, setLeftSlotId] = useState(null);                                      //* carta nello slot sinistro di confronto
   const [rightSlotId, setRightSlotId] = useState(null);                                    //* carta nello slot destro di confronto
-  const [returningIds, setReturningIds] = useState([]);                                    //* carte che stanno animando il ritorno in griglia
-  const [leftCardData, setLeftCardData] = useState(null);                                  //* dati carta nello slot sinistro
-  const [rightCardData, setRightCardData] = useState(null);                                //* dati carta nello slot destro
-  const [allCardData, setAllCardData] = useState({});                                      //* dati di tutte le carte preferite (per statistiche)
+    const [returningIds, setReturningIds] = useState([]);                                    //* carte che stanno animando il ritorno in griglia
+    const [leftCardData, setLeftCardData] = useState(null);                                  //* dati carta nello slot sinistro
+    const [rightCardData, setRightCardData] = useState(null);                                //* dati carta nello slot destro
+    const [allCardData, setAllCardData] = useState({});                                      //* dati di tutte le carte preferite (per statistiche)
 //!
 
 //! Effetto per caricare la lista delle carte preferite al montaggio del componente
   useEffect(() => {
     setList(getFavorites());
   }, []);
+  
+  //! Effetto per terminare l'animazione iniziale delle carte dopo un certo tempo
+    // Removed unused effect for initialCardsAnimDone
 //!
 
 //! Gestione drag and drop e confronto carte
@@ -109,7 +112,7 @@ const Preferiti = () => {
       setReturningIds((prev) => (prev.includes(prevId) ? prev : [...prev, prevId]));
       setTimeout(() => {
         setReturningIds((prev) => prev.filter((id) => id !== prevId));
-      }, 450);
+      }, 600);
     }
 
     //* Se nello slot c'è già una carta, torna in griglia
@@ -119,7 +122,7 @@ const Preferiti = () => {
       setReturningIds((prev) => (prev.includes(prevId) ? prev : [...prev, prevId]));
       setTimeout(() => {
         setReturningIds((prev) => prev.filter((id) => id !== prevId));
-      }, 450);
+      }, 600);
     }
 
     //* Assegna la carta trascinata allo slot selezionato */
@@ -240,6 +243,7 @@ const Preferiti = () => {
                     "cards",
                     "cardPreferitiCont",
                     "cardPreferitiDraggable",
+                    "cardPreferitiInitial",
                     isInCompare && !isReturning ? "cardPreferitiHidden" : "",
                     isReturning ? "cardPreferitiReturning" : "",
                   ]
@@ -273,6 +277,7 @@ const Preferiti = () => {
                 >
                   {leftSlotId ? (
                     <Card
+                      key={`compare-left-${leftSlotId}`}
                       id={leftSlotId}
                       className="cards compareCard"
                       forceFavActive={false}
@@ -290,6 +295,7 @@ const Preferiti = () => {
                 >
                   {rightSlotId ? (
                     <Card
+                      key={`compare-right-${rightSlotId}`}
                       id={rightSlotId}
                       className="cards compareCard"
                       forceFavActive={false}
@@ -303,18 +309,17 @@ const Preferiti = () => {
               </div>
 
               {leftCardData && rightCardData && (
-                <div className="compareStats">
-                  <div className="compareStatsContent">
-              <table className="compareTable">
-                <thead>
-                  <tr>
-                    <th>Proprietà</th>
-                    <th>Sx</th>
-                    <th>Dx</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {(() => {
+                <div className="compareTableWrapper">
+                  <table className="compareTable">
+                      <thead>
+                        <tr>
+                          <th>Proprietà</th>
+                          <th>Sx</th>
+                          <th>Dx</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {(() => {
 
                     {/* Calcolo e visualizzo le differenze tra le due carte */}
                     {/* per ogni proprietà di interesse */}
@@ -435,8 +440,13 @@ const Preferiti = () => {
                       </>
                     );
                   })()}
-                </tbody>
-              </table>
+                    </tbody>
+                  </table>
+                </div>
+              )}
+
+              <div className="compareStats">
+                <div className="compareStatsContent">
 
               {/* Sezione statistiche globali delle carte preferite */}
               {(() => {
@@ -533,9 +543,8 @@ const Preferiti = () => {
                   </div>
                 );
               })()}
-                  </div>
                 </div>
-              )}
+              </div>
             </>
           )}
         </div>

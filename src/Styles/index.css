@@ -6,6 +6,26 @@
     scrollbar-color: var(--Gold) rgba(0, 0, 0, 0.7);
 }
 
+
+body{
+    background-color: rgb(0, 0, 0);
+
+    font-family: "Cinzel Decorative", serif;
+}
+
+main {
+    position: relative;
+}
+
+li{
+    list-style: none;
+}
+
+a{
+    color: white;
+    text-decoration: none;
+}
+
 :root{
     /*! Colori Base*/
     --Gold: #ffd48a;

@@ -1,0 +1,157 @@
+/*todo Animazioni per le carte nella pagina preferiti */
+
+/** Animazione ingresso pagina carte (solo prima volta in "Tutte le carte") */
+.cards--all-initial {
+  animation: contPageSlideIn 1000ms ease-out;
+}
+
+/* Mini animazione di comparsa per la carta overlay dettaglio */
+.cards.card-overlay-card {
+  animation: overlayCardFadeIn 220ms ease-out;
+}
+
+/** Animazione ingresso carta nella schermata preferiti (solo al primo caricamento) */
+.ContCardsPref .cards.cardPreferitiCont.cardPreferitiInitial {
+  animation: drawFromDeck 500ms ease-out forwards;
+}
+
+/** Animazione ingresso carta nella schermata preferiti: solo per carte che tornano dalla comparazione */
+.ContCardsPref .cards.cardPreferitiCont.cardPreferitiReturning {
+  animation: cardReturnFromCompare 550ms cubic-bezier(0.19, 1, 0.22, 1) forwards;
+}
+
+/** Animazione ingresso pagina preferiti */
+
+@keyframes contPageSlideIn {
+    from {
+        opacity: 1;
+        transform: translateY(-100vh);
+        filter: opacity(0.9) blur(1px);
+}
+    to {
+        opacity: 1;
+        transform: translateY(0);
+        filter: opacity(1) blur(0px);
+    }
+}
+
+
+/** Animazione ingresso carte preferite: simulazione uscita dal mazzo */
+
+@keyframes drawFromDeck {
+  0% {
+    opacity: 1;
+    transform: translateX(500px) scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: translateY(100px) scale(0.5);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(0.5);
+  }
+}
+
+/** Leggero ritardo progressivo per simulare le carte che escono una dopo l'altra.
+  Supporta fino a 40 carte nella griglia di preferiti. */
+
+.ContCardsPref .cardPreferitiCont.cardPreferitiInitial:nth-child(1)  { animation-delay:  60ms; }
+.ContCardsPref .cardPreferitiCont.cardPreferitiInitial:nth-child(2)  { animation-delay: 120ms; }
+.ContCardsPref .cardPreferitiCont.cardPreferitiInitial:nth-child(3)  { animation-delay: 180ms; }
+.ContCardsPref .cardPreferitiCont.cardPreferitiInitial:nth-child(4)  { animation-delay: 240ms; }
+.ContCardsPref .cardPreferitiCont.cardPreferitiInitial:nth-child(5)  { animation-delay: 300ms; }
+.ContCardsPref .cardPreferitiCont.cardPreferitiInitial:nth-child(6)  { animation-delay: 360ms; }
+.ContCardsPref .cardPreferitiCont.cardPreferitiInitial:nth-child(7)  { animation-delay: 420ms; }
+.ContCardsPref .cardPreferitiCont.cardPreferitiInitial:nth-child(8)  { animation-delay: 480ms; }
+.ContCardsPref .cardPreferitiCont.cardPreferitiInitial:nth-child(9)  { animation-delay: 540ms; }
+.ContCardsPref .cardPreferitiCont.cardPreferitiInitial:nth-child(10) { animation-delay: 600ms; }
+.ContCardsPref .cardPreferitiCont.cardPreferitiInitial:nth-child(11) { animation-delay: 660ms; }
+.ContCardsPref .cardPreferitiCont.cardPreferitiInitial:nth-child(12) { animation-delay: 720ms; }
+.ContCardsPref .cardPreferitiCont.cardPreferitiInitial:nth-child(13) { animation-delay: 780ms; }
+.ContCardsPref .cardPreferitiCont.cardPreferitiInitial:nth-child(14) { animation-delay: 840ms; }
+.ContCardsPref .cardPreferitiCont.cardPreferitiInitial:nth-child(15) { animation-delay: 900ms; }
+.ContCardsPref .cardPreferitiCont.cardPreferitiInitial:nth-child(16) { animation-delay: 960ms; }
+.ContCardsPref .cardPreferitiCont.cardPreferitiInitial:nth-child(17) { animation-delay: 1020ms; }
+.ContCardsPref .cardPreferitiCont.cardPreferitiInitial:nth-child(18) { animation-delay: 1080ms; }
+.ContCardsPref .cardPreferitiCont.cardPreferitiInitial:nth-child(19) { animation-delay: 1140ms; }
+.ContCardsPref .cardPreferitiCont.cardPreferitiInitial:nth-child(20) { animation-delay: 1200ms; }
+.ContCardsPref .cardPreferitiCont.cardPreferitiInitial:nth-child(21) { animation-delay: 1260ms; }
+.ContCardsPref .cardPreferitiCont.cardPreferitiInitial:nth-child(22) { animation-delay: 1320ms; }
+.ContCardsPref .cardPreferitiCont.cardPreferitiInitial:nth-child(23) { animation-delay: 1380ms; }
+.ContCardsPref .cardPreferitiCont.cardPreferitiInitial:nth-child(24) { animation-delay: 1440ms; }
+.ContCardsPref .cardPreferitiCont.cardPreferitiInitial:nth-child(25) { animation-delay: 1500ms; }
+.ContCardsPref .cardPreferitiCont.cardPreferitiInitial:nth-child(26) { animation-delay: 1560ms; }
+.ContCardsPref .cardPreferitiCont.cardPreferitiInitial:nth-child(27) { animation-delay: 1620ms; }
+.ContCardsPref .cardPreferitiCont.cardPreferitiInitial:nth-child(28) { animation-delay: 1680ms; }
+.ContCardsPref .cardPreferitiCont.cardPreferitiInitial:nth-child(29) { animation-delay: 1740ms; }
+.ContCardsPref .cardPreferitiCont.cardPreferitiInitial:nth-child(30) { animation-delay: 1800ms; }
+.ContCardsPref .cardPreferitiCont.cardPreferitiInitial:nth-child(31) { animation-delay: 1860ms; }
+.ContCardsPref .cardPreferitiCont.cardPreferitiInitial:nth-child(32) { animation-delay: 1920ms; }
+.ContCardsPref .cardPreferitiCont.cardPreferitiInitial:nth-child(33) { animation-delay: 1980ms; }
+.ContCardsPref .cardPreferitiCont.cardPreferitiInitial:nth-child(34) { animation-delay: 2040ms; }
+.ContCardsPref .cardPreferitiCont.cardPreferitiInitial:nth-child(35) { animation-delay: 2100ms; }
+.ContCardsPref .cardPreferitiCont.cardPreferitiInitial:nth-child(36) { animation-delay: 2160ms; }
+.ContCardsPref .cardPreferitiCont.cardPreferitiInitial:nth-child(37) { animation-delay: 2220ms; }
+.ContCardsPref .cardPreferitiCont.cardPreferitiInitial:nth-child(38) { animation-delay: 2280ms; }
+.ContCardsPref .cardPreferitiCont.cardPreferitiInitial:nth-child(39) { animation-delay: 2340ms; }
+.ContCardsPref .cardPreferitiCont.cardPreferitiInitial:nth-child(40) { animation-delay: 2400ms; }
+
+/** Animazione ingresso carta nella schermata di comparazione */
+
+@keyframes fadeInCompareCard {
+  0% {
+    opacity: 1;
+    transform: translateX(-50vw) translateY(0px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0) translateY(0) scale(1.02);
+  }
+}
+
+/** Mini fade-in per la carta overlay (dettaglio) */
+@keyframes overlayCardFadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+/* Applicazione dell'animazione di ingresso alle carte di confronto */
+.compareCard {
+  transform: scale(1.02);
+  animation: fadeInCompareCard 400ms ease-out forwards;
+  z-index: 900;
+}
+
+/** Animazione tabella confronto valori */
+
+@keyframes compareStatsSlideIn {
+  from {
+    opacity: 1;
+    transform: translateY(-20vh);
+    filter: opacity(0.9) blur(3px);
+    animation-delay: 1s;
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    filter: opacity(1) blur(0px);
+  }
+}
+
+/** Animazione ritorno carta dalla schermata di confronto */
+
+@keyframes cardReturnFromCompare {
+  0% {
+  opacity: 0;
+	transform: translateX(0px) translateY(80vh) scale(0.5);
+  }
+  100% {
+    opacity: 1;
+	transform: translateX(0px) translateY(0px) scale(0.5);
+  }
+}
