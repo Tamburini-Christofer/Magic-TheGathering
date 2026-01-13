@@ -18,13 +18,13 @@
 
 ###
 
-[!HomePage](/public/Completato/Screenshot%202026-01-13%20141213.png)
-[!HomePage](/public/Completato/Screenshot%202026-01-13%20141226.png)
-[!HomePage](/public/Completato/Screenshot%202026-01-13%20141252.png)
-[!HomePage](/public/Completato/Screenshot%202026-01-13%20141302.png)
-[!HomePage](/public/Completato/Screenshot%202026-01-13%20141239.png)
-[!HomePage](/public/Completato/Screenshot%202026-01-13%20141310.png)
-[!HomePage](/public/Completato/Screenshot%202026-01-13%20141319.png)
+![HomePage](/public/Completato/Screenshot%202026-01-13%20141213.png)
+![HomePage Overlay](/public/Completato/Screenshot%202026-01-13%20141226.png)
+![Preferiti](/public/Completato/Screenshot%202026-01-13%20141239.png)
+![Tutte le carte pagina](/public/Completato/Screenshot%202026-01-13%20141252.png)
+![Dettagli](/public/Completato/Screenshot%202026-01-13%20141302.png)
+![Preferiti comparati](/public/Completato/Screenshot%202026-01-13%20141310.png)
+![Pagina 404 personalzizata](/public/Completato/Screenshot%202026-01-13%20141319.png)
 
 <p align="left">Vi presento il progetto che porterò all'esame per la specializzazione Frontend Avanzato di Boolean.<br><br>In questo progetto sono state inserite tutte le conoscenze apprese durante il corso base e la specializzazione. <br><br>Il progetto si è svolto in questo modo: <br>- Analisi e pianificazione, con schemi, grafici, ricerche sull'argomento e ricerca dei materiali didattici necessari <br>- Creazione delle principali funzioni React e divisione dei file per un perfetto luogo di lavoro<br>- Inizia pianificazione di un layout che contenga NavBar e Footer statici e contenuto variabile. <br>- Creazione delle rotte necessarie e collegamento al Backend tramite generazione da file Typescript<br>- Realizzazione prima bozza Homepage, con componenti statici, nessuna logica.<br>- Inserimento delle rotte verso le altre pagine tramite App.jsx<br>- Realizzazione estetica della pagina "Tutte le carte" e il componente filtro. Ancora nessuna logica applicata<br>- Realizzazione estetica della pagina " Preferiti"<br>- Prima logica: Inserimento del tasto like sulle carte statiche e collegamento alla pagina preferiti<br>- Seconda logica: primo approccio ai filtri con la barra di ricerca generica<br>- Terza logica: integrazione della useCallback per richiamare soltanto una volta il comando di scrittura<br>- Quarta logica: aggiunto filtro categoria e ordine alfabetico, entrambi dei Select con opzioni<br>- Quinta logica: aggiunto filtro per ricerca Mana tramite numero con rispettive opzioni di validazione<br>- Sesta logica: creazione dei filtri mancanti, creazione del Overlay in HomePage<br>- Settima logica: Creazione comparazione tra valori carte. <br>- Migliorato lo stile della Homepage esteticamente<br>- Migliorato lo stile delle altre pagine<br>- Pulizia generale del codice + personalizzazione della console con messaggi dedicati + prima bozza di animazioni<br>- Creazione overlay della pagina dettagli<br>- Animazioni avanzate su tutte le pagine + Overlay<br>- Debug e pulizia codice <br><br>Tempo impiegato per il completamento: 50 ore<br><br>Giorni lavorati 10 totali</p>
 
