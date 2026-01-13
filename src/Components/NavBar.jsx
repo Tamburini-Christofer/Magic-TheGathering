@@ -12,7 +12,11 @@ const linkPages = [
 
 //todo Creazione del componente NavBar con logo e menu di navigazione
 const NavBar = () => {
+
+  //! Variabile di stato per il conteggio delle carte preferite
   const [preferiti, setPreferiti] = useState(0);
+
+  //! Funzione per aggiungere una carta ai preferiti (incrementa il conteggio)
   const aggiungiPreferito = () => setPreferiti((p) => p + 1);
 
   useEffect(() => {

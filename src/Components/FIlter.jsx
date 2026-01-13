@@ -9,31 +9,31 @@ function Filter({ onSfondoChange, onResultsChange }) {
   //! Definizione degli stati e dei riferimenti
   //? Riferimenti per i timer di ricerca e costo mana
 
-  const searchTimerRef = useRef(null);                                                         //* riferimento per il timer della ricerca generica
-  const manaTimerRef = useRef(null);                                                           //* riferimento per il timer del filtro costo mana                         
-  const countRef = useRef(null);                                                               //* riferimento per il wrapper del filtro costo mana 
-  const sortRef = useRef(null);                                                                //* riferimento per il wrapper del filtro ordine alfabetico
-  const wrapRef = useRef(null);                                                                //* riferimento per il wrapper del filtro categoria carta
+  const searchTimerRef = useRef(null);                                                        //* riferimento per il timer della ricerca generica
+  const manaTimerRef = useRef(null);                                                          //* riferimento per il timer del filtro costo mana                         
+  const countRef = useRef(null);                                                              //* riferimento per il wrapper del filtro costo mana 
+  const sortRef = useRef(null);                                                               //* riferimento per il wrapper del filtro ordine alfabetico
+  const wrapRef = useRef(null);                                                               //* riferimento per il wrapper del filtro categoria carta
 
     //? Stato per il valore di ricerca
-  const [searchValue, setSearchValue] = useState("");                                          //* stato per il valore di ricerca generica
+  const [searchValue, setSearchValue] = useState("");                                         //* stato per il valore di ricerca generica
 
     //? Stati per gestire l'apertura dei menu a tendina
-  const [open, setOpen] = useState(false);                                                     //* stato per l'apertura del menu a tendina categoria carta              
-  const [category, setCategory] = useState("");                                                //* stato per la categoria selezionata
-  const [catehorySelected, setCategorySelected] = useState("");                                //* stato per la categoria selezionata da usare nei filtri
+  const [open, setOpen] = useState(false);                                                    //* stato per l'apertura del menu a tendina categoria carta              
+  const [category, setCategory] = useState("");                                               //* stato per la categoria selezionata
+  const [catehorySelected, setCategorySelected] = useState("");                               //* stato per la categoria selezionata da usare nei filtri
 
     //? Stati per gestire l'ordinamento alfabetico
-  const [openSort, setOpenSort] = useState(false);                                             //* stato per l'apertura del menu a tendina ordine alfabetico
-  const [sort, setSort] = useState("");                                                        //* stato per l'ordine di ordinamento selezionato
-  const [sortOrder, setSortOrder] = useState("az");                                            //* stato per l'ordine di ordinamento selezionato da usare nei filtri
+  const [openSort, setOpenSort] = useState(false);                                            //* stato per l'apertura del menu a tendina ordine alfabetico
+  const [sort, setSort] = useState("");                                                       //* stato per l'ordine di ordinamento selezionato
+  const [sortOrder, setSortOrder] = useState("az");                                           //* stato per l'ordine di ordinamento selezionato da usare nei filtri
   //? Stati per il filtro costo mana                                                                      
-  const [mana, setMana] = useState("");                                                        //* stato per il costo mana selezionato
+  const [mana, setMana] = useState("");                                                       //* stato per il costo mana selezionato
 
   //? Stato per il filtro colore mana e costo
-  const [colorFilter, setColorFilter] = useState("");                                          //* stato per il filtro colore mana selezionato
+  const [colorFilter, setColorFilter] = useState("");                                         //* stato per il filtro colore mana selezionato
   const [count, setCount] = useState("");                                                     //* stato per il valore numerico del costo mana (mostrato nell'input)
-  const [rarityFilter, setRarityFilter] = useState("");                                      //* stato per il filtro rarità selezionato
+  const [rarityFilter, setRarityFilter] = useState("");                                       //* stato per il filtro rarità selezionato
   const [selectedRarityIcon, setSelectedRarityIcon] = useState("");                           //* rarità selezionata tramite icona
   const [selectedManaIcon, setSelectedManaIcon] = useState("");                               //* colore mana selezionato tramite icona
   //!
@@ -46,8 +46,8 @@ function Filter({ onSfondoChange, onResultsChange }) {
     const colorFilterLocal = (colorValue || "").toLowerCase().trim();                         //* filtro colore converte in minuscolo e toglie gli spazi  
     const rarityFilterLocal = (rarityFilter || "").toLowerCase().trim();                      //* filtro rarità converte in minuscolo e toglie gli spazi
     const container = document.querySelector(".cardsContainer");                              //* contenitore principale delle carte nella pagina "tutte le carte" 
-    const cards = container ? container.querySelectorAll(".cards") : [];                     //* seleziona solo le carte di quella lista    
-    let visible = 0;                                                                           //* contatore carte visibili dopo il filtro
+    const cards = container ? container.querySelectorAll(".cards") : [];                      //* seleziona solo le carte di quella lista    
+    let visible = 0;                                                                          //* contatore carte visibili dopo il filtro
     cards.forEach((el) => {
       const text = (el.textContent || "").toLowerCase();                                      //* testo completo della carta in minuscolo
       const catNode = el.querySelector(".categoryCard h5");                                   //* nodo categoria della carta
@@ -184,7 +184,9 @@ function Filter({ onSfondoChange, onResultsChange }) {
     const container = document.querySelector(".cardsContainer");
     const cards = container ? Array.from(container.querySelectorAll(".cards")) : [];
     if (cards.length === 0) return;
-    // alla prima applicazione del sort, salva la posizione originale di ogni carta
+
+    //*Alla prima applicazione del sort, salva la posizione originale di ogni carta
+
     cards.forEach((cardEl, index) => {
       if (typeof cardEl.dataset.originalIndex === "undefined") {
         cardEl.dataset.originalIndex = String(index);
@@ -271,7 +273,7 @@ function Filter({ onSfondoChange, onResultsChange }) {
     setColorFilter(value);
     setSelectedManaIcon(value);
 
-    // aggiorna lo sfondo del contenitore destro in base al colore selezionato
+    //* aggiorna lo sfondo del contenitore destro in base al colore selezionato
     if (onSfondoChange) {
       if (!value) {
         onSfondoChange("");
@@ -309,8 +311,9 @@ function Filter({ onSfondoChange, onResultsChange }) {
       filterCards(searchValue, catehorySelected, mana, "");
       return;
     }
-    console.log(`Hai filtrato per colore di mana: ${chalk.green(value)} usando ${chalk.blue("i simboli di mana")}.`);      //* Console Log di ricerca filtro colore mana
-    // applica il filtro combinato: ricerca, categoria, mana, colore e rarità
+    console.log(`Hai filtrato per colore di mana: ${chalk.green(value)} usando ${chalk.blue("i simboli di mana")}.`);     //* Console Log di ricerca filtro colore mana
+    //* applica il filtro combinato: ricerca, categoria, mana, colore e rarità
+
     filterCards(searchValue, catehorySelected, mana, value);
   }, [catehorySelected, filterCards, mana, onSfondoChange, searchValue]);
   //*
