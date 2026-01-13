@@ -7,7 +7,7 @@
 /*? Contenitore Carte struttura sinistra */
 .contenitoreCardSx{
     position: absolute;
-    background-image: url('/public/vertical.jpg');
+    background-image: url('/public/sfondi/verticalFilter.jpg');
     background-repeat: no-repeat;
     background-size: cover;
     background-position-x: 90%;
@@ -24,7 +24,7 @@
 
 /*? Contenitore Carte struttura destra*/
 .contenitoreCardDx{
-    background-image: url('/public/sfondo.jpg');
+    background-image: url('/public/sfondi/sfondoCards.jpg');
     background-size: cover;
     background-position: center;
 
@@ -36,22 +36,22 @@
     float: left;
 }       
 .sfondoIsola{
-    background-image: url('/public/Sfondi/jace-the-mind-sculptor-magic-the-gathering-43639-2560x1440.jpg');
+    background-image: url('/public/sfondi/jace.jpg');
 }
 .sfondoMontagna{
-    background-image: url('/public/Sfondi/chandra-nalaar-magic-the-gathering-32103-2880x1800.jpg');
+    background-image: url('/public/sfondi/chandra.jpg');
 }
 .sfondoPianura{
-    background-image: url('/public/Sfondi/wp11058737.jpg');
+    background-image: url('/public/sfondi/angel.jpg');
 }
 .sfondoPalude{
-    background-image: url('/public/Sfondi/magic-the-gathering.jpg');
+    background-image: url('/public/sfondi/vampire.jpg');
 }
 .sfondoForesta{
-    background-image: url('/public/Sfondi/wp13746473-desktop-magic-wallpapers.jpg');
+    background-image: url('/public/sfondi/three.jpg');
 }
 .sfondoIncolore{
-    background-image: url('/public/Sfondi/mtg-background-90k0qivfy22w6ori.jpg');
+    background-image: url('/public/sfondi/artificial.jpg');
 }
 
 /*? Filtri Carte */

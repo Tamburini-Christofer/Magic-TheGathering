@@ -338,7 +338,7 @@ function Card({
         aria-label="Aggiungi ai preferiti" 
         tabIndex={-1}>
 
-          <img src="/iconHeart.png" alt="Aggiungi ai preferiti" className="heartIcon"/>
+          <img src="/public/logo/iconHeart.png" alt="Aggiungi ai preferiti" className="heartIcon"/>
         </button>
       </div>
     </>

@@ -21,7 +21,7 @@ const heroSlides = [
     kicker: "Ospite speciale: Augusto: il maestro",
     tagline:
       "Partecipa al prossimo grande torneo e dimostra di essere il planeswalker più forte del multiverso.",
-    background: "/public/Sfondi/wordChampions.webp",
+    background: "/public/Sfondi/sfondoCaroselloWorldChampions.webp",
     primaryCta: "SCOPRI I TORNEI",
     secondaryCta: "ISCRIVITI ORA",
     hasOverlay: false,
@@ -43,7 +43,7 @@ const heroSlides = [
     kicker: "Nuova Espansione",
     tagline:
       "Scopri la nuova espansione ispirata alla leggendaria saga di Super Class Name, con oltre 280 carte uniche e potenti.",
-    background: "/public/104Edition/Pack.png",
+    background: "/public/104Edition/Pack148.png",
     primaryCta: "PRENOTA ORA",
     secondaryCta: "SCOPRI DI PIÙ",
     hasOverlay: true,
@@ -141,7 +141,6 @@ const HomePage = () => {
                 type="button"
                 className="heroBtn heroBtnPrimary"
                 onClick={() => {
-                  // per tutte le slide il primario avanza il carosello
                   goToSlide((currentIndex + 1) % heroSlides.length);
                 }}
               >
@@ -151,7 +150,6 @@ const HomePage = () => {
                 type="button"
                 className="heroBtn heroBtnSecondary"
                 onClick={() => {
-                  // l'overlay "Il Signore degli Anelli" si apre solo su "SCOPRI DI PIÙ" di Super Class Name 148
                   if (currentSlide.id === "SuperClassName") {
                     handleOpenOverlay();
                     return;
@@ -210,7 +208,7 @@ const HomePage = () => {
 
             <div className="novita-overlay-left">
               <img
-                src="/public/104Edition/8dd788e7-55ed-41ad-b306-678ce4d94965.png"
+                src="/public/104Edition/Bustine148.png"
                 alt="Booster Super Class Name 148"
                 className="imgExp"
               />
