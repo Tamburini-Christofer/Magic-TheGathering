@@ -1,8 +1,11 @@
-import chalk from "chalk";
+//! Importazione delle dipendenze necessarie da React
 import { useState, useEffect, useRef } from "react";
+import chalk from "chalk";
 
+//! Easter Egg di benvenuto nella console del browser
 console.log(`Benvenuto nella mia pagina personale di ${chalk.yellow("Magic: The Gathering")}, mio amico ${chalk.yellow("Placewalker")}`);
 
+//! Variabile che contiene un array di oggetti e rappresenta le novità della pagina a carosello
 const heroSlides = [
   {
     id: "lorwyn",
@@ -50,43 +53,29 @@ const heroSlides = [
   },
 ];
 
+//! Creazione del componente HomePage
 const HomePage = () => {
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [isOverlayOpen, setIsOverlayOpen] = useState(false);
-  const [videoFile, setVideoFile] = useState(null);
-  const [videoUrl, setVideoUrl] = useState(null);
-  const [isTransitioning, setIsTransitioning] = useState(false);
-  const transitionTimeoutRef = useRef(null);
+
+  //! Variabili di stato necessari per il carosello e l'overlay
+  const [currentIndex, setCurrentIndex] = useState(0);                              //* Indice della slide corrente
+  const [isOverlayOpen, setIsOverlayOpen] = useState(false);                        //* Stato dell'overlay di novità                            
+  const [isTransitioning, setIsTransitioning] = useState(false);                    //* Stato di transizione tra le slide 
+
+  //! Ref per gestire il timeout delle transizioni
+  const transitionTimeoutRef = useRef(null);                                        //* Riferimento al timeout di transizione */
 
   const currentSlide = heroSlides[currentIndex];
   const lotrSlide = heroSlides.find((s) => s.id === "lorwyn");
 
-  useEffect(() => {
-    if (!videoFile) {
-      return undefined;
-    }
-
-    const url = URL.createObjectURL(videoFile);
-    setVideoUrl(url);
-
-    return () => URL.revokeObjectURL(url);
-  }, [videoFile]);
-
+  //! Funzioni per gestire l'apertura e la chiusura dell'overlay e la navigazione tra le slide
   const handleOpenOverlay = () => {
     setIsOverlayOpen(true);
   };
-
   const handleCloseOverlay = () => {
     setIsOverlayOpen(false);
   };
 
-  const handleVideoChange = (event) => {
-    const file = event.target.files?.[0];
-    if (file) {
-      setVideoFile(file);
-    }
-  };
-
+  //! Funzione per navigare tra le slide del carosello
   const goToSlide = (index) => {
     if (isTransitioning) return;
 
@@ -97,23 +86,29 @@ const HomePage = () => {
       nextIndex = 0;
     }
 
+    //? Gestione della transizione tra le slide
     setIsTransitioning(true);
     if (transitionTimeoutRef.current) {
-      clearTimeout(transitionTimeoutRef.current);
+    clearTimeout(transitionTimeoutRef.current);
     }
+
+    //!? Imposto un timeout per completare la transizione
     transitionTimeoutRef.current = setTimeout(() => {
-      setCurrentIndex(nextIndex);
-      setIsTransitioning(false);
+    setCurrentIndex(nextIndex);
+    setIsTransitioning(false);
     }, 500);
   };
 
+  //! Effetto per l'autoplay del carosello ogni tot secondi
   useEffect(() => {
-    const timer = setInterval(() => {
+      const timer = setInterval(() => {
       goToSlide(currentIndex + 1);
     }, 20000);
-    return () => clearInterval(timer);
+
+      return () => clearInterval(timer);
   }, [currentIndex]);
 
+  //! Effetto per pulire il timeout alla chiusura del componente
   useEffect(() => {
     return () => {
       if (transitionTimeoutRef.current) {
@@ -141,7 +136,7 @@ const HomePage = () => {
                 type="button"
                 className="heroBtn heroBtnPrimary"
                 onClick={() => {
-                  goToSlide((currentIndex + 1) % heroSlides.length);
+                goToSlide((currentIndex + 1) % heroSlides.length);
                 }}
               >
                 {currentSlide.primaryCta}

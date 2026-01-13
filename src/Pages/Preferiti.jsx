@@ -1,9 +1,15 @@
+//! Importazione delle dipendenze necessarie da React
 import { useEffect, useState } from "react";
 import { getFavorites, clearFavorites, saveFavorites } from "../utils/favorites";
-import Card from "../Components/Card";
 import chalk from "chalk";
 
+//! Importazione del componente Card per visualizzare le carte
+import Card from "../Components/Card";
+
+//! Creazione del componente Preferiti
 const Preferiti = () => {
+
+//! Variabili di stato per gestire la lista delle carte preferite e il confronto tra carte
   const [list, setList] = useState([]);                                                    //* stato locale per la lista delle carte preferite
   const [draggedId, setDraggedId] = useState(null);                                        //* id della carta attualmente trascinata
   const [leftSlotId, setLeftSlotId] = useState(null);                                      //* carta nello slot sinistro di confronto
@@ -12,12 +18,18 @@ const Preferiti = () => {
   const [leftCardData, setLeftCardData] = useState(null);                                  //* dati carta nello slot sinistro
   const [rightCardData, setRightCardData] = useState(null);                                //* dati carta nello slot destro
   const [allCardData, setAllCardData] = useState({});                                      //* dati di tutte le carte preferite (per statistiche)
+//!
 
+//! Effetto per caricare la lista delle carte preferite al montaggio del componente
   useEffect(() => {
     setList(getFavorites());
   }, []);
+//!
 
-  // aggiorna la mappa con i dati completi di una carta (usato per le statistiche globali)
+//! Gestione drag and drop e confronto carte
+
+  //? Aggiornamento la mappa con i dati completi di una carta (usato per le statistiche globali)
+
   const handleCardLoadedForStats = (data) => {
     if (!data || !data.id) return;
     setAllCardData((prev) => {
@@ -25,6 +37,8 @@ const Preferiti = () => {
       return { ...prev, [data.id]: data };
     });
   };
+
+  //? Gestione del drag and drop delle carte per il riordino e il confronto
 
   const handleDragStart = (id) => (e) => {
     e.stopPropagation();
@@ -36,6 +50,8 @@ const Preferiti = () => {
     }
   };
 
+  //? Gestione del drag over durante il trascinamento
+
   const handleDragOver = () => (e) => {
     e.preventDefault();
     e.stopPropagation();
@@ -43,6 +59,8 @@ const Preferiti = () => {
       e.dataTransfer.dropEffect = "move";
     }
   };
+
+  //? Gestione del drop della carta su un'altra carta per il riordino
 
   const handleDrop = (targetId) => (e) => {
     e.preventDefault();
@@ -61,9 +79,13 @@ const Preferiti = () => {
     setDraggedId(null);
   };
 
+  //? Gestione della fine del drag
+
   const handleDragEnd = () => {
     setDraggedId(null);
   };
+
+  //? Gestione del drag over su uno slot di confronto
 
   const handleDragOverSlot = (e) => {
     e.preventDefault();
@@ -73,11 +95,15 @@ const Preferiti = () => {
     }
   };
 
+  //? Gestione del drop su uno slot di confronto
+
   const handleDropOnSlot = (slot) => (e) => {
     e.preventDefault();
     e.stopPropagation();
     if (!draggedId) return;
-    // se nello slot c'è già una carta, la facciamo "tornare" in griglia
+    
+    //* Se nello slot c'è già una carta, torna in griglia
+
     if (slot === "left" && leftSlotId) {
       const prevId = leftSlotId;
       setReturningIds((prev) => (prev.includes(prevId) ? prev : [...prev, prevId]));
@@ -85,6 +111,9 @@ const Preferiti = () => {
         setReturningIds((prev) => prev.filter((id) => id !== prevId));
       }, 450);
     }
+
+    //* Se nello slot c'è già una carta, torna in griglia
+
     if (slot === "right" && rightSlotId) {
       const prevId = rightSlotId;
       setReturningIds((prev) => (prev.includes(prevId) ? prev : [...prev, prevId]));
@@ -92,6 +121,9 @@ const Preferiti = () => {
         setReturningIds((prev) => prev.filter((id) => id !== prevId));
       }, 450);
     }
+
+    //* Assegna la carta trascinata allo slot selezionato */
+
     if (slot === "left") {
       setLeftSlotId(draggedId);
       setLeftCardData(null);
@@ -101,7 +133,9 @@ const Preferiti = () => {
     }
     setDraggedId(null);
   };
+//!
 
+//! Funzione per resettare tutti i preferiti
   function handleClear() {
     if (!confirm("Vuoi svuotare tutte le carte preferite?")) return;                       //todo conferma l'azione di svuotamento preferiti     
     clearFavorites();
@@ -113,12 +147,17 @@ const Preferiti = () => {
     setRightCardData(null);                                                                //* rimuove dati carta destra
     setAllCardData({});                                                                    //* azzera dati globali per statistiche
     window.dispatchEvent(new CustomEvent("favoritesChanged"));   
-    console.log(chalk.yellow("Preferiti svuotati"));                         //* notifica le altre parti dell'app (es. NavBar)
+    console.log(chalk.yellow("Preferiti svuotati"));                                       //* notifica le altre parti dell'app (es. NavBar)
   }
+//!
 
-  // calcola differenze per i due slot (sinistra - destra)
+//! Sezione di confronto carte 
+
+  //? calcola differenze per i due slot (sinistra - destra)
   const compareDiffs = (() => {
     if (!leftCardData || !rightCardData) return { left: null, right: null };
+
+  //* Funzione di utilità per convertire valori in numeri o null */
 
     const toNumber = (val) => {
       if (val === null || typeof val === "undefined") return null;
@@ -126,9 +165,13 @@ const Preferiti = () => {
       return Number.isNaN(n) ? null : n;
     };
 
+  //* Calcola le differenze tra le proprietà delle due carte */
+
     const manaLNum = toNumber(leftCardData.manaCost);
     const manaRNum = toNumber(rightCardData.manaCost);
     const manaDiff = manaLNum !== null && manaRNum !== null ? manaLNum - manaRNum : null;
+
+    //* Calcola differenza forza e difesa */
 
     const powerDiff =
       typeof leftCardData?.power === "number" && typeof rightCardData?.power === "number"
@@ -140,6 +183,8 @@ const Preferiti = () => {
         ? leftCardData.toughness - rightCardData.toughness
         : null;
 
+    //* Calcola differenza rarità */
+
     const rarityOrder = {
       "comune": 1,
       "non comune": 2,
@@ -147,6 +192,9 @@ const Preferiti = () => {
       "mitica": 4,
       "mitica rara": 4,
     };
+
+    //* Ottiene i ranghi di rarità e calcola la differenza */
+
     const rL = leftCardData?.rarity?.toString().toLowerCase() ?? "";
     const rR = rightCardData?.rarity?.toString().toLowerCase() ?? "";
     const rankL = rarityOrder[rL] ?? null;
@@ -160,6 +208,8 @@ const Preferiti = () => {
       toughness: toughDiff !== null ? -toughDiff : null,
       rarity: rarityDiff !== null ? -rarityDiff : null,
     };
+
+    //* Console log delle differenze calcolate */
 
     console.log(chalk.green("Differenza calculated:"), {left, right});  //todo log differenze calcolate
 
@@ -265,33 +315,41 @@ const Preferiti = () => {
                 </thead>
                 <tbody>
                   {(() => {
-                    const manaL = leftCardData.manaCost ?? "-";
-                    const manaR = rightCardData.manaCost ?? "-";
-                    const numManaL = Number(manaL);
-                    const numManaR = Number(manaR);
-                    const manaLeftBetter = !Number.isNaN(numManaL) && !Number.isNaN(numManaR) && numManaL > numManaR;
-                    const manaRightBetter = !Number.isNaN(numManaL) && !Number.isNaN(numManaR) && numManaR > numManaL;
-                    const manaDiff = !Number.isNaN(numManaL) && !Number.isNaN(numManaR) ? numManaL - numManaR : null;
 
-                    const powerL = leftCardData.power ?? "-";
-                    const powerR = rightCardData.power ?? "-";
-                    const powLeftBetter = typeof leftCardData.power === "number" && typeof rightCardData.power === "number" && leftCardData.power > rightCardData.power;
-                    const powRightBetter = typeof leftCardData.power === "number" && typeof rightCardData.power === "number" && rightCardData.power > leftCardData.power;
-                    const powerDiff = typeof leftCardData.power === "number" && typeof rightCardData.power === "number"
-                      ? leftCardData.power - rightCardData.power
+                    {/* Calcolo e visualizzo le differenze tra le due carte */}
+                    {/* per ogni proprietà di interesse */}
+
+                    {/* Confronto Mana */}
+                    const manaL = leftCardData.manaCost ?? "-";                                                                     //* valore mana carta sinistra */
+                    const manaR = rightCardData.manaCost ?? "-";                                                                    //* valore mana carta destra */
+                    const numManaL = Number(manaL);                                                                                 //* conversione in numero sinsitra*/
+                    const numManaR = Number(manaR);                                                                                 //* conversione in numero destra*/
+                    const manaLeftBetter = !Number.isNaN(numManaL) && !Number.isNaN(numManaR) && numManaL > numManaR;               //* confronto valori mana */
+                    const manaRightBetter = !Number.isNaN(numManaL) && !Number.isNaN(numManaR) && numManaR > numManaL;              //* confronto valori mana */
+                    const manaDiff = !Number.isNaN(numManaL) && !Number.isNaN(numManaR) ? numManaL - numManaR : null;               //* differenza valori mana */
+
+                    {/* Confronto Forza */}
+                    const powerL = leftCardData.power ?? "-";                                                                       //* valore forza carta sinistra */
+                    const powerR = rightCardData.power ?? "-";                                                                      //* valore forza carta destra */     
+                    const powLeftBetter = typeof leftCardData.power === "number" && typeof rightCardData.power === "number" && leftCardData.power > rightCardData.power;    //* confronto valori forza */
+                    const powRightBetter = typeof leftCardData.power === "number" && typeof rightCardData.power === "number" && rightCardData.power > leftCardData.power;   //* confronto valori forza */
+                    const powerDiff = typeof leftCardData.power === "number" && typeof rightCardData.power === "number"                                                     //* differenza valori forza */
+                      ? leftCardData.power - rightCardData.power                                                                                                            //* differenza valori forza */
                       : null;
 
-                    const toughL = leftCardData.toughness ?? "-";
-                    const toughR = rightCardData.toughness ?? "-";
-                    const toughLeftBetter = typeof leftCardData.toughness === "number" && typeof rightCardData.toughness === "number" && leftCardData.toughness > rightCardData.toughness;
-                    const toughRightBetter = typeof leftCardData.toughness === "number" && typeof rightCardData.toughness === "number" && rightCardData.toughness > leftCardData.toughness;
-                    const toughDiff = typeof leftCardData.toughness === "number" && typeof rightCardData.toughness === "number"
-                      ? leftCardData.toughness - rightCardData.toughness
+                    {/* Confronto Difesa */}
+                    const toughL = leftCardData.toughness ?? "-";                                                                    //* valore difesa carta sinistra */          
+                    const toughR = rightCardData.toughness ?? "-";                                                                   //* valore difesa carta destra */     
+                    const toughLeftBetter = typeof leftCardData.toughness === "number" && typeof rightCardData.toughness === "number" && leftCardData.toughness > rightCardData.toughness;    //* confronto valori difesa */
+                    const toughRightBetter = typeof leftCardData.toughness === "number" && typeof rightCardData.toughness === "number" && rightCardData.toughness > leftCardData.toughness;   //* confronto valori difesa */
+                    const toughDiff = typeof leftCardData.toughness === "number" && typeof rightCardData.toughness === "number"                                                               //* differenza valori difesa */
+                      ? leftCardData.toughness - rightCardData.toughness                                                                                                                      //* differenza valori difesa */
                       : null;
 
-                    const rarityL = leftCardData.rarity || "-";
-                    const rarityR = rightCardData.rarity || "-";
-
+                    {/* Confronto Rarità */}
+                    const rarityL = leftCardData.rarity || "-";                                                                     //* valore rarità carta sinistra */
+                    const rarityR = rightCardData.rarity || "-";                                                                    //* valore rarità carta destra */
+                    {/* Ordine rarità */}
                     const rarityOrder = {
                       "comune": 1,
                       "non comune": 2,
@@ -299,24 +357,27 @@ const Preferiti = () => {
                       "mitica": 4,
                       "mitica rara": 4,
                     };
-                    const rankL = rarityOrder[rarityL?.toString().toLowerCase()] ?? null;
-                    const rankR = rarityOrder[rarityR?.toString().toLowerCase()] ?? null;
-                    const rarityDiff = rankL !== null && rankR !== null ? rankL - rankR : null;
+                    const rankL = rarityOrder[rarityL?.toString().toLowerCase()] ?? null;                                           //* rango rarità carta sinistra */  
+                    const rankR = rarityOrder[rarityR?.toString().toLowerCase()] ?? null;                                           //* rango rarità carta destra */
+                    const rarityDiff = rankL !== null && rankR !== null ? rankL - rankR : null;                                     //* differenza rango rarità */
 
-                    const diffLabelClass = (diff) => {
-                      if (diff === null) return "diffLabel diffLabel--neutral";
-                      if (diff > 0) return "diffLabel diffLabel--positive";
-                      if (diff < 0) return "diffLabel diffLabel--negative";
-                      return "diffLabel diffLabel--equal";
+                    {/* Funzioni di utilità per etichette differenza */}
+                    const diffLabelClass = (diff) => {                
+                      if (diff === null) return "diffLabel diffLabel--neutral";                                                      //* etichetta neutrale per differenza null */
+                      if (diff > 0) return "diffLabel diffLabel--positive";                                                          //* etichetta positiva per differenza positiva */
+                      if (diff < 0) return "diffLabel diffLabel--negative";                                                          //* etichetta negativa per differenza negativa */
+                      return "diffLabel diffLabel--equal";                                                                           //* etichetta uguale per differenza zero */
                     };
 
+                    {/* Funzioni di utilità per formattare differenza */}
                     const formatDiff = (diff) => {
-                      if (diff === null) return "n/d";
-                      if (diff > 0) return `+${diff}`;
-                      if (diff < 0) return `${diff}`;
+                      if (diff === null) return "n/d";                                                                               //* formato n/d per differenza null */
+                      if (diff > 0) return `+${diff}`;                                                                               //* formato +valore per differenza positiva */  
+                      if (diff < 0) return `${diff}`;                                                                                //* formato -valore per differenza negativa */
                       return "0";
                     };
 
+                    {/* Ritorna le righe della tabella con le differenze calcolate */}
                     return (
                       <>
                         <tr>
@@ -377,6 +438,7 @@ const Preferiti = () => {
                 </tbody>
               </table>
 
+              {/* Sezione statistiche globali delle carte preferite */}
               {(() => {
                 const statsCards = list
                   .map((c) => allCardData[c.id])
@@ -384,24 +446,26 @@ const Preferiti = () => {
 
                 if (!statsCards.length) return null;
 
-                const colorMap = new Map();
-                const typeMap = new Map();
-                const rarityMap = new Map();
+                const colorMap = new Map();       //* mappa per contare i colori mana
+                const typeMap = new Map();        //* mappa per contare le tipologie
+                const rarityMap = new Map();      //* mappa per contare le rarità
 
                 const normalize = (str) =>
-                  str && typeof str === "string" ? str.trim() : null;
+                  str && typeof str === "string" ? str.trim() : null;                                                       //* funzione di normalizzazione stringhe */
 
                 const colorLabelFrom = (raw) => {
-                  if (!raw) return "Altro";
-                  const txt = raw.toString().toLowerCase();
-                  if (txt.includes("bianco") || txt.includes("white")) return "Bianco";
-                  if (txt.includes("blu") || txt.includes("blue")) return "Blu";
-                  if (txt.includes("nero") || txt.includes("black")) return "Nero";
-                  if (txt.includes("rosso") || txt.includes("red")) return "Rosso";
-                  if (txt.includes("verde") || txt.includes("green")) return "Verde";
+                  if (!raw) return "Altro";                                                                                 //* etichetta Altro per colori null */
+                  const txt = raw.toString().toLowerCase();                                                                 //* conversione in stringa minuscola */
+                  if (txt.includes("bianco") || txt.includes("white")) return "Bianco";                                     //* etichetta Bianco per presenza bianco/white */
+                  if (txt.includes("blu") || txt.includes("blue")) return "Blu";                                            //* etichetta Blu per presenza blu/blue */
+                  if (txt.includes("nero") || txt.includes("black")) return "Nero";                                         //* etichetta Nero per presenza nero/black */
+                  if (txt.includes("rosso") || txt.includes("red")) return "Rosso";                                         //* etichetta Rosso per presenza rosso/red */
+                  if (txt.includes("verde") || txt.includes("green")) return "Verde";                                       //* etichetta Verde per presenza verde/green */     
                   return "Altro";
                 };
 
+
+                {/* Popola le mappe con i conteggi delle proprietà delle carte preferite */}
                 statsCards.forEach((card) => {
                   const colorKey = colorLabelFrom(card.colors);
                   colorMap.set(colorKey, (colorMap.get(colorKey) || 0) + 1);
@@ -413,6 +477,7 @@ const Preferiti = () => {
                   rarityMap.set(rarityKey, (rarityMap.get(rarityKey) || 0) + 1);
                 });
 
+                {/* Ritorna il riepilogo delle statistiche delle carte preferite */}
                 return (
                   <div className="favoritesSummary">
                     <div className="favoritesSummaryGrid">

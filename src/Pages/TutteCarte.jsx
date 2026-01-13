@@ -1,19 +1,25 @@
-//! Importazioni necessarie
+//! Importazione necessarie
 import { useEffect, useState } from "react";
-import Filter from "../Components/FIlter";
-import Card from "../Components/Card";
 import { toggleFavorite, isFavorite } from "../utils/favorites";
 import chalk from "chalk";
+//!
+
+//! Importazione dei componenti Filter e Card
+import Filter from "../Components/FIlter";
+import Card from "../Components/Card";
+//!
 
 //! Definizione del componente Carte per visualizzare tutte le carte con filtro
 const Carte = () => {
-  const [cards, setCards] = useState([]);
-  const [visibleCount, setVisibleCount] = useState(0);                                        //* numero di carte attualmente visibili dopo i filtri
-  const [isLoading, setIsLoading] = useState(true);                                           //* stato di caricamento iniziale delle carte
-  const [sfondoClasse, setSfondoClasse] = useState("");
-  const [selectedCard, setSelectedCard] = useState(null);
-  const [selectedIsFav, setSelectedIsFav] = useState(false);
+  const [cards, setCards] = useState([]);                                                     //* Array di tutte le carte caricate dal server
+  const [visibleCount, setVisibleCount] = useState(0);                                        //* Numero di carte attualmente visibili dopo i filtri
+  const [isLoading, setIsLoading] = useState(true);                                           //* Stato di caricamento iniziale delle carte
+  const [sfondoClasse, setSfondoClasse] = useState("");                                       //* Classe CSS per lo sfondo dinamico
+  const [selectedCard, setSelectedCard] = useState(null);                                     //* Carta selezionata per il dettaglio nell'overlay
+  const [selectedIsFav, setSelectedIsFav] = useState(false);      
+//!                           //* Stato se la carta selezionata è nei preferiti
 
+//! Effetto per caricare le carte dal server al montaggio del componente
   useEffect(() => {
     const load = async () => {
       try {
@@ -21,10 +27,11 @@ const Carte = () => {
         const json = await res.json();
         const list = Array.isArray(json) ? json : [];
         setCards(list);
-        setVisibleCount(list.length);                                                         //* inizialmente sono tutte visibili
+        setVisibleCount(list.length);                                                          //* inizialmente sono tutte visibili
         setIsLoading(false);
         console.log(`Le carte sono state caricate ${chalk.green("correttamente")}`); 
-      } catch (e) {
+      } 
+      catch (e) {
         console.error("Errore caricamento cards:", e);
         setCards([]);
         setVisibleCount(0);
@@ -35,25 +42,29 @@ const Carte = () => {
   }, []);
 //!
 
+//! Funzioni per gestire l'apertura del dettaglio carta e il toggle dei preferiti
   const handleCardClick = (cardData) => {
     if (!cardData || !cardData.id) return;
     setSelectedCard(cardData);
     setSelectedIsFav(isFavorite(cardData.id));
   };
+//!
 
-  const handleCloseOverlay = () => {
-    setSelectedCard(null);
-  };
-
+//! Funzione per aggiungere/rimuovere la carta selezionata dai preferiti
   const handleToggleFavoriteOverlay = () => {
     if (!selectedCard || !selectedCard.id) return;
     const nowFav = toggleFavorite({ id: selectedCard.id, title: selectedCard.title });
     setSelectedIsFav(nowFav);
     window.dispatchEvent(new CustomEvent("favoritesChanged"));
   };
+//!
 
-  //! Render del componente con filtro e lista di carte
+//! Funzione per chiudere l'overlay del dettaglio carta
+  const handleCloseOverlay = () => {
+    setSelectedCard(null);
+  };
 
+//! Render del componente con filtro e lista di carte
   return (
     <>
       <div className="contenitoreCard">
@@ -82,20 +93,22 @@ const Carte = () => {
         </div>
       </div>
 
+      {/* Dettaglio carta overlay */}
+
       {selectedCard && (
         <div className="card-detail-overlay" onClick={handleCloseOverlay}>
           <div className="card-detail-overlay-content" onClick={(e) => e.stopPropagation()}>
             <button
               type="button"
               className="card-detail-overlay-close"
-              onClick={handleCloseOverlay}
-            >
-              ✕
-            </button>
+              onClick={handleCloseOverlay}>✕</button>
 
             <div className="card-detail-left">
               <h2 className="card-detail-title">{selectedCard.title}</h2>
               <div className="card-detail-info">
+
+              {/* Descrizione mana nell'overlay */}
+
                 <div className="dettMana">
                     <p>
                   <strong style={{ color: "var(--Gold)" }}>Costo in mana:</strong>
@@ -139,6 +152,9 @@ const Carte = () => {
                   </span>
                 </p>
                 </div>
+
+                {/* Descrizione tipologia nell'overlay */}
+
                 <div className="dettTipologia">
                 <p>
                   <strong style={{ color: "var(--Gold)" }}>Tipologia:</strong> {selectedCard.category ?? "-"}
@@ -152,6 +168,8 @@ const Carte = () => {
                   e <br />battaglia (va attaccata per ottenere l’effetto).
                 </p>
                 </div>
+
+                {/* Descrizione rarità nell'overlay */}
 
                   <div className="dettRarita">
                         <p>
@@ -195,6 +213,8 @@ const Carte = () => {
                   </span>
                 </p>
                 </div>
+
+                {/* Descrizione generale nell'overlay */}
                
                   <div className="dettDescrizione"> 
                        <p>
@@ -207,6 +227,8 @@ const Carte = () => {
                 </p>
 
                   </div>
+
+                  {/* Descrizione forza/difesa nell'overlay */}
              
                   <div  className="dettForzaDifesa">
                 <p>
@@ -219,8 +241,10 @@ const Carte = () => {
                   })()}
                 </p>
 
+                {/* Descrizione autore nell'overlay */}
+
                 <div className="dettAutore">
-    <p >
+                    <p >
                       <strong style={{ color: "var(--Gold)" }}>Autore:</strong> {selectedCard.artist ?? selectedCard.author ?? "-"}
                     </p>
                     <p>
