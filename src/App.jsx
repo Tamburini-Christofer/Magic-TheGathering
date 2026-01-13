@@ -1,7 +1,5 @@
 //! Importo le dipendenze necessarie da React Router e il componente Layout
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-
-//! Importo il componente Layout
 import Layout from "./Layout/Layout.jsx";
 
 //! Importo le pagine dell'applicazione
@@ -23,7 +21,6 @@ import "./Styles/NotFound.css";
 //! Definisco il componente principale dell'applicazione
 function App() {
   return (
-    <>
       <Router>
         <Routes>
           <Route path="/" element={<Layout />}>
@@ -34,7 +31,6 @@ function App() {
           </Route>
         </Routes>
       </Router>
-    </>
   );
 }
 
