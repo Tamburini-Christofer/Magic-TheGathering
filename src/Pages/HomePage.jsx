@@ -46,7 +46,7 @@ const heroSlides = [
     kicker: "Nuova Espansione",
     tagline:
       "Scopri la nuova espansione ispirata alla leggendaria saga di Super Class Name, con oltre 280 carte uniche e potenti.",
-    background: "/public/104Edition/Pack148.png",
+    background: "/public/148Edition/Pack148.png",
     primaryCta: "PRENOTA ORA",
     secondaryCta: "SCOPRI DI PIÙ",
     hasOverlay: true,
@@ -203,7 +203,7 @@ const HomePage = () => {
 
             <div className="novita-overlay-left">
               <img
-                src="/public/104Edition/Bustine148.png"
+                src="/public/148Edition/Bustine148.png"
                 alt="Booster Super Class Name 148"
                 className="imgExp"
               />

@@ -25,12 +25,12 @@ function Card({
   //! Definizione degli stati e dei riferimenti
   const [isFavorited, setIsFavorited] = useState(false);                                                        //* Stato per indicare se la carta è nei preferiti
   const [card, setCard] = useState(null);                                                                       //* Stato per memorizzare i dati della carta
-  const [expanded, setExpanded] = useState(false);    
-  //!                                                                                                           //* Stato per gestire l'espansione della carta
+  const [expanded, setExpanded] = useState(false);                                                              //* Stato per gestire l'espansione della carta
+  //!                                                                                                          
 
   //! Riferimenti
-  const containerRef = useRef(null);    
-  //!                                                                                                           //* Riferimento al contenitore della carta
+  const containerRef = useRef(null);                                                                            //* Riferimento al contenitore della carta
+  //!                                                                                                          
 
   //! Funzioni di caricamento della carta e gestione preferiti
   const loadCard = useCallback(async (cardId) => {
