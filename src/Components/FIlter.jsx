@@ -1,10 +1,41 @@
 //! le dipendenze da React e Chalk
-import { useState, useRef, useEffect, useCallback } from "react";
+import { useReducer, useRef, useEffect, useCallback, useMemo } from "react";
 import chalk from "chalk";
 //!
 
+const initialState = {
+  searchValue: "",
+  open: false,
+  category: "",
+  catehorySelected: "",
+  openSort: false,
+  sort: "",
+  sortOrder: "az",
+  mana: "",
+  colorFilter: "",
+  count: "",
+  rarityFilter: "",
+  selectedRarityIcon: "",
+  selectedManaIcon: "",
+};
+
+function filterReducer(state, action) {
+  switch (action.type) {
+    case "set":
+      return { ...state, [action.key]: action.value };
+    case "bulk":
+      return { ...state, ...action.payload };
+    case "reset":
+      return { ...initialState, ...action.payload };
+    default:
+      return state;
+  }
+}
+
 //! Inizio funzione Filter
 function Filter({ onSfondoChange, onResultsChange }) {
+
+  const [state, dispatch] = useReducer(filterReducer, initialState);
 
   //! Definizione degli stati e dei riferimenti
   //? Riferimenti per i timer di ricerca e costo mana
@@ -16,26 +47,21 @@ function Filter({ onSfondoChange, onResultsChange }) {
   const wrapRef = useRef(null);                                                               //* riferimento per il wrapper del filtro categoria carta
 
     //? Stato per il valore di ricerca
-  const [searchValue, setSearchValue] = useState("");                                         //* stato per il valore di ricerca generica
-
-    //? Stati per gestire l'apertura dei menu a tendina
-  const [open, setOpen] = useState(false);                                                    //* stato per l'apertura del menu a tendina categoria carta              
-  const [category, setCategory] = useState("");                                               //* stato per la categoria selezionata
-  const [catehorySelected, setCategorySelected] = useState("");                               //* stato per la categoria selezionata da usare nei filtri
-
-    //? Stati per gestire l'ordinamento alfabetico
-  const [openSort, setOpenSort] = useState(false);                                            //* stato per l'apertura del menu a tendina ordine alfabetico
-  const [sort, setSort] = useState("");                                                       //* stato per l'ordine di ordinamento selezionato
-  const [sortOrder, setSortOrder] = useState("az");                                           //* stato per l'ordine di ordinamento selezionato da usare nei filtri
-  //? Stati per il filtro costo mana                                                                      
-  const [mana, setMana] = useState("");                                                       //* stato per il costo mana selezionato
-
-  //? Stato per il filtro colore mana e costo
-  const [colorFilter, setColorFilter] = useState("");                                         //* stato per il filtro colore mana selezionato
-  const [count, setCount] = useState("");                                                     //* stato per il valore numerico del costo mana (mostrato nell'input)
-  const [rarityFilter, setRarityFilter] = useState("");                                       //* stato per il filtro rarità selezionato
-  const [selectedRarityIcon, setSelectedRarityIcon] = useState("");                           //* rarità selezionata tramite icona
-  const [selectedManaIcon, setSelectedManaIcon] = useState("");                               //* colore mana selezionato tramite icona
+  const {
+    searchValue,
+    open,
+    category,
+    catehorySelected,
+    openSort,
+    sort,
+    sortOrder,
+    mana,
+    colorFilter,
+    count,
+    rarityFilter,
+    selectedRarityIcon,
+    selectedManaIcon,
+  } = state;
   //!
 
   //! Funzione per filtrare le carte
@@ -91,19 +117,24 @@ function Filter({ onSfondoChange, onResultsChange }) {
     if (searchTimerRef.current) clearTimeout(searchTimerRef.current);
     if (manaTimerRef.current) clearTimeout(manaTimerRef.current);
 
-    setSearchValue("");
-    setCategory("");
-    setCategorySelected("");
-    setOpen(false);
-    setOpenSort(false);
-    setSort("");
-    setSortOrder("");
-    setMana("");
-    setColorFilter("");
-    setRarityFilter("");
-    setCount(0);
-    setSelectedRarityIcon("");
-    setSelectedManaIcon("");
+    dispatch({
+      type: "bulk",
+      payload: {
+        searchValue: "",
+        category: "",
+        catehorySelected: "",
+        open: false,
+        openSort: false,
+        sort: "",
+        sortOrder: "",
+        mana: "",
+        colorFilter: "",
+        rarityFilter: "",
+        count: 0,
+        selectedRarityIcon: "",
+        selectedManaIcon: "",
+      },
+    });
 
     if (onSfondoChange) onSfondoChange("");
 
@@ -117,7 +148,7 @@ function Filter({ onSfondoChange, onResultsChange }) {
 
   const handleSearchChange = useCallback((e) => {
     const value = (e.target.value ?? e.target.textContent ?? "").toString();
-    setSearchValue(value);
+    dispatch({ type: "set", key: "searchValue", value });
     if (searchTimerRef.current) {
       clearTimeout(searchTimerRef.current);
     }
@@ -140,14 +171,18 @@ function Filter({ onSfondoChange, onResultsChange }) {
     const value = (e.target.value ?? "").toString();
     if(value === "") {
       console.log(`${chalk.yellow("Il filtro categoria è stato resettato.")}`);                                       //todo Console Log di reset filtro categoria
-      setCategorySelected("");
-      setCategory("");
+      dispatch({
+        type: "bulk",
+        payload: { catehorySelected: "", category: "" },
+      });
       // nessuna categoria selezionata => mostra tutte le carte correnti rispettando gli altri filtri
       filterCards(searchValue, "", mana, colorFilter);
       return;
     }
-    setCategorySelected(value);
-    setCategory(value);
+    dispatch({
+      type: "bulk",
+      payload: { catehorySelected: value, category: value },
+    });
     console.log(`Hai cercato la categoria ${chalk.green(value)} utilizzando ${chalk.blue("il filtro categoria")}.`);  //* Console Log di ricerca filtro categoria
     filterCards(searchValue, value, mana, colorFilter);
   }, [filterCards, searchValue, mana, colorFilter]);
@@ -159,8 +194,7 @@ function Filter({ onSfondoChange, onResultsChange }) {
     const value = (e.target.value ?? "").toString();
     if (value === "") {
       console.log(`${chalk.yellow("Il filtro alfabetico è stato resettato.")}`);                                      //todo Console Log di reset filtro alfabetico
-      setSortOrder("");
-      setSort("");
+      dispatch({ type: "bulk", payload: { sortOrder: "", sort: "" } });
       // nessun ordine specifico => ripristina l'ordine originale delle carte
       const container = document.querySelector(".cardsContainer");
       const cards = container ? Array.from(container.querySelectorAll(".cards")) : [];
@@ -178,8 +212,7 @@ function Filter({ onSfondoChange, onResultsChange }) {
       filterCards(searchValue, catehorySelected, mana, colorFilter);
       return;
     }
-    setSortOrder(value);
-    setSort(value);
+    dispatch({ type: "bulk", payload: { sortOrder: value, sort: value } });
     console.log(`Ordine di ordinamento selezionato: ${chalk.green(value)} usando ${chalk.blue("il filtro alfabetico")}.`); //* Console Log di ricerca filtro alfabetico
     const container = document.querySelector(".cardsContainer");
     const cards = container ? Array.from(container.querySelectorAll(".cards")) : [];
@@ -213,7 +246,7 @@ function Filter({ onSfondoChange, onResultsChange }) {
 
   const handleManaChange = useCallback((e) => {
     const raw = e.target.value;
-    setMana(raw);
+    dispatch({ type: "set", key: "mana", value: raw });
 
     if (manaTimerRef.current) {
       clearTimeout(manaTimerRef.current);
@@ -252,8 +285,10 @@ function Filter({ onSfondoChange, onResultsChange }) {
 
   const handleRarityClick = useCallback((rarityValue) => {
     const value = (rarityValue || "").toString().toLowerCase();
-    setSelectedRarityIcon(value);
-    setRarityFilter(value);
+    dispatch({
+      type: "bulk",
+      payload: { selectedRarityIcon: value, rarityFilter: value },
+    });
     if (!value) {
       console.log(`${chalk.yellow("Il filtro rarità è stato resettato.")}`);                                              //todo Console Log di reset filtro rarità
       // nessuna rarità selezionata: applica gli altri filtri correnti
@@ -270,8 +305,10 @@ function Filter({ onSfondoChange, onResultsChange }) {
 
   const handleManaSymbolClick = useCallback((colorValue) => {
     const value = (colorValue || "").toString().toLowerCase();
-    setColorFilter(value);
-    setSelectedManaIcon(value);
+    dispatch({
+      type: "bulk",
+      payload: { colorFilter: value, selectedManaIcon: value },
+    });
 
     //* aggiorna lo sfondo del contenitore destro in base al colore selezionato
     if (onSfondoChange) {
@@ -343,19 +380,21 @@ function Filter({ onSfondoChange, onResultsChange }) {
   //?
 
   //! Etichette correnti per i menu a tendina
-  const currentLabel =
-    options.find((o) => o.value === category)?.label || "Tutte le categorie";
-  const currentSortLabel =
-    sortOptions.find((s) => s.value === sortOrder)?.label || "Dalla A alla Z";
+  const currentLabel = useMemo(() => {
+    return options.find((o) => o.value === category)?.label || "Tutte le categorie";
+  }, [options, category]);
+  const currentSortLabel = useMemo(() => {
+    return sortOptions.find((s) => s.value === sortOrder)?.label || "Dalla A alla Z";
+  }, [sortOptions, sortOrder]);
   //!
 
   //! Effetti aggiontivi di debugging e chiusura menu
   useEffect(() => {
     function onDoc(e) {
       if (wrapRef.current && !wrapRef.current.contains(e.target))
-        setOpen(false);
+        dispatch({ type: "set", key: "open", value: false });
       if (sortRef.current && !sortRef.current.contains(e.target))
-        setOpenSort(false);
+        dispatch({ type: "set", key: "openSort", value: false });
       if (countRef.current && !countRef.current.contains(e.target)) {
         // nessuna azione per ora
       }
@@ -397,7 +436,7 @@ function Filter({ onSfondoChange, onResultsChange }) {
             <button
               type="button"
               className="customSelectBtn"
-              onClick={() => setOpen((s) => !s)}
+              onClick={() => dispatch({ type: "set", key: "open", value: !open })}
               aria-expanded={open}
             >
               <span className="customSelectLabel">{currentLabel}</span>
@@ -414,8 +453,10 @@ function Filter({ onSfondoChange, onResultsChange }) {
                     role="option"
                     value={searchValue}
                     onClick={() => {
-                    setCategory(opt.value)
-                    setOpen(false)
+                    dispatch({
+                      type: "bulk",
+                      payload: { category: opt.value, open: false },
+                    })
                     handleCategoryChange({target: {value: opt.value}})
                     }}
                   >
@@ -433,7 +474,7 @@ function Filter({ onSfondoChange, onResultsChange }) {
             <button
               type="button"
               className="customSelectBtn"
-              onClick={() => setOpenSort((s) => !s)}
+              onClick={() => dispatch({ type: "set", key: "openSort", value: !openSort })}
               aria-expanded={openSort}
             >
               <span className="customSelectLabel">{currentSortLabel}</span>
@@ -449,8 +490,10 @@ function Filter({ onSfondoChange, onResultsChange }) {
                     key={opt.value}
                     className="Option"
                     onClick={() => {
-                      setSortOrder(opt.value);
-                      setOpenSort(false);
+                      dispatch({
+                        type: "bulk",
+                        payload: { sortOrder: opt.value, openSort: false },
+                      });
                       handleSortChange({target: {value: opt.value}});
                     }}
                   >
@@ -472,7 +515,7 @@ function Filter({ onSfondoChange, onResultsChange }) {
                 value={count}
                 onChange={(e) => {
                   const v = e.target.value;
-                  setCount(v);
+                  dispatch({ type: "set", key: "count", value: v });
                   handleManaChange(e);
                   
                 }}

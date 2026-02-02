@@ -3,9 +3,9 @@ const Footer = () => (
     <div className="contenitoreFooter">
       <div>
         <ul className="linkFooter">
-          <li><a>Termini di utilizzo</a></li>
-          <li><a>Informativa sulla privacy</a></li>
-          <li><a>Servizio clienti</a></li>
+          <li><a href="#">Termini di utilizzo</a></li>
+          <li><a href="#">Informativa sulla privacy</a></li>
+          <li><a href="#">Servizio clienti</a></li>
         </ul>
       </div>
       <p>
