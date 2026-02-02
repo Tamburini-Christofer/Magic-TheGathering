@@ -10,10 +10,10 @@ import Card from "../Components/Card";
 const Preferiti = () => {
 
 //! Variabili di stato per gestire la lista delle carte preferite e il confronto tra carte
-  const [list, setList] = useState([]);                                                    //* stato locale per la lista delle carte preferite
-  const [draggedId, setDraggedId] = useState(null);                                        //* id della carta attualmente trascinata
-  const [leftSlotId, setLeftSlotId] = useState(null);                                      //* carta nello slot sinistro di confronto
-  const [rightSlotId, setRightSlotId] = useState(null);                                    //* carta nello slot destro di confronto
+  const [list, setList] = useState([]);                                                      //* stato locale per la lista delle carte preferite
+  const [draggedId, setDraggedId] = useState(null);                                          //* id della carta attualmente trascinata
+  const [leftSlotId, setLeftSlotId] = useState(null);                                        //* carta nello slot sinistro di confronto
+  const [rightSlotId, setRightSlotId] = useState(null);                                      //* carta nello slot destro di confronto
     const [returningIds, setReturningIds] = useState([]);                                    //* carte che stanno animando il ritorno in griglia
     const [leftCardData, setLeftCardData] = useState(null);                                  //* dati carta nello slot sinistro
     const [rightCardData, setRightCardData] = useState(null);                                //* dati carta nello slot destro

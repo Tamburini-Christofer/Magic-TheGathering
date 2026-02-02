@@ -1,5 +1,7 @@
 //! Importo le dipendenze necessarie da React Router e il componente Layout
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+
+//! Importo il layout principale dell'applicazione
 import Layout from "./Layout/Layout.jsx";
 
 //! Importo le pagine dell'applicazione

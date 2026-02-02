@@ -52,6 +52,7 @@ const heroSlides = [
     hasOverlay: true,
   },
 ];
+//!
 
 //! Creazione del componente HomePage
 const HomePage = () => {
@@ -74,33 +75,34 @@ const HomePage = () => {
   const handleCloseOverlay = () => {
     setIsOverlayOpen(false);
   };
+  //!
 
   //! Funzione per navigare tra le slide del carosello
   const goToSlide = (index) => {
-    if (isTransitioning) return;
+    if (isTransitioning) return;                                                     //* Evita di cambiare slide durante la transizione
 
     let nextIndex = index;
-    if (nextIndex < 0) {
-      nextIndex = heroSlides.length - 1;
-    } else if (nextIndex >= heroSlides.length) {
+    if (nextIndex < 0) {                                                             //* Permette un loop infinito tra le slide              
+      nextIndex = heroSlides.length - 1;                                             
+    } else if (nextIndex >= heroSlides.length) {                                     //* Permette un loop infinito tra le slide   
       nextIndex = 0;
     }
 
     //? Gestione della transizione tra le slide
     setIsTransitioning(true);
-    if (transitionTimeoutRef.current) {
+    if (transitionTimeoutRef.current) {                                              //* Se esiste un timeout precedente, lo cancella
     clearTimeout(transitionTimeoutRef.current);
     }
 
     //!? Imposto un timeout per completare la transizione
-    transitionTimeoutRef.current = setTimeout(() => {
+    transitionTimeoutRef.current = setTimeout(() => {                                //* Dopo 500ms aggiorna la slide corrente */
     setCurrentIndex(nextIndex);
     setIsTransitioning(false);
     }, 500);
   };
 
   //! Effetto per l'autoplay del carosello ogni tot secondi
-  useEffect(() => {
+  useEffect(() => { 
       const timer = setInterval(() => {
       goToSlide(currentIndex + 1);
     }, 20000);
@@ -111,7 +113,7 @@ const HomePage = () => {
   //! Effetto per pulire il timeout alla chiusura del componente
   useEffect(() => {
     return () => {
-      if (transitionTimeoutRef.current) {
+      if (transitionTimeoutRef.current) {                                             //* Pulisce il timeout se esiste
         clearTimeout(transitionTimeoutRef.current);
       }
     };
