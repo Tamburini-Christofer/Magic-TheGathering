@@ -5,6 +5,7 @@ export function getFavorites() {
     const raw = localStorage.getItem(STORAGE_KEY);
     return raw ? JSON.parse(raw) : [];
   } catch (e) {
+    console.log("Errore lettura preferiti:", e);
     return [];
   }
 }
@@ -13,7 +14,7 @@ export function saveFavorites(list) {
   try {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
   } catch (e) {
-    // ignore
+    console.log("Errore salvataggio preferiti:", e);
   }
 }
 
@@ -53,7 +54,7 @@ export function clearFavorites() {
   try {
     localStorage.removeItem(STORAGE_KEY);
   } catch (e) {
-    // ignore
+    console.log("Errore cancellazione preferiti:", e);
   }
 }
 

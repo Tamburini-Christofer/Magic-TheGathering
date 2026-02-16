@@ -358,25 +358,31 @@ function Filter({ onSfondoChange, onResultsChange }) {
   
   //! Definizione delle opzioni per i menu a tendina
   //? Opzioni per il filtro categoria
-  const options = [
-    { value: "", label: "Tutte le categorie" },
-    { value: "terra", label: "Terra" },
-    { value: "creatura", label: "Creatura" },
-    { value: "incantesimo", label: "Incantesimo" },
-    { value: "artefatto", label: "Artefatto" },
-    { value: "stregoneria", label: "Stregoneria" },
-    { value: "istantaneo", label: "Istantaneo" },
-    { value: "planeswalker", label: "Planeswalker" },
-    { value: "battaglia", label: "Battaglia" },
-  ];
+  const options = useMemo(
+    () => [
+      { value: "", label: "Tutte le categorie" },
+      { value: "terra", label: "Terra" },
+      { value: "creatura", label: "Creatura" },
+      { value: "incantesimo", label: "Incantesimo" },
+      { value: "artefatto", label: "Artefatto" },
+      { value: "stregoneria", label: "Stregoneria" },
+      { value: "istantaneo", label: "Istantaneo" },
+      { value: "planeswalker", label: "Planeswalker" },
+      { value: "battaglia", label: "Battaglia" },
+    ],
+    []
+  );
   //?
 
   //? Opzioni per il filtro alfabetico
-  const sortOptions = [
-    { value: "", label: "Ordine alfabetico" },
-    { value: "dalla a alla z", label: "Dalla A alla Z" },
-    { value: "dalla z alla a", label: "Dalla Z alla A" },
-  ];
+  const sortOptions = useMemo(
+    () => [
+      { value: "", label: "Ordine alfabetico" },
+      { value: "dalla a alla z", label: "Dalla A alla Z" },
+      { value: "dalla z alla a", label: "Dalla Z alla A" },
+    ],
+    []
+  );
   //?
 
   //! Etichette correnti per i menu a tendina

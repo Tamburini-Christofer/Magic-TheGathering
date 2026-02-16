@@ -139,7 +139,7 @@ function Card({
         toughness: safeNumber(display.toughness),
         rarity: display.rarity || null,
         category: display.category || null,
-        colors: display.colors || display.color || null,
+        colors: display.colors || display.color || null, 
       });
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps

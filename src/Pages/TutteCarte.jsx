@@ -27,6 +27,7 @@ const Carte = () => {
         const res = await fetch("http://localhost:3001/cards");
         const json = await res.json();
         const list = Array.isArray(json) ? json : [];
+        console.log(list)
         setCards(list);
         setVisibleCount(list.length);                                                          //* inizialmente sono tutte visibili
         setIsLoading(false);
