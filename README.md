@@ -1,4 +1,4 @@
-<h1 align="center">Progetto-finale-spec-frontend-front</h1>
+<h1 align="center">Magic The Gathering</h1>
 
 ###
 
